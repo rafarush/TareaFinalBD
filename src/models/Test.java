@@ -1,4 +1,3 @@
-// Clase Test
 package models;
 
 import java.sql.Date;
