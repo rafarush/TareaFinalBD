@@ -12,7 +12,7 @@ public class Center {
     private String secretaryName;
     private String logo;
 
-    public Center() {};
+    public Center() {}
 
     public Center(String centerCode, String centerName, String postalAddress, String phone, String centerEmail,
                   String generalDirectorName, String hrManager, String accountingManager,
