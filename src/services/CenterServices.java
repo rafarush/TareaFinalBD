@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class CenterServices {
 
-    public void crearCenter(Center center) {
+    public void createCenter(Center center) {
         String sql = "INSERT INTO Center (centerCode, centerName, postalAddress, phone, centerEmail, generalDirectorName, hrManager, accountingManager, secretaryName, logo) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -31,7 +31,7 @@ public class CenterServices {
     }
 
 
-    public Center obtenerCenter(String centerCode) {
+    public Center obtainCenter(String centerCode) {
         Center center = null;
         String sql = "SELECT * FROM Center WHERE centerCode = ?";
         try (Connection conn = DataBaseConnection.getConnection();
@@ -61,7 +61,7 @@ public class CenterServices {
         return center;
     }
 
-    public void actualizarCenter(Center center) {
+    public void updateCenter(Center center) {
         String sql = "UPDATE Center SET centerName = ?, postalAddress = ?, phone = ?, centerEmail = ?, " +
                 "generalDirectorName = ?, hrManager = ?, accountingManager = ?, secretaryName = ?, logo = ? " +
                 "WHERE centerCode = ?";
@@ -86,7 +86,7 @@ public class CenterServices {
         }
     }
 
-    public void eliminarCenter(String centerCode) {
+    public void deleteCenter(String centerCode) {
         String sql = "DELETE FROM Center WHERE centerCode = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
