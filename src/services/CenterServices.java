@@ -99,6 +99,40 @@ public class CenterServices {
         }
     }
 
+//    public boolean validateDuplicate(String id) {
+//        boolean isDuplicated = false;
+//        String sql = "Select * from center where id = ?";
+//        try (Connection conn = DataBaseConnection.getConnection();
+//             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//            pstmt.setString(1, id);
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                if (rs.next()) {
+//                    isDuplicated = true;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return isDuplicated;
+//    }
+
+    public boolean existsOneCenter() {
+        boolean exists = false;
+        String sql = "Select count(*) as quantity from center";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    exists = rs.getInt("quantity") > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return exists;
+    }
+
 
 
 
