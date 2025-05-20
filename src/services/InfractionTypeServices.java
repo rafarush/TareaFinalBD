@@ -6,6 +6,7 @@ import models.InfractionType;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class InfractionTypeServices {
 
@@ -62,16 +63,24 @@ public class InfractionTypeServices {
     }
 
     public void updateInfractionType(InfractionType infractionType, String oldInfractionType) {
-        String sql = "UPDATE InfractionType SET infractionType = ? WHERE infractionType = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (infractionType != null && oldInfractionType != null) {
+            String sql = "UPDATE InfractionType SET infractionType = ? WHERE infractionType = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, infractionType.getInfractionType());
-            pstmt.setString(2, oldInfractionType);
-            pstmt.executeUpdate();
+                pstmt.setString(1, infractionType.getInfractionType());
+                pstmt.setString(2, oldInfractionType);
+                int affectedRows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of the infraction type: " + infractionType.getInfractionType());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("infractionType or oldInfractionType is null");
         }
     }
 
@@ -81,7 +90,11 @@ public class InfractionTypeServices {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, infractionTypeStr);
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new NoSuchElementException("There is not record of the infraction type: " + infractionTypeStr);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
