@@ -92,26 +92,30 @@ public class DriverServices {
     }
 
     public void updateDriver(Driver driver) {
-        String sql = "UPDATE Driver SET firstName = ?, lastName = ?, birthDate = ?, address = ?, phone = ?, email = ? WHERE driverId = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (driver != null) {
+            String sql = "UPDATE Driver SET firstName = ?, lastName = ?, birthDate = ?, address = ?, phone = ?, email = ? WHERE driverId = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, driver.getFirstName());
-            pstmt.setString(2, driver.getLastName());
-            pstmt.setDate(3, driver.getBirthDate());
-            pstmt.setString(4, driver.getAddress());
-            pstmt.setString(5, driver.getPhone());
-            pstmt.setString(6, driver.getEmail());
-            pstmt.setInt(7, driver.getDriverId());
+                pstmt.setString(1, driver.getFirstName());
+                pstmt.setString(2, driver.getLastName());
+                pstmt.setDate(3, driver.getBirthDate());
+                pstmt.setString(4, driver.getAddress());
+                pstmt.setString(5, driver.getPhone());
+                pstmt.setString(6, driver.getEmail());
+                pstmt.setInt(7, driver.getDriverId());
 
-            int affectedRows = pstmt.executeUpdate();
+                int affectedRows = pstmt.executeUpdate();
 
-            if (affectedRows == 0) {
-                throw new NoSuchElementException("There is not record of a driver with ID: " + driver.getDriverId());
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of a driver with ID: " + driver.getDriverId());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            throw new NullPointerException("Driver cannot be null");
         }
     }
 
@@ -125,6 +129,7 @@ public class DriverServices {
 
             if (affectedRows == 0) {
                 throw new NoSuchElementException("There is not record of a driver with ID: " + driverId);
+
             }
 
         } catch (SQLException e) {
@@ -148,5 +153,4 @@ public class DriverServices {
         }
         return isDuplicated;
     }
-
 }
