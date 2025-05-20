@@ -6,29 +6,37 @@ import models.Infraction;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class InfractionServices {
 
     public void createInfraction(Infraction infraction) {
-        String sql = "INSERT INTO Infraction (infractionCode, licenseId, violationType, date, location, description, points, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (infraction != null) {
+            if (!isDuplicated(infraction.getInfractionCode())){
+                String sql = "INSERT INTO Infraction (infractionCode, licenseId, violationType, date, location, description, points, status) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                try (Connection conn = DataBaseConnection.getConnection();
+                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, infraction.getInfractionCode());
-            pstmt.setInt(2, infraction.getLicenseId());
-            pstmt.setString(3, infraction.getViolationType());
-            pstmt.setDate(4, infraction.getDate());
-            pstmt.setString(5, infraction.getLocation());
-            pstmt.setString(6, infraction.getDescription());
-            pstmt.setInt(7, infraction.getPoints());
-            pstmt.setString(8, infraction.getStatus());
+                    pstmt.setString(1, infraction.getInfractionCode());
+                    pstmt.setInt(2, infraction.getLicenseId());
+                    pstmt.setString(3, infraction.getViolationType());
+                    pstmt.setDate(4, infraction.getDate());
+                    pstmt.setString(5, infraction.getLocation());
+                    pstmt.setString(6, infraction.getDescription());
+                    pstmt.setInt(7, infraction.getPoints());
+                    pstmt.setString(8, infraction.getStatus());
 
-            pstmt.executeUpdate();
+                    pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            throw new NullPointerException("The Infraction cannot be null");
         }
+
     }
 
     public Infraction obtainInfraction(String infractionCode) {
@@ -85,37 +93,73 @@ public class InfractionServices {
     }
 
     public void updateInfraction(Infraction infraction) {
-        String sql = "UPDATE Infraction SET licenseId = ?, violationType = ?, date = ?, location = ?, description = ?, points = ?, status = ? " +
-                "WHERE infractionCode = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (infraction != null) {
+            String sql = "UPDATE Infraction SET licenseId = ?, violationType = ?, date = ?, location = ?, description = ?, points = ?, status = ? " +
+                    "WHERE infractionCode = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, infraction.getLicenseId());
-            pstmt.setString(2, infraction.getViolationType());
-            pstmt.setDate(3, infraction.getDate());
-            pstmt.setString(4, infraction.getLocation());
-            pstmt.setString(5, infraction.getDescription());
-            pstmt.setInt(6, infraction.getPoints());
-            pstmt.setString(7, infraction.getStatus());
-            pstmt.setString(8, infraction.getInfractionCode());
+                pstmt.setInt(1, infraction.getLicenseId());
+                pstmt.setString(2, infraction.getViolationType());
+                pstmt.setDate(3, infraction.getDate());
+                pstmt.setString(4, infraction.getLocation());
+                pstmt.setString(5, infraction.getDescription());
+                pstmt.setInt(6, infraction.getPoints());
+                pstmt.setString(7, infraction.getStatus());
+                pstmt.setString(8, infraction.getInfractionCode());
 
-            pstmt.executeUpdate();
+                int affectedRows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of a infraction with ID: " + infraction.getInfractionCode());
+
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("The Infraction cannot be null");
         }
     }
 
     public void deleteInfraction(String infractionCode) {
-        String sql = "DELETE FROM Infraction WHERE infractionCode = ?";
+        if (infractionCode != null) {
+            String sql = "DELETE FROM Infraction WHERE infractionCode = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, infractionCode);
+                int affectedRows = pstmt.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of a infraction with ID: " + infractionCode);
+
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("The Infraction cannot be null");
+        }
+
+    }
+
+    public boolean isDuplicated(String infractionCode) {
+        boolean isDuplicated = false;
+        String sql = "Select * from infraction where infractioncode = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setString(1, infractionCode);
-            pstmt.executeUpdate();
-
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    isDuplicated = true;
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return isDuplicated;
     }
 }
