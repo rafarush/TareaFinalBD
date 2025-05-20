@@ -12,7 +12,7 @@ public class DriverServices {
 
     public void createDriver(Driver driver) throws Exception {
         if (driver != null) {
-            if (validateDuplicate(driver.getDriverId())){
+            if (isDuplicated(driver.getDriverId())){
                 String sql = "INSERT INTO Driver (driverId, firstName, lastName, birthDate, address, phone, email) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = DataBaseConnection.getConnection();
@@ -137,7 +137,7 @@ public class DriverServices {
         }
     }
 
-    public boolean validateDuplicate(int id) {
+    public boolean isDuplicated(int id) {
         boolean isDuplicated = false;
         String sql = "Select * from driver where driverid = ?";
         try (Connection conn = DataBaseConnection.getConnection();
