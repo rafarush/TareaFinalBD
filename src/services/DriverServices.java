@@ -129,6 +129,7 @@ public class DriverServices {
 
             if (affectedRows == 0) {
                 throw new NoSuchElementException("There is not record of a driver with ID: " + driverId);
+
             }
 
         } catch (SQLException e) {
@@ -152,5 +153,4 @@ public class DriverServices {
         }
         return isDuplicated;
     }
-
 }
