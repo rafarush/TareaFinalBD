@@ -3,6 +3,7 @@ package services;
 import dataBase.DataBaseConnection;
 import models.Center;
 import java.sql.*;
+import java.util.NoSuchElementException;
 
 public class CenterServices {
 
@@ -71,41 +72,59 @@ public class CenterServices {
     }
 
     public void updateCenter(Center center) {
-        String sql = "UPDATE Center SET centerName = ?, postalAddress = ?, phone = ?, centerEmail = ?, " +
-                "generalDirectorName = ?, hrManager = ?, accountingManager = ?, secretaryName = ?, logo = ? " +
-                "WHERE centerCode = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (center != null) {
+            String sql = "UPDATE Center SET centerName = ?, postalAddress = ?, phone = ?, centerEmail = ?, " +
+                    "generalDirectorName = ?, hrManager = ?, accountingManager = ?, secretaryName = ?, logo = ? " +
+                    "WHERE centerCode = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, center.getCenterName());
-            pstmt.setString(2, center.getPostalAddress());
-            pstmt.setString(3, center.getPhone());
-            pstmt.setString(4, center.getCenterEmail());
-            pstmt.setString(5, center.getGeneralDirectorName());
-            pstmt.setString(6, center.getHrManager());
-            pstmt.setString(7, center.getAccountingManager());
-            pstmt.setString(8, center.getSecretaryName());
-            pstmt.setString(9, center.getLogo());
-            pstmt.setString(10, center.getCenterCode());
+                pstmt.setString(1, center.getCenterName());
+                pstmt.setString(2, center.getPostalAddress());
+                pstmt.setString(3, center.getPhone());
+                pstmt.setString(4, center.getCenterEmail());
+                pstmt.setString(5, center.getGeneralDirectorName());
+                pstmt.setString(6, center.getHrManager());
+                pstmt.setString(7, center.getAccountingManager());
+                pstmt.setString(8, center.getSecretaryName());
+                pstmt.setString(9, center.getLogo());
+                pstmt.setString(10, center.getCenterCode());
 
-            pstmt.executeUpdate();
+                int affectedRows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of a center with ID: " + center.getCenterCode());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("The center cannot be null");
         }
+
     }
 
     public void deleteCenter(String centerCode) {
-        String sql = "DELETE FROM Center WHERE centerCode = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (centerCode != null) {
+            String sql = "DELETE FROM Center WHERE centerCode = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, centerCode);
-            pstmt.executeUpdate();
+                pstmt.setString(1, centerCode);
+                int affectedRows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of a center with ID: " + centerCode);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("The centerCode cannot be null");
         }
+
     }
 
 //    public boolean validateDuplicate(String id) {
