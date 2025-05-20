@@ -9,25 +9,34 @@ import java.util.List;
 
 public class DriverServices {
 
-    public void createDriver(Driver driver) {
-        String sql = "INSERT INTO Driver (driverId, firstName, lastName, birthDate, address, phone, email) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public void createDriver(Driver driver) throws Exception {
+        if (driver != null) {
+            if (validateDuplicate(driver.getDriverId())){
+                String sql = "INSERT INTO Driver (driverId, firstName, lastName, birthDate, address, phone, email) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                try (Connection conn = DataBaseConnection.getConnection();
+                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, driver.getDriverId());
-            pstmt.setString(2, driver.getFirstName());
-            pstmt.setString(3, driver.getLastName());
-            pstmt.setDate(4, driver.getBirthDate());
-            pstmt.setString(5, driver.getAddress());
-            pstmt.setString(6, driver.getPhone());
-            pstmt.setString(7, driver.getEmail());
+                    pstmt.setInt(1, driver.getDriverId());
+                    pstmt.setString(2, driver.getFirstName());
+                    pstmt.setString(3, driver.getLastName());
+                    pstmt.setDate(4, driver.getBirthDate());
+                    pstmt.setString(5, driver.getAddress());
+                    pstmt.setString(6, driver.getPhone());
+                    pstmt.setString(7, driver.getEmail());
 
-            pstmt.executeUpdate();
+                    pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                throw new Exception("Driver cannot be duplicated");
+            }
+        } else {
+            throw new NullPointerException("Driver cannot be null");
         }
+
     }
 
     public Driver obtainDriver(int driverId) {
@@ -113,4 +122,22 @@ public class DriverServices {
             e.printStackTrace();
         }
     }
+
+    public boolean validateDuplicate(int id) {
+        boolean isDuplicated = false;
+        String sql = "Select * from driver where driverid = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    isDuplicated = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isDuplicated;
+    }
+
 }
