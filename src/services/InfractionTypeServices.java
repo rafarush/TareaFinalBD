@@ -6,20 +6,26 @@ import models.InfractionType;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class InfractionTypeServices {
 
     public void createInfractionType(InfractionType infractionType) {
-        String sql = "INSERT INTO InfractionType (infractionType) VALUES (?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (infractionType != null) {
+            String sql = "INSERT INTO InfractionType (infractionType) VALUES (?)";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, infractionType.getInfractionType());
-            pstmt.executeUpdate();
+                pstmt.setString(1, infractionType.getInfractionType());
+                pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("Null InfractionType");
         }
+
     }
 
     public InfractionType obtainInfractionType(String infractionTypeStr) {
@@ -62,17 +68,27 @@ public class InfractionTypeServices {
     }
 
     public void updateInfractionType(InfractionType infractionType, String oldInfractionType) {
-        String sql = "UPDATE InfractionType SET infractionType = ? WHERE infractionType = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (oldInfractionType != null && infractionType != null) {
+            String sql = "UPDATE InfractionType SET infractionType = ? WHERE infractionType = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, infractionType.getInfractionType());
-            pstmt.setString(2, oldInfractionType);
-            pstmt.executeUpdate();
+                pstmt.setString(1, infractionType.getInfractionType());
+                pstmt.setString(2, oldInfractionType);
+                int affectedRows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of the Infraction type: " + oldInfractionType);
+
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("Null InfractionType");
         }
+
     }
 
     public void deleteInfractionType(String infractionTypeStr) {
@@ -81,7 +97,12 @@ public class InfractionTypeServices {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, infractionTypeStr);
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new NoSuchElementException("There is not record of the Infraction type: " + infractionTypeStr);
+
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
