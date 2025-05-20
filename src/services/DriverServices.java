@@ -6,6 +6,7 @@ import models.Driver;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class DriverServices {
 
@@ -103,7 +104,11 @@ public class DriverServices {
             pstmt.setString(6, driver.getEmail());
             pstmt.setInt(7, driver.getDriverId());
 
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new NoSuchElementException("There is not record of a driver with ID: " + driver.getDriverId());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,7 +121,11 @@ public class DriverServices {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, driverId);
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new NoSuchElementException("There is not record of a driver with ID: " + driverId);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
