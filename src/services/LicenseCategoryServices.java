@@ -6,21 +6,27 @@ import models.LicenseCategory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class LicenseCategoryServices {
 
     public void createLicenseCategory(LicenseCategory category) {
-        String sql = "INSERT INTO LicenseCategory (licenseType, licenseCategory) VALUES (?, ?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (category != null) {
+            String sql = "INSERT INTO LicenseCategory (licenseType, licenseCategory) VALUES (?, ?)";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, category.getLicenseType());
-            pstmt.setString(2, category.getLicenseCategory());
-            pstmt.executeUpdate();
+                pstmt.setString(1, category.getLicenseType());
+                pstmt.setString(2, category.getLicenseCategory());
+                pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License category is null");
         }
+
     }
 
     public LicenseCategory obtainLicenseCategory(String licenseType) {
@@ -65,17 +71,26 @@ public class LicenseCategoryServices {
     }
 
     public void updateLicenseCategory(LicenseCategory category) {
-        String sql = "UPDATE LicenseCategory SET licenseCategory = ? WHERE licenseType = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (category != null) {
+            String sql = "UPDATE LicenseCategory SET licenseCategory = ? WHERE licenseType = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, category.getLicenseCategory());
-            pstmt.setString(2, category.getLicenseType());
-            pstmt.executeUpdate();
+                pstmt.setString(1, category.getLicenseCategory());
+                pstmt.setString(2, category.getLicenseType());
+                int affectedRows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedRows == 0) {
+                    throw new NoSuchElementException("There is not record of the license category: " + category.getLicenseCategory());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License category is null");
         }
+
     }
 
     public void deleteLicenseCategory(String licenseType) {
@@ -84,7 +99,11 @@ public class LicenseCategoryServices {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, licenseType);
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new NoSuchElementException("There is not record of the license category: " + licenseType);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

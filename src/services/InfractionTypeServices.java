@@ -11,16 +11,21 @@ import java.util.NoSuchElementException;
 public class InfractionTypeServices {
 
     public void createInfractionType(InfractionType infractionType) {
-        String sql = "INSERT INTO InfractionType (infractionType) VALUES (?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (infractionType != null) {
+            String sql = "INSERT INTO InfractionType (infractionType) VALUES (?)";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, infractionType.getInfractionType());
-            pstmt.executeUpdate();
+                pstmt.setString(1, infractionType.getInfractionType());
+                pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("Null InfractionType");
         }
+
     }
 
     public InfractionType obtainInfractionType(String infractionTypeStr) {
@@ -73,7 +78,7 @@ public class InfractionTypeServices {
                 int affectedRows = pstmt.executeUpdate();
 
                 if (affectedRows == 0) {
-                    throw new NoSuchElementException("There is not record of the infraction type: " + infractionType.getInfractionType());
+                    throw new NoSuchElementException("There is not record of the Infraction type: " + oldInfractionType);
                 }
 
             } catch (SQLException e) {
@@ -82,6 +87,7 @@ public class InfractionTypeServices {
         } else {
             throw new NullPointerException("infractionType or oldInfractionType is null");
         }
+
     }
 
     public void deleteInfractionType(String infractionTypeStr) {
