@@ -117,4 +117,39 @@ public class TestServices {
             e.printStackTrace();
         }
     }
+
+    protected List<Test> getAllApprovedValidTests() {
+        List<Test> list = new ArrayList<>();
+        String sql = "SELECT * FROM test " +
+                " WHERE driverid = 1 " +
+                "  AND licensetype = 'A' " +
+                "  AND date BETWEEN (current_date - INTERVAL '6 months') AND current_date " +
+                "  AND result = true ";
+        return getTestsFromDB(list, sql);
+    }
+
+    private List<Test> getTestsFromDB(List<Test> list, String sql) {
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Test test = new Test();
+                test.setTestCode(rs.getString("testCode"));
+                test.setTestType(rs.getString("testType"));
+                test.setDate(rs.getDate("date"));
+                test.setResult(rs.getBoolean("result"));
+                test.setEntityName(rs.getString("entityName"));
+                test.setExaminerName(rs.getString("examinerName"));
+                test.setDriverId(rs.getInt("driverId"));
+                test.setLicenseType(rs.getString("licensetype"));
+                list.add(test);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
