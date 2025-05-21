@@ -10,24 +10,28 @@ import java.util.List;
 public class LicenseServices {
 
     public void createLicense(License license) {
-        String sql = "INSERT INTO License (licenseId, driverId, licenseType, issueDate, expirationDate, restrictions, renewed, licenseStatus) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (license != null) {
+            String sql = "INSERT INTO License (licenseId, driverId, licenseType, issueDate, expirationDate, restrictions, renewed, licenseStatus) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, license.getLicenseId());
-            pstmt.setInt(2, license.getDriverId());
-            pstmt.setString(3, license.getLicenseType());
-            pstmt.setDate(4, license.getIssueDate());
-            pstmt.setDate(5, license.getExpirationDate());
-            pstmt.setString(6, license.getRestrictions());
-            pstmt.setBoolean(7, license.isRenewed());
-            pstmt.setString(8, license.getLicenseStatus());
+                pstmt.setInt(1, license.getLicenseId());
+                pstmt.setInt(2, license.getDriverId());
+                pstmt.setString(3, license.getLicenseType());
+                pstmt.setDate(4, license.getIssueDate());
+                pstmt.setDate(5, license.getExpirationDate());
+                pstmt.setString(6, license.getRestrictions());
+                pstmt.setBoolean(7, license.isRenewed());
+                pstmt.setString(8, license.getLicenseStatus());
 
-            pstmt.executeUpdate();
+                pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License is null");
         }
     }
 
@@ -118,4 +122,19 @@ public class LicenseServices {
             e.printStackTrace();
         }
     }
+
+//    private boolean is_valid(License license) {
+//        boolean is_valid = false;
+//        String sql = "SELECT * FROM test WHERE driverid = ?";
+//        try (Connection conn = DataBaseConnection.getConnection();
+//             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//
+//            pstmt.setInt(1, licenseId);
+//            pstmt.executeUpdate();
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }
