@@ -68,7 +68,7 @@ public class InfractionTypeServices {
     }
 
     public void updateInfractionType(InfractionType infractionType, String oldInfractionType) {
-        if (oldInfractionType != null && infractionType != null) {
+        if (infractionType != null && oldInfractionType != null) {
             String sql = "UPDATE InfractionType SET infractionType = ? WHERE infractionType = ?";
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -79,14 +79,13 @@ public class InfractionTypeServices {
 
                 if (affectedRows == 0) {
                     throw new NoSuchElementException("There is not record of the Infraction type: " + oldInfractionType);
-
                 }
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
-            throw new NullPointerException("Null InfractionType");
+            throw new NullPointerException("infractionType or oldInfractionType is null");
         }
 
     }
@@ -100,8 +99,7 @@ public class InfractionTypeServices {
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new NoSuchElementException("There is not record of the Infraction type: " + infractionTypeStr);
-
+                throw new NoSuchElementException("There is not record of the infraction type: " + infractionTypeStr);
             }
 
         } catch (SQLException e) {
