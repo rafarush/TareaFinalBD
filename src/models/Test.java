@@ -10,11 +10,12 @@ public class Test {
     private String entityName;
     private String examinerName;
     private int driverId;
+    private String licenseType;
 
     public Test() {}
 
     public Test(String testCode, String testType, Date date, boolean result, String entityName,
-                String examinerName, int driverId) {
+                String examinerName, int driverId, String licenseType) {
         setTestCode(testCode);
         setTestType(testType);
         setDate(date);
@@ -22,6 +23,7 @@ public class Test {
         setEntityName(entityName);
         setExaminerName(examinerName);
         setDriverId(driverId);
+        setLicenseType(licenseType);
     }
 
     public String getTestCode() { return testCode; }
@@ -44,4 +46,7 @@ public class Test {
 
     public int getDriverId() { return driverId; }
     public void setDriverId(int driverId) { this.driverId = driverId; }
+
+    public String getLicenseType() { return licenseType; }
+    public void setLicenseType(String licenseType) { this.licenseType = licenseType; }
 }
