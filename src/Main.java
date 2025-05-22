@@ -47,7 +47,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        HTMLReportGenerator.createCenterReport(filePath);
+        HTMLReportGenerator.createCenterReport();
+        HTMLReportGenerator.createDriverReport(2);
+        HTMLReportGenerator.createRelatedEntityReport("1");
 
     }
 }
