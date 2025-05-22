@@ -1,3 +1,4 @@
+import report.HTMLReportGenerator;
 import visual.MainScreen.MainScreen;
 
 public class Main {
