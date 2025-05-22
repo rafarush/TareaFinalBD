@@ -224,5 +224,116 @@ public class HTMLReportGenerator {
 
 
 
+
+
+    public static void createLicenseReport(java.sql.Date startDate, java.sql.Date endDate) {
+        String filePath = "src\\report\\reportLicense.html";
+        String query = "SELECT l.licenseId, d.firstName, d.lastName, l.licenseType, l.issueDate, l.expirationDate, l.licenseStatus " +
+                "FROM License l " +
+                "JOIN Driver d ON l.driverId = d.driverId " +
+                "WHERE l.issueDate BETWEEN ? AND ? " +
+                "ORDER BY l.issueDate";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             FileWriter writer = new FileWriter(filePath)) {
+
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            writer.write("<html><head><title>Reporte de Licencias Emitidas</title>");
+            writer.write("<style>");
+            writer.write("body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }");
+            writer.write("h2 { text-align: center; color: #004080; }");
+            writer.write("table { border-collapse: collapse; width: 100%; background-color: white; }");
+            writer.write("th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }");
+            writer.write("th { background-color: #007acc; color: white; }");
+            writer.write("tr:nth-child(even) { background-color: #f2f2f2; }");
+            writer.write("</style>");
+            writer.write("</head><body>");
+            writer.write("<h2>Reporte de Licencias Emitidas</h2>");
+            writer.write("<p>Desde: " + startDate + " Hasta: " + endDate + "</p>");
+            writer.write("<table>");
+            writer.write("<tr><th>Código de Licencia</th><th>Nombre del Conductor</th><th>Tipo de Licencia</th><th>Fecha de Emisión</th><th>Fecha de Vencimiento</th><th>Estado</th></tr>");
+
+            while (rs.next()) {
+                writer.write("<tr>");
+                writer.write("<td>" + rs.getInt("licenseId") + "</td>");
+                writer.write("<td>" + rs.getString("firstName") + " " + rs.getString("lastName") + "</td>");
+                writer.write("<td>" + rs.getString("licenseType") + "</td>");
+                writer.write("<td>" + rs.getDate("issueDate") + "</td>");
+                writer.write("<td>" + rs.getDate("expirationDate") + "</td>");
+                writer.write("<td>" + rs.getString("licenseStatus") + "</td>");
+                writer.write("</tr>");
+            }
+
+            writer.write("</table>");
+            writer.write("</body></html>");
+
+            System.out.println("Reporte de licencias generado en: " + filePath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public static void createTestReport(java.sql.Date startDate, java.sql.Date endDate) {
+        String filePath = "src\\report\\reportTest.html";
+        String query = "SELECT t.testCode, d.firstName, d.lastName, t.testType, t.date, t.result, t.entityName " +
+                "FROM Test t " +
+                "JOIN Driver d ON t.driverId = d.driverId " +
+                "WHERE t.date BETWEEN ? AND ? " +
+                "ORDER BY t.date";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             FileWriter writer = new FileWriter(filePath)) {
+
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+
+            ResultSet rs = stmt.executeQuery();
+
+            writer.write("<html><head><title>Reporte de Exámenes Realizados</title>");
+            writer.write("<style>");
+            writer.write("body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }");
+            writer.write("h2 { text-align: center; color: #004080; }");
+            writer.write("table { border-collapse: collapse; width: 100%; background-color: white; }");
+            writer.write("th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }");
+            writer.write("th { background-color: #007acc; color: white; }");
+            writer.write("tr:nth-child(even) { background-color: #f2f2f2; }");
+            writer.write("</style>");
+            writer.write("</head><body>");
+            writer.write("<h2>Reporte de Exámenes Realizados</h2>");
+            writer.write("<p>Desde: " + startDate + " Hasta: " + endDate + "</p>");
+            writer.write("<table>");
+            writer.write("<tr><th>Código del Examen</th><th>Nombre del Conductor</th><th>Tipo de Examen</th><th>Fecha del Examen</th><th>Resultado</th><th>Entidad</th></tr>");
+
+            while (rs.next()) {
+                writer.write("<tr>");
+                writer.write("<td>" + rs.getString("testCode") + "</td>");
+                writer.write("<td>" + rs.getString("firstName") + " " + rs.getString("lastName") + "</td>");
+                writer.write("<td>" + rs.getString("testType") + "</td>");
+                writer.write("<td>" + rs.getDate("date") + "</td>");
+                writer.write("<td>" + (rs.getBoolean("result") ? "Aprobado" : "Reprobado") + "</td>");
+                writer.write("<td>" + rs.getString("entityName") + "</td>");
+                writer.write("</tr>");
+            }
+
+            writer.write("</table>");
+            writer.write("</body></html>");
+
+            System.out.println("Reporte de exámenes generado en: " + filePath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
 
