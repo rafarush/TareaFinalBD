@@ -137,6 +137,25 @@ public class DriverServices {
         }
     }
 
+    public int countDrivers() {
+        int count = 0;
+        String sql = "SELECT count(*) as quantity FROM driver";
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            if (rs.next()) {
+                count = rs.getInt("quantity");
+            } else {
+                throw new NoSuchElementException("There is not record of a driver");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public boolean isDuplicated(int id) {
         boolean isDuplicated = false;
         String sql = "Select * from driver where driverid = ?";
