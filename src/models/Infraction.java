@@ -10,12 +10,12 @@ public class Infraction {
     private String location;
     private String description;
     private int points;
-    private String status;
+    private boolean ispaid;
 
     public Infraction() {}
 
     public Infraction(String infractionCode, int licenseId, String violationType, Date date, String location,
-                      String description, int points, String status) {
+                      String description, int points, boolean ispaid) {
         setInfractionCode(infractionCode);
         setLicenseId(licenseId);
         setViolationType(violationType);
@@ -23,7 +23,7 @@ public class Infraction {
         setLocation(location);
         setDescription(description);
         setPoints(points);
-        setStatus(status);
+        setIspaid(ispaid);
     }
 
     public String getInfractionCode() {
@@ -68,9 +68,11 @@ public class Infraction {
     public void setPoints(int points) {
         this.points = points; }
 
-    public String getStatus() {
-        return status; }
+    public boolean getIspaid() {
+        return ispaid;
+    }
 
-    public void setStatus(String status) {
-        this.status = status; }
+    public void setIspaid(boolean ispaid) {
+        this.ispaid = ispaid;
+    }
 }
