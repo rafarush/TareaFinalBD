@@ -42,7 +42,7 @@ public class HTMLReportGenerator {
 
 
     public static void createCenterReport() {
-        String filePath = "src\\report\\centerReporte.html";
+        String filePath = "reportsHTML\\centerReporte.html";
         String query = "SELECT centerCode, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center";
 
         try (Connection conn = DataBaseConnection.getConnection();
@@ -90,7 +90,7 @@ public class HTMLReportGenerator {
 
     public static void createDriverReport(int driverId) {
 
-        String filePath = "src\\report\\driverReporte.html";
+        String filePath = "reportsHTML\\driverReporte.html";
         String driverQuery = "SELECT firstName, lastName, birthDate, address, phone, email FROM Driver WHERE driverId = ?";
         String licensesQuery = "SELECT licenseType, issueDate, expirationDate, restrictions, renewed, licenseStatus FROM License WHERE driverId = ?";
         String infractionsQuery = "SELECT violationType, date, points FROM Infraction i JOIN License l ON i.licenseId = l.licenseId WHERE l.driverId = ?";
@@ -175,7 +175,7 @@ public class HTMLReportGenerator {
 
 
     public static void createRelatedEntityReport(String entityName) {
-        String filePath="src\\report\\relatedEntityReporte.html";
+        String filePath="reportsHTML\\relatedEntityReporte.html";
 
         String query = "SELECT entityName, entityType, address, phone, contactEmail, directorName, centerCode FROM RelatedEntity WHERE entityName = ?";
 
@@ -227,7 +227,7 @@ public class HTMLReportGenerator {
 
 
     public static void createLicenseReport(java.sql.Date startDate, java.sql.Date endDate) {
-        String filePath = "src\\report\\reportLicense.html";
+        String filePath = "reportsHTML\\reportLicense.html";
         String query = "SELECT l.licenseId, d.firstName, d.lastName, l.licenseType, l.issueDate, l.expirationDate, l.licenseStatus " +
                 "FROM License l " +
                 "JOIN Driver d ON l.driverId = d.driverId " +
@@ -281,7 +281,7 @@ public class HTMLReportGenerator {
 
 
     public static void createTestReport(java.sql.Date startDate, java.sql.Date endDate) {
-        String filePath = "src\\report\\reportTest.html";
+        String filePath = "reportsHTML\\reportTest.html";
         String query = "SELECT t.testCode, d.firstName, d.lastName, t.testType, t.date, t.result, t.entityName " +
                 "FROM Test t " +
                 "JOIN Driver d ON t.driverId = d.driverId " +
