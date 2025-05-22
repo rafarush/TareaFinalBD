@@ -146,6 +146,25 @@ public class InfractionServices {
 
     }
 
+    public int countInfractions() {
+        int count = 0;
+        String sql = "SELECT count(*) as quantity FROM infraction";
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            if (rs.next()) {
+                count = rs.getInt("quantity");
+            } else {
+                throw new NoSuchElementException("There is not record of a infraction");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public boolean isDuplicated(String infractionCode) {
         boolean isDuplicated = false;
         String sql = "Select * from infraction where infractioncode = ?";
