@@ -25,7 +25,7 @@ public class InfractionServices {
                     pstmt.setString(5, infraction.getLocation());
                     pstmt.setString(6, infraction.getDescription());
                     pstmt.setInt(7, infraction.getPoints());
-                    pstmt.setString(8, infraction.getStatus());
+                    pstmt.setBoolean(8, infraction.getIspaid());
 
                     pstmt.executeUpdate();
 
@@ -56,7 +56,7 @@ public class InfractionServices {
                     infraction.setLocation(rs.getString("location"));
                     infraction.setDescription(rs.getString("description"));
                     infraction.setPoints(rs.getInt("points"));
-                    infraction.setStatus(rs.getString("status"));
+                    infraction.setIspaid(rs.getBoolean("status"));
                 }
             }
 
@@ -82,7 +82,7 @@ public class InfractionServices {
                 infraction.setLocation(rs.getString("location"));
                 infraction.setDescription(rs.getString("description"));
                 infraction.setPoints(rs.getInt("points"));
-                infraction.setStatus(rs.getString("status"));
+                infraction.setIspaid(rs.getBoolean("ispaid"));
                 list.add(infraction);
             }
 
@@ -105,7 +105,7 @@ public class InfractionServices {
                 pstmt.setString(4, infraction.getLocation());
                 pstmt.setString(5, infraction.getDescription());
                 pstmt.setInt(6, infraction.getPoints());
-                pstmt.setString(7, infraction.getStatus());
+                pstmt.setBoolean(7, infraction.getIspaid());
                 pstmt.setString(8, infraction.getInfractionCode());
 
                 int affectedRows = pstmt.executeUpdate();
