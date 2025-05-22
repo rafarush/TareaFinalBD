@@ -63,7 +63,6 @@ public class DriversView extends javax.swing.JPanel {
 
         // 2. Crear tabla personalizada
 
-
         // 3. Configurar acción al hacer doble click
         customTable.setRowDoubleClickListener(row -> {
             String info = "Información del Conductor:\n\n" +
@@ -81,6 +80,7 @@ public class DriversView extends javax.swing.JPanel {
             );
         });
         return customTable;
+
     }
 
 
@@ -126,6 +126,7 @@ public class DriversView extends javax.swing.JPanel {
 
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
+
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
@@ -136,6 +137,7 @@ public class DriversView extends javax.swing.JPanel {
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         AddDriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-más-30.png"))); // NOI18N
+
         AddDriversButton.setText("   Nuevo Conductor");
         AddDriversButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,6 +160,7 @@ public class DriversView extends javax.swing.JPanel {
         jScrollPane2.setViewportView(jTable1);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 1250, 900));
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void SearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextFieldActionPerformed

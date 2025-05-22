@@ -7,6 +7,7 @@ package visual.LicensView;
 import models.Infraction;
 import models.License;
 import services.ServicesLocator;
+
 import visual.CustomTable;
 import java.util.Arrays;
 import java.util.List;
@@ -119,6 +120,7 @@ public class LicensView extends javax.swing.JPanel {
         });
         add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 60, 230, 40));
 
+
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -127,6 +129,7 @@ public class LicensView extends javax.swing.JPanel {
             }
         });
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 60, 40, 40));
+
 
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -138,6 +141,7 @@ public class LicensView extends javax.swing.JPanel {
             }
         });
         add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 60, 200, 40));
+
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));
@@ -159,6 +163,7 @@ public class LicensView extends javax.swing.JPanel {
         jScrollPane2.setViewportView(jTable1);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 850));
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void SearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchTextFieldMouseClicked

@@ -100,6 +100,7 @@ public class MainView extends javax.swing.JPanel {
         IDriversPanel_Title1.setForeground(new java.awt.Color(255, 215, 179));
         IDriversPanel_Title1.setText("     Conductores");
         IDriversPanel_Title1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         IDriverPanel6.add(IDriversPanel_Title1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 130, -1));
 
         IDriversPanel_Data1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -109,6 +110,7 @@ public class MainView extends javax.swing.JPanel {
 
         add(IDriverPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 275, 150));
 
+
         IDriverPanel5.setBackground(new java.awt.Color(47, 50, 65));
         IDriverPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         IDriverPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, 30));
@@ -116,11 +118,13 @@ public class MainView extends javax.swing.JPanel {
         DriversPanel_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-licencia-50 (1).png"))); // NOI18N
         IDriverPanel5.add(DriversPanel_Icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
 
+
         IDriversPanel_Title.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IDriversPanel_Title.setForeground(new java.awt.Color(255, 215, 179));
         IDriversPanel_Title.setText("       Licencias");
         IDriversPanel_Title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         IDriverPanel5.add(IDriversPanel_Title, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 130, -1));
+
 
         IDriversPanel_Data.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         IDriversPanel_Data.setForeground(new java.awt.Color(255, 215, 179));
@@ -128,6 +132,7 @@ public class MainView extends javax.swing.JPanel {
         IDriverPanel5.add(IDriversPanel_Data, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 100, -1));
 
         add(IDriverPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(375, 170, 275, 150));
+
 
         IDriverPanel7.setBackground(new java.awt.Color(47, 50, 65));
         IDriverPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -156,10 +161,12 @@ public class MainView extends javax.swing.JPanel {
         DriversPanel_Icon3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-error-50 (1).png"))); // NOI18N
         IInfractionPanel.add(DriversPanel_Icon3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
 
+
         IDriversPanel_Title3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         IDriversPanel_Title3.setForeground(new java.awt.Color(255, 215, 179));
         IDriversPanel_Title3.setText("     Infracciones");
         IDriversPanel_Title3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         IInfractionPanel.add(IDriversPanel_Title3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 130, -1));
 
         IDriversPanel_Data3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -168,6 +175,7 @@ public class MainView extends javax.swing.JPanel {
         IInfractionPanel.add(IDriversPanel_Data3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 100, -1));
 
         add(IInfractionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1025, 170, 275, 150));
+
 
         ExpireLicensPanel.setBackground(new java.awt.Color(47, 50, 65));
         ExpireLicensPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -188,6 +196,7 @@ public class MainView extends javax.swing.JPanel {
         });
         ExpireLicensPanel.add(ExpireLicensPanel_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 520, 30));
 
+
         ExpireLicensPanel_conten.setBackground(new java.awt.Color(23, 22, 28));
         ExpireLicensPanel_conten.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -206,6 +215,7 @@ public class MainView extends javax.swing.JPanel {
 
         ExpireLicensPanel.add(ExpireLicensPanel_conten, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 520, 60));
 
+
         ExpireLicensPanel_conten1.setBackground(new java.awt.Color(23, 22, 28));
         ExpireLicensPanel_conten1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -223,6 +233,7 @@ public class MainView extends javax.swing.JPanel {
         ExpireLicensPanel_conten1.add(Conten1_Date, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 80, -1));
 
         ExpireLicensPanel.add(ExpireLicensPanel_conten1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 520, 60));
+
 
         ExpireLicensPanel_conten2.setBackground(new java.awt.Color(23, 22, 28));
         ExpireLicensPanel_conten2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -244,6 +255,7 @@ public class MainView extends javax.swing.JPanel {
 
         add(ExpireLicensPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 600, 370));
 
+
         RecentInfractionPanel1.setBackground(new java.awt.Color(47, 50, 65));
         RecentInfractionPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -264,16 +276,19 @@ public class MainView extends javax.swing.JPanel {
         InfractionConten2_Point1.setText("-6 puntos");
         RecentInfractionPanel_conten3.add(InfractionConten2_Point1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, 70, -1));
 
+
         jLabel17.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(232, 152, 70));
         jLabel17.setText("15/7/2025");
         RecentInfractionPanel_conten3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, 80, -1));
+
 
         InfractionConten2_Descrip1.setForeground(new java.awt.Color(140, 140, 140));
         InfractionConten2_Descrip1.setText("INF-001 • Grave");
         RecentInfractionPanel_conten3.add(InfractionConten2_Descrip1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 150, -1));
 
         RecentInfractionPanel1.add(RecentInfractionPanel_conten3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 520, 60));
+
 
         RecentInfractionPanel_conten4.setBackground(new java.awt.Color(23, 22, 28));
         RecentInfractionPanel_conten4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -287,16 +302,20 @@ public class MainView extends javax.swing.JPanel {
         InfractionConten_Point1.setText("-6 puntos");
         RecentInfractionPanel_conten4.add(InfractionConten_Point1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 70, -1));
 
+
         jLabel21.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(232, 152, 70));
         jLabel21.setText("15/7/2025");
+
         RecentInfractionPanel_conten4.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 80, -1));
+
 
         InfractionConten_Descrip1.setForeground(new java.awt.Color(140, 140, 140));
         InfractionConten_Descrip1.setText("INF-001 • Grave");
         RecentInfractionPanel_conten4.add(InfractionConten_Descrip1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 150, -1));
 
         RecentInfractionPanel1.add(RecentInfractionPanel_conten4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 520, 60));
+
 
         RecentInfractionPanel_conten5.setBackground(new java.awt.Color(23, 22, 28));
         RecentInfractionPanel_conten5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -308,18 +327,23 @@ public class MainView extends javax.swing.JPanel {
         InfractionConten1_Point1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         InfractionConten1_Point1.setForeground(new java.awt.Color(140, 140, 140));
         InfractionConten1_Point1.setText("-6 puntos");
+
         RecentInfractionPanel_conten5.add(InfractionConten1_Point1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 30, 70, -1));
+
 
         jLabel25.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(232, 152, 70));
         jLabel25.setText("15/7/2025");
         RecentInfractionPanel_conten5.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 80, -1));
 
+
         InfractionConten1_Descrip1.setForeground(new java.awt.Color(140, 140, 140));
         InfractionConten1_Descrip1.setText("INF-001 • Grave");
         RecentInfractionPanel_conten5.add(InfractionConten1_Descrip1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 150, -1));
 
+
         RecentInfractionPanel1.add(RecentInfractionPanel_conten5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 520, 60));
+
 
         RecentInfractionPanel_Button1.setBackground(new java.awt.Color(23, 22, 28));
         RecentInfractionPanel_Button1.setForeground(new java.awt.Color(255, 215, 179));
@@ -333,6 +357,7 @@ public class MainView extends javax.swing.JPanel {
         RecentInfractionPanel1.add(RecentInfractionPanel_Button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 520, 30));
 
         add(RecentInfractionPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 600, 370));
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void ExpireLicensPanel_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExpireLicensPanel_ButtonActionPerformed

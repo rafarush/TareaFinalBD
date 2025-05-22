@@ -117,6 +117,7 @@ public class ExamView extends javax.swing.JPanel {
         });
         add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 60, 230, 40));
 
+
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,6 +126,7 @@ public class ExamView extends javax.swing.JPanel {
             }
         });
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 60, 40, 40));
+
 
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -136,6 +138,7 @@ public class ExamView extends javax.swing.JPanel {
             }
         });
         add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 60, 200, 40));
+
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));

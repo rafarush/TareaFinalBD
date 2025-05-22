@@ -62,6 +62,7 @@ public class MainScreem extends javax.swing.JFrame {
 
         InfractionButton.setBackground(new java.awt.Color(47, 50, 65));
         InfractionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-error-50.png"))); // NOI18N
+
         InfractionButton.setToolTipText("");
         InfractionButton.setBorder(null);
         InfractionButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -78,6 +79,7 @@ public class MainScreem extends javax.swing.JFrame {
 
         DriversButton.setBackground(new java.awt.Color(47, 50, 65));
         DriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-grupos-de-usuarios-50.png"))); // NOI18N
+
         DriversButton.setToolTipText("");
         DriversButton.setBorder(null);
         DriversButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -94,6 +96,7 @@ public class MainScreem extends javax.swing.JFrame {
 
         LicensButton.setBackground(new java.awt.Color(47, 50, 65));
         LicensButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-licencia-50.png"))); // NOI18N
+
         LicensButton.setToolTipText("");
         LicensButton.setBorder(null);
         LicensButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,7 +128,9 @@ public class MainScreem extends javax.swing.JFrame {
         SideBar.add(ExamButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 90, 45));
 
         HomeButton.setBackground(new java.awt.Color(47, 50, 65));
+
         HomeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-casa-45.png"))); // NOI18N
+
         HomeButton.setToolTipText("");
         HomeButton.setBorder(null);
         HomeButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -144,6 +149,7 @@ public class MainScreem extends javax.swing.JFrame {
 
         Content.setBackground(new java.awt.Color(23, 22, 28));
         MainPanel.add(Content, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 1350, 1050));
+
 
         getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1690, 1050));
 
