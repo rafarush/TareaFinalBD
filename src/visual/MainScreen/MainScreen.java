@@ -7,7 +7,7 @@ package visual.MainScreen;
 import visual.DriverView.DriversView;
 import visual.ExamView.ExamView;
 import visual.InfractionView.InfractionView;
-import visual.LicensView.LicensView;
+import visual.LicenseView.LicensView;
 import visual.MainView.MainView;
 import java.awt.BorderLayout;
 
@@ -15,12 +15,12 @@ import java.awt.BorderLayout;
  *
  * @author adian
  */
-public class MainScreem extends javax.swing.JFrame {
+public class MainScreen extends javax.swing.JFrame {
 
     /**
      * Creates new form MainScreem
      */
-    public MainScreem() {
+    public MainScreen() {
         initComponents();
         MainView p1 = new MainView();
         p1.setSize(1560, 1050);
