@@ -7,6 +7,7 @@ import models.Test;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class LicenseServices {
 
@@ -127,6 +128,25 @@ public class LicenseServices {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int countLicenses() {
+        int count = 0;
+        String sql = "SELECT count(*) as quantity FROM license";
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            if (rs.next()) {
+                count = rs.getInt("quantity");
+            } else {
+                throw new NoSuchElementException("There is not record of a license");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
     private boolean is_valid(License license) {
