@@ -1,5 +1,6 @@
 import models.Driver;
 import models.License;
+import report.HTMLReportGenerator;
 import services.ServicesLocator;
 import visual.MainScreen.MainScreem;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,6 +34,24 @@ public class Main {
         java.awt.EventQueue.invokeLater(() -> {
             new MainScreem().setVisible(true);
         });
+
+        String[] headers = { "ID", "Nombre", "Edad" };
+        String[][] data = {
+                { "11", "Juan", "25" },
+                { "2", "María", "30" },
+                { "3", "Luis", "28" }
+        };
+
+        String filePath="C:\\Users\\Jorgito\\OneDrive\\Desktop\\reporte.html";
+
+        try {
+            HTMLReportGenerator.createHTMLReport(filePath, "Reporte de Usuarios", headers, data);
+            System.out.println("Reporte creado en: " + filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HTMLReportGenerator.createCenterReport(filePath);
 
     }
 }
