@@ -12,7 +12,7 @@ public class CustomTable extends JTable {
     private Consumer<Integer> rowDoubleClickListener;
 
     public CustomTable(List<String> columnNames, Object[][] data) {
-        // Configurar modelo
+
         DefaultTableModel model = new DefaultTableModel(data, columnNames.toArray()) {
             @Override
             public boolean isCellEditable(int row, int column) {

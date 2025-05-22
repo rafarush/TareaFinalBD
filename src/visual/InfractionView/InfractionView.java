@@ -4,6 +4,9 @@
  */
 package visual.InfractionView;
 
+import models.Driver;
+import models.Infraction;
+import services.ServicesLocator;
 import visual.CustomTable;
 import java.util.Arrays;
 import java.util.List;
@@ -22,44 +25,58 @@ public class InfractionView extends javax.swing.JPanel {
         initComponents();
         setupTable();
     }
-     private void setupTable() {
+    private void setupTable() {
         // 1. Configurar datos
         List<String> columns = Arrays.asList(
-            "Código", "Conductor", "Tipo", 
-            "Fecha", "Lugar", "Puntos", "Estado"
+                "Código", "Licencia", "Tipo",
+                "Fecha", "Lugar", "Puntos", "Estado"
         );
-        
-        Object[][] data = {
-            {"001-1234567-8","Juan Pérez", "Grave", "10/12/2020", "Av. Principal", "-4","pagada"},
-            {"001-1234567-8","Juan Pérez", "Leve", "24/09/2022", "Calle Segundaria", "-2","Pendiente"},
-            {"001-1234567-8","Juan Pérez", "Muy Grave", "30/05/2025", "Autopista Nacional", "-12","pagada"}
-        };
 
-        // 2. Crear tabla personalizada
-        CustomTable customTable = new CustomTable(columns, data);
-        
-        // 3. Configurar acción al hacer doble click
-        customTable.setRowDoubleClickListener(row -> {
-            String info = "Información de la Licencia:\n\n" +
-                         "Codigo: " + customTable.getValueAt(row, 0) + "\n" +
-                         "Conductor: " + customTable.getValueAt(row, 1) + "\n" +
-                         "Tipo: " + customTable.getValueAt(row, 2) + "\n" +
-                         "Categoria: " + customTable.getValueAt(row, 3) + "\n" +
-                         "Emicion: " + customTable.getValueAt(row, 4) + "\n" +
-                         "Vencimiento:" +customTable.getValueAt(row, 5);
-            
-            JOptionPane.showMessageDialog(
-                this,
-                info,
-                "Detalles del Conductor",
-                JOptionPane.INFORMATION_MESSAGE
-            );
-        });
-        
-        // 4. Asignar al scroll pane
-        jScrollPane2.setViewportView(customTable);
+        try {
+            List<Infraction>driversBD = ServicesLocator.getInstance().getInfractionServices().getAllInfractions();
+            Object[][] data =new Object[driversBD.size()][7];
+            int pos=0;
+            for (Infraction d : driversBD) {
+                Object[] row = {d.getInfractionCode(),d.getLicenseId(),d.getViolationType(),d.getDate().toString(),d.getLocation(),"-"+d.getPoints(),d.getStatus()};
+                data[pos]=row;
+                pos++;
+            }
+            CustomTable customTable = getCustomTable(columns, data);
+
+            // 4. Asignar al scroll pane
+            jScrollPane2.setViewportView(customTable);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
+    private CustomTable getCustomTable(List<String> columns, Object[][] data) {
+        CustomTable customTable = new CustomTable(columns, data);
+
+
+        // 2. Crear tabla personalizada
+
+
+        // 3. Configurar acción al hacer doble click
+        customTable.setRowDoubleClickListener(row -> {
+            String info = "Información del Conductor:\n\n" +
+                    "Nombre: " + customTable.getValueAt(row, 0) + "\n" +
+                    "Documento: " + customTable.getValueAt(row, 1) + "\n" +
+                    "Fecha Nacimiento: " + customTable.getValueAt(row, 2) + "\n" +
+                    "Teléfono: " + customTable.getValueAt(row, 3) + "\n" +
+                    "Estado Licencia: " + customTable.getValueAt(row, 4);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    info,
+                    "Detalles del Conductor",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+        return customTable;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,7 +116,7 @@ public class InfractionView extends javax.swing.JPanel {
                 SearchTextFieldActionPerformed(evt);
             }
         });
-        add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 50, 230, 40));
+        add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 50, 230, 40));
 
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
@@ -108,7 +125,7 @@ public class InfractionView extends javax.swing.JPanel {
                 jLabel1MouseClicked(evt);
             }
         });
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, 40, 40));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 40, 40));
 
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -119,7 +136,7 @@ public class InfractionView extends javax.swing.JPanel {
                 AddDriversButtonActionPerformed(evt);
             }
         });
-        add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 50, 200, 40));
+        add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));
@@ -128,19 +145,20 @@ public class InfractionView extends javax.swing.JPanel {
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 100, 40));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object [][] {
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String [] {
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1470, 850));
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 850));
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void SearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchTextFieldMouseClicked

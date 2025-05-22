@@ -61,7 +61,8 @@ public class MainScreem extends javax.swing.JFrame {
         SideBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         InfractionButton.setBackground(new java.awt.Color(47, 50, 65));
-        InfractionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-error-50.png"))); // NOI18N
+        InfractionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-error-50.png"))); // NOI18N
+
         InfractionButton.setToolTipText("");
         InfractionButton.setBorder(null);
         InfractionButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -77,7 +78,8 @@ public class MainScreem extends javax.swing.JFrame {
         SideBar.add(InfractionButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 90, 45));
 
         DriversButton.setBackground(new java.awt.Color(47, 50, 65));
-        DriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-grupos-de-usuarios-50.png"))); // NOI18N
+        DriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-grupos-de-usuarios-50.png"))); // NOI18N
+
         DriversButton.setToolTipText("");
         DriversButton.setBorder(null);
         DriversButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -93,7 +95,8 @@ public class MainScreem extends javax.swing.JFrame {
         SideBar.add(DriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 90, 45));
 
         LicensButton.setBackground(new java.awt.Color(47, 50, 65));
-        LicensButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-licencia-50.png"))); // NOI18N
+        LicensButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-licencia-50.png"))); // NOI18N
+
         LicensButton.setToolTipText("");
         LicensButton.setBorder(null);
         LicensButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -109,7 +112,7 @@ public class MainScreem extends javax.swing.JFrame {
         SideBar.add(LicensButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 90, 45));
 
         ExamButton.setBackground(new java.awt.Color(47, 50, 65));
-        ExamButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-examen-50.png"))); // NOI18N
+        ExamButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-examen-50.png"))); // NOI18N
         ExamButton.setToolTipText("");
         ExamButton.setBorder(null);
         ExamButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,7 +128,9 @@ public class MainScreem extends javax.swing.JFrame {
         SideBar.add(ExamButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 90, 45));
 
         HomeButton.setBackground(new java.awt.Color(47, 50, 65));
-        HomeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-casa-45.png"))); // NOI18N
+
+        HomeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-casa-45.png"))); // NOI18N
+
         HomeButton.setToolTipText("");
         HomeButton.setBorder(null);
         HomeButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,7 +148,8 @@ public class MainScreem extends javax.swing.JFrame {
         MainPanel.add(SideBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 1050));
 
         Content.setBackground(new java.awt.Color(23, 22, 28));
-        MainPanel.add(Content, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 1560, 1050));
+        MainPanel.add(Content, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 1350, 1050));
+
 
         getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1690, 1050));
 

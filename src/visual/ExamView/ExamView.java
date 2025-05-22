@@ -4,6 +4,9 @@
  */
 package visual.ExamView;
 
+import models.Driver;
+import models.Test;
+import services.ServicesLocator;
 import visual.CustomTable;
 import java.util.Arrays;
 import java.util.List;
@@ -25,39 +28,52 @@ public class ExamView extends javax.swing.JPanel {
     private void setupTable() {
         // 1. Configurar datos
         List<String> columns = Arrays.asList(
-            "Código", "Conductor", "Tipo", 
+            "Código","Codigo Conductor","Tipo",
             "Fecha", "Entidad", "Examinador", "Resultado"
         );
-        
-        Object[][] data = {
-            {"001-1234567-8","Juan Pérez", "Teorico", "10/05/2020", "AutoEscuela Central", "Dr.Martinez","Aprobado"},
-            {"001-1234567-8","Juan Pérez", "Practico", "24/09/2020", "AutoEscuela Central", "Lic.Rodriguez","Aprobado"},
-            {"001-1234567-8","Juan Pérez", "Medico", "30/05/2020", "AutoEscuela Central", "Dr.Perdomo","Aprobado"}
-        };
+
+        try {
+            List<Test>testBD = ServicesLocator.getInstance().getTestServices().getAllTests();
+            Object[][] data =new Object[testBD.size()][7];
+            int pos=0;
+            for (Test d : testBD) {
+                Object[] row = {d.getTestCode(),d.getDriverId(),d.getTestType(),d.getDate().toString(),d.getEntityName(),d.getExaminerName(),d.getResult()==true? "Aprobado":"Reprobado"};
+                data[pos]=row;
+                pos++;
+            }
+            CustomTable customTable = getCustomTable(columns, data);
+
+            // 4. Asignar al scroll pane
+            jScrollPane2.setViewportView(customTable);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private CustomTable getCustomTable(List<String> columns, Object[][] data) {
+        CustomTable customTable = new CustomTable(columns, data);
+
 
         // 2. Crear tabla personalizada
-        CustomTable customTable = new CustomTable(columns, data);
-        
+
+
         // 3. Configurar acción al hacer doble click
         customTable.setRowDoubleClickListener(row -> {
-            String info = "Información de la Licencia:\n\n" +
-                         "Codigo: " + customTable.getValueAt(row, 0) + "\n" +
-                         "Conductor: " + customTable.getValueAt(row, 1) + "\n" +
-                         "Tipo: " + customTable.getValueAt(row, 2) + "\n" +
-                         "Categoria: " + customTable.getValueAt(row, 3) + "\n" +
-                         "Emicion: " + customTable.getValueAt(row, 4) + "\n" +
-                         "Vencimiento:" +customTable.getValueAt(row, 5);
-            
+            String info = "Información del Conductor:\n\n" +
+                    "Nombre: " + customTable.getValueAt(row, 0) + "\n" +
+                    "Documento: " + customTable.getValueAt(row, 1) + "\n" +
+                    "Fecha Nacimiento: " + customTable.getValueAt(row, 2) + "\n" +
+                    "Teléfono: " + customTable.getValueAt(row, 3) + "\n" +
+                    "Estado Licencia: " + customTable.getValueAt(row, 4);
+
             JOptionPane.showMessageDialog(
-                this,
-                info,
-                "Detalles del Conductor",
-                JOptionPane.INFORMATION_MESSAGE
+                    this,
+                    info,
+                    "Detalles del Conductor",
+                    JOptionPane.INFORMATION_MESSAGE
             );
         });
-        
-        // 4. Asignar al scroll pane
-        jScrollPane2.setViewportView(customTable);
+        return customTable;
     }
 
     /**
@@ -99,7 +115,8 @@ public class ExamView extends javax.swing.JPanel {
                 SearchTextFieldActionPerformed(evt);
             }
         });
-        add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 50, 230, 40));
+        add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 60, 230, 40));
+
 
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
@@ -108,7 +125,8 @@ public class ExamView extends javax.swing.JPanel {
                 jLabel1MouseClicked(evt);
             }
         });
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, 40, 40));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 60, 40, 40));
+
 
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -119,7 +137,8 @@ public class ExamView extends javax.swing.JPanel {
                 AddDriversButtonActionPerformed(evt);
             }
         });
-        add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 50, 200, 40));
+        add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 60, 200, 40));
+
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));
@@ -128,19 +147,19 @@ public class ExamView extends javax.swing.JPanel {
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 100, 40));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object [][] {
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String [] {
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1470, 850));
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 850));
     }// </editor-fold>//GEN-END:initComponents
 
     private void SearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchTextFieldMouseClicked

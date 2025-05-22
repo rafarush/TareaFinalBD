@@ -7,8 +7,11 @@
 package visual.DriverView;
 
 
+import models.Driver;
+import services.ServicesLocator;
 import visual.CustomTable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -31,18 +34,35 @@ public class DriversView extends javax.swing.JPanel {
         // 1. Configurar datos
         List<String> columns = Arrays.asList(
             "Nombre", "Documento", "Fecha Nacimiento", 
-            "Teléfono", "Estado Licencia"
+            "Teléfono", "Correo"
         );
-        
-        Object[][] data = {
-            {"Juan Pérez", "001-1234567-8", "15/03/1985", "(809) 555-1234", "Vigente"},
-            {"María González", "002-7654321-9", "22/07/1990", "(809) 555-5678", "Vigente"},
-            {"Carlos Rodríguez", "003-9876543-0", "10/11/1978", "(809) 555-9012", "Suspendida"}
-        };
+
+        try {
+            List<Driver>driversBD = ServicesLocator.getInstance().getDriverServices().getAllDrivers();
+            Object[][] data =new Object[driversBD.size()][5];
+            int pos=0;
+            for (Driver d : driversBD) {
+                Object[] row = {d.getFirstName()+" "+d.getLastName(),d.getDriverId(),d.getBirthDate().toString(),d.getPhone(),d.getEmail()};
+                data[pos]=row;
+                pos++;
+            }
+            CustomTable customTable = getCustomTable(columns, data);
+
+            // 4. Asignar al scroll pane
+            jScrollPane2.setViewportView(customTable);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private CustomTable getCustomTable(List<String> columns, Object[][] data) {
+        CustomTable customTable = new CustomTable(columns, data);
+
 
         // 2. Crear tabla personalizada
-        CustomTable customTable = new CustomTable(columns, data);
-        
+
         // 3. Configurar acción al hacer doble click
         customTable.setRowDoubleClickListener(row -> {
             String info = "Información del Conductor:\n\n" +
@@ -51,7 +71,7 @@ public class DriversView extends javax.swing.JPanel {
                          "Fecha Nacimiento: " + customTable.getValueAt(row, 2) + "\n" +
                          "Teléfono: " + customTable.getValueAt(row, 3) + "\n" +
                          "Estado Licencia: " + customTable.getValueAt(row, 4);
-            
+
             JOptionPane.showMessageDialog(
                 this,
                 info,
@@ -59,9 +79,8 @@ public class DriversView extends javax.swing.JPanel {
                 JOptionPane.INFORMATION_MESSAGE
             );
         });
-        
-        // 4. Asignar al scroll pane
-        jScrollPane2.setViewportView(customTable);
+        return customTable;
+
     }
 
 
@@ -103,42 +122,45 @@ public class DriversView extends javax.swing.JPanel {
                 SearchTextFieldActionPerformed(evt);
             }
         });
-        add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 50, 230, 40));
+        add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 50, 230, 40));
 
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-búsqueda-30.png"))); // NOI18N
+
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, 40, 40));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 40, 40));
 
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        AddDriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-más-30.png"))); // NOI18N
+        AddDriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-más-30.png"))); // NOI18N
+
         AddDriversButton.setText("   Nuevo Conductor");
         AddDriversButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddDriversButtonActionPerformed(evt);
             }
         });
-        add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 50, 200, 40));
+        add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object [][] {
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String [] {
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 1470, 900));
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 1250, 900));
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void SearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextFieldActionPerformed
