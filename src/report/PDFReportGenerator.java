@@ -1,0 +1,506 @@
+package report;
+
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import dataBase.DataBaseConnection;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+
+
+
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.*;
+
+
+public class PDFReportGenerator {
+
+    public static void createCenterReportPDF() {
+        String pdfPath = "reportsPDF\\centerReporte.pdf";
+        String query = "SELECT centerCode, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.BLACK);
+
+            Paragraph title = new Paragraph("Reporte de Centro", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(Chunk.NEWLINE);
+
+            if (rs.next()) {
+                // Construir ruta absoluta dinámica para el logo
+                String basePath = System.getProperty("user.dir");
+                String logoPath = basePath + File.separator + "src" + File.separator + "utils" + File.separator + "logos" + File.separator + "PFBD.png";
+
+                try {
+                    Image logo = Image.getInstance(logoPath);
+                    logo.scaleToFit(200, 100);
+                    logo.setAlignment(Element.ALIGN_CENTER);
+                    document.add(logo);
+                    document.add(Chunk.NEWLINE);
+                } catch (Exception e) {
+                    System.out.println("No se pudo cargar la imagen del logo: " + logoPath);
+                    e.printStackTrace();
+                }
+
+                PdfPTable pdfTable = new PdfPTable(8); // Sin columna logo
+                pdfTable.setWidthPercentage(100);
+
+                String[] headers = {
+                        "Código del Centro",
+                        "Dirección Postal",
+                        "Email",
+                        "Teléfono",
+                        "Director General",
+                        "Gerente de RRHH",
+                        "Gerente de Contabilidad",
+                        "Secretario"
+                };
+
+                for (String header : headers) {
+                    PdfPCell cell = new PdfPCell(new Phrase(header, headerFont));
+                    cell.setBackgroundColor(new Color(0, 122, 204));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell.setPadding(8);
+                    pdfTable.addCell(cell);
+                }
+
+                String[] columns = {
+                        "centerCode",
+                        "postalAddress",
+                        "centerEmail",
+                        "phone",
+                        "generalDirectorName",
+                        "hrManager",
+                        "accountingManager",
+                        "secretaryName"
+                };
+
+                boolean evenRow = true;
+
+                for (String col : columns) {
+                    PdfPCell cell = new PdfPCell(new Phrase(rs.getString(col) == null ? "" : rs.getString(col), cellFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell.setPadding(6);
+                    if (evenRow) {
+                        cell.setBackgroundColor(new Color(242, 242, 242));
+                    } else {
+                        cell.setBackgroundColor(Color.WHITE);
+                    }
+                    pdfTable.addCell(cell);
+                }
+
+                document.add(pdfTable);
+
+                System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
+            } else {
+                System.out.println("No se encontraron centros en la base de datos.");
+            }
+
+            document.close();
+
+        } catch (SQLException | IOException | DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void createDriverReportPDF(int driverId) {
+        String pdfPath = "reportsPDF\\driverReporte.pdf";
+
+        String driverQuery = "SELECT firstName, lastName, birthDate, address, phone, email FROM Driver WHERE driverId = ?";
+        String licensesQuery = "SELECT licenseType, issueDate, expirationDate, restrictions, renewed, licenseStatus FROM License WHERE driverId = ?";
+        String infractionsQuery = "SELECT violationType, date, points FROM Infraction i JOIN License l ON i.licenseId = l.licenseId WHERE l.driverId = ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement driverStmt = conn.prepareStatement(driverQuery);
+             PreparedStatement licensesStmt = conn.prepareStatement(licensesQuery);
+             PreparedStatement infractionsStmt = conn.prepareStatement(infractionsQuery)) {
+
+            driverStmt.setInt(1, driverId);
+            licensesStmt.setInt(1, driverId);
+            infractionsStmt.setInt(1, driverId);
+
+            ResultSet driverRs = driverStmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLACK);
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.BLACK);
+
+            // Título general
+            Paragraph title = new Paragraph("Reporte de Conductor", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(Paragraph.getInstance("\n"));
+
+            if (driverRs.next()) {
+                // Info conductor
+                Paragraph driverInfoTitle = new Paragraph("Información del Conductor", headerFont);
+                driverInfoTitle.setAlignment(Element.ALIGN_LEFT);
+                document.add(driverInfoTitle);
+
+                PdfPTable driverTable = new PdfPTable(2);
+                driverTable.setWidthPercentage(100);
+                driverTable.setSpacingBefore(10);
+                driverTable.setSpacingAfter(20);
+
+                String[][] driverData = {
+                        {"Nombre", driverRs.getString("firstName") + " " + driverRs.getString("lastName")},
+                        {"Fecha de Nacimiento", driverRs.getDate("birthDate").toString()},
+                        {"Dirección", driverRs.getString("address")},
+                        {"Teléfono", driverRs.getString("phone")},
+                        {"Email", driverRs.getString("email")}
+                };
+
+                for (String[] row : driverData) {
+                    PdfPCell cell1 = new PdfPCell(new Phrase(row[0], headerFont));
+                    cell1.setBackgroundColor(new Color(0, 122, 204));
+                    cell1.setPadding(6);
+                    driverTable.addCell(cell1);
+
+                    PdfPCell cell2 = new PdfPCell(new Phrase(row[1] != null ? row[1] : "", cellFont));
+                    cell2.setPadding(6);
+                    driverTable.addCell(cell2);
+                }
+                document.add(driverTable);
+
+                // Licencias
+                Paragraph licensesTitle = new Paragraph("Licencias Emitidas", headerFont);
+                licensesTitle.setAlignment(Element.ALIGN_LEFT);
+                document.add(licensesTitle);
+
+                PdfPTable licensesTable = new PdfPTable(6);
+                licensesTable.setWidthPercentage(100);
+                licensesTable.setSpacingBefore(10);
+                licensesTable.setSpacingAfter(20);
+
+                String[] licensesHeaders = {"Tipo", "Fecha de Emisión", "Fecha de Vencimiento", "Restricciones", "Renovada", "Estado"};
+                for (String header : licensesHeaders) {
+                    PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
+                    headerCell.setBackgroundColor(new Color(0, 122, 204));
+                    headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    headerCell.setPadding(6);
+                    licensesTable.addCell(headerCell);
+                }
+
+                ResultSet licensesRs = licensesStmt.executeQuery();
+                boolean evenRow = false;
+                while (licensesRs.next()) {
+                    evenRow = !evenRow;
+
+                    String renewedStr = licensesRs.getBoolean("renewed") ? "Sí" : "No";
+
+                    String[] licenseRow = {
+                            licensesRs.getString("licenseType"),
+                            licensesRs.getDate("issueDate").toString(),
+                            licensesRs.getDate("expirationDate").toString(),
+                            licensesRs.getString("restrictions"),
+                            renewedStr,
+                            licensesRs.getString("licenseStatus")
+                    };
+
+                    for (String col : licenseRow) {
+                        PdfPCell cell = new PdfPCell(new Phrase(col != null ? col : "", cellFont));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell.setPadding(6);
+                        if (evenRow) cell.setBackgroundColor(new Color(242, 242, 242));
+                        licensesTable.addCell(cell);
+                    }
+                }
+                document.add(licensesTable);
+
+                // Infracciones
+                Paragraph infractionsTitle = new Paragraph("Infracciones Registradas", headerFont);
+                infractionsTitle.setAlignment(Element.ALIGN_LEFT);
+                document.add(infractionsTitle);
+
+                PdfPTable infractionsTable = new PdfPTable(3);
+                infractionsTable.setWidthPercentage(100);
+                infractionsTable.setSpacingBefore(10);
+
+                String[] infractionsHeaders = {"Tipo de Infracción", "Fecha", "Puntos"};
+                for (String header : infractionsHeaders) {
+                    PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
+                    headerCell.setBackgroundColor(new Color(0, 122, 204));
+                    headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    headerCell.setPadding(6);
+                    infractionsTable.addCell(headerCell);
+                }
+
+                ResultSet infractionsRs = infractionsStmt.executeQuery();
+                evenRow = false;
+                while (infractionsRs.next()) {
+                    evenRow = !evenRow;
+
+                    String[] infractionRow = {
+                            infractionsRs.getString("violationType"),
+                            infractionsRs.getDate("date").toString(),
+                            String.valueOf(infractionsRs.getInt("points"))
+                    };
+
+                    for (String col : infractionRow) {
+                        PdfPCell cell = new PdfPCell(new Phrase(col != null ? col : "", cellFont));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell.setPadding(6);
+                        if (evenRow) cell.setBackgroundColor(new Color(242, 242, 242));
+                        infractionsTable.addCell(cell);
+                    }
+                }
+                document.add(infractionsTable);
+
+            } else {
+                Paragraph noDriver = new Paragraph("No se encontró ningún conductor con ID: " + driverId, cellFont);
+                document.add(noDriver);
+            }
+
+            document.close();
+            System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+    public static void createRelatedEntityReportPDF(String entityName) {
+        String pdfPath = "reportsPDF/relatedEntityReporte.pdf";
+
+        String query = "SELECT entityName, entityType, address, phone, contactEmail, directorName, centerCode FROM RelatedEntity WHERE entityName = ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, entityName);
+            ResultSet rs = stmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font labelFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font valueFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.BLACK);
+
+            Paragraph title = new Paragraph("Ficha de Entidad Asociada", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(new Paragraph(" ")); // Espacio
+
+            if (rs.next()) {
+                PdfPTable table = new PdfPTable(2);
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(10f);
+                table.setSpacingAfter(10f);
+
+                addRow(table, "Nombre", rs.getString("entityName"), labelFont, valueFont);
+                addRow(table, "Tipo", rs.getString("entityType"), labelFont, valueFont);
+                addRow(table, "Dirección", rs.getString("address"), labelFont, valueFont);
+                addRow(table, "Teléfono", rs.getString("phone"), labelFont, valueFont);
+                addRow(table, "Email", rs.getString("contactEmail"), labelFont, valueFont);
+                addRow(table, "Director", rs.getString("directorName"), labelFont, valueFont);
+                addRow(table, "Código del Centro", rs.getString("centerCode"), labelFont, valueFont);
+
+                document.add(table);
+            } else {
+                document.add(new Paragraph("No se encontró ninguna entidad con el nombre: " + entityName));
+            }
+
+            document.close();
+            System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addRow(PdfPTable table, String label, String value, Font labelFont, Font valueFont) {
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
+        labelCell.setBackgroundColor(new Color(0, 122, 204)); // Azul
+        labelCell.setPadding(6);
+        labelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        labelCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+        PdfPCell valueCell = new PdfPCell(new Phrase(value != null ? value : "", valueFont));
+        valueCell.setPadding(6);
+        valueCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+        table.addCell(labelCell);
+        table.addCell(valueCell);
+    }
+
+
+
+
+
+
+
+    public static void createLicenseReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+        String pdfPath = "reportsPDF/reportLicense.pdf";
+        String query = "SELECT l.licenseId, d.firstName, d.lastName, l.licenseType, l.issueDate, l.expirationDate, l.licenseStatus " +
+                "FROM License l " +
+                "JOIN Driver d ON l.driverId = d.driverId " +
+                "WHERE l.issueDate BETWEEN ? AND ? " +
+                "ORDER BY l.issueDate";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.BLACK);
+
+            Paragraph title = new Paragraph("Reporte de Licencias Emitidas", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            document.add(new Paragraph("Desde: " + startDate + "  Hasta: " + endDate, subtitleFont));
+            document.add(Chunk.NEWLINE);
+
+            PdfPTable table = new PdfPTable(6);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            addHeaderCell(table, "Código de Licencia", headerFont);
+            addHeaderCell(table, "Nombre del Conductor", headerFont);
+            addHeaderCell(table, "Tipo de Licencia", headerFont);
+            addHeaderCell(table, "Fecha de Emisión", headerFont);
+            addHeaderCell(table, "Fecha de Vencimiento", headerFont);
+            addHeaderCell(table, "Estado", headerFont);
+
+            while (rs.next()) {
+                table.addCell(new Phrase(String.valueOf(rs.getInt("licenseId")), cellFont));
+                table.addCell(new Phrase(rs.getString("firstName") + " " + rs.getString("lastName"), cellFont));
+                table.addCell(new Phrase(rs.getString("licenseType"), cellFont));
+                table.addCell(new Phrase(rs.getDate("issueDate").toString(), cellFont));
+                table.addCell(new Phrase(rs.getDate("expirationDate").toString(), cellFont));
+                table.addCell(new Phrase(rs.getString("licenseStatus"), cellFont));
+            }
+
+            document.add(table);
+            document.close();
+
+            System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addHeaderCell(PdfPTable table, String text, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(text, font));
+        cell.setBackgroundColor(new Color(0, 122, 204)); // Azul
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setPadding(6);
+        table.addCell(cell);
+    }
+
+
+
+    public static void createTestReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+        String pdfPath = "reportsPDF/reportTest.pdf";
+        String query = "SELECT t.testCode, d.firstName, d.lastName, t.testType, t.date, t.result, t.entityName " +
+                "FROM Test t " +
+                "JOIN Driver d ON t.driverId = d.driverId " +
+                "WHERE t.date BETWEEN ? AND ? " +
+                "ORDER BY t.date";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.BLACK);
+
+            Paragraph title = new Paragraph("Reporte de Exámenes Realizados", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            document.add(new Paragraph("Desde: " + startDate + "  Hasta: " + endDate, subtitleFont));
+            document.add(Chunk.NEWLINE);
+
+            PdfPTable table = new PdfPTable(6);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            // Encabezados
+            String[] headers = {"Código del Examen", "Nombre del Conductor", "Tipo de Examen", "Fecha del Examen", "Resultado", "Entidad"};
+            for (String header : headers) {
+                PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
+                headerCell.setBackgroundColor(new Color(0, 122, 204));
+                headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                headerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                headerCell.setPadding(6);
+                table.addCell(headerCell);
+            }
+
+            // Filas
+            while (rs.next()) {
+                table.addCell(new Phrase(rs.getString("testCode"), cellFont));
+                table.addCell(new Phrase(rs.getString("firstName") + " " + rs.getString("lastName"), cellFont));
+                table.addCell(new Phrase(rs.getString("testType"), cellFont));
+                table.addCell(new Phrase(rs.getDate("date").toString(), cellFont));
+
+                // Resultado con color
+                String resultText = rs.getBoolean("result") ? "Aprobado" : "Reprobado";
+                Color resultColor = rs.getBoolean("result") ? new Color(0, 153, 0) : new Color(204, 0, 0);
+                Font resultFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, resultColor);
+                table.addCell(new Phrase(resultText, resultFont));
+
+                table.addCell(new Phrase(rs.getString("entityName"), cellFont));
+            }
+
+            document.add(table);
+            document.close();
+
+            System.out.println("Reporte PDF de exámenes generado en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+}
+
