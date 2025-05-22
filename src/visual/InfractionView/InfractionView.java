@@ -37,7 +37,7 @@ public class InfractionView extends javax.swing.JPanel {
             Object[][] data =new Object[driversBD.size()][7];
             int pos=0;
             for (Infraction d : driversBD) {
-                Object[] row = {d.getInfractionCode(),d.getLicenseId(),d.getViolationType(),d.getDate().toString(),d.getLocation(),"-"+d.getPoints(),d.getStatus()};
+                Object[] row = {d.getInfractionCode(),d.getLicenseId(),d.getViolationType(),d.getDate().toString(),d.getLocation(),"-"+d.getPoints(),d.getIspaid()};
                 data[pos]=row;
                 pos++;
             }
