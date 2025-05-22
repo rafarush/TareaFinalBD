@@ -38,19 +38,16 @@ public class Main {
                 { "3", "Luis", "28" }
         };
 
-        String desktopDir = System.getProperty("user.home") + "\\Escritorio";
-        File dir = new File(desktopDir);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        String filePath = desktopDir + "\\reporte.html";
+        String filePath="C:\\Users\\Jorgito\\OneDrive\\Desktop\\reporte.html";
 
         try {
-            HTMLReportGenerator.createHTMLReport("C:\\Users\\Jorgito\\OneDrive\\Desktop\\reporte.html", "Reporte de Usuarios", headers, data);
+            HTMLReportGenerator.createHTMLReport(filePath, "Reporte de Usuarios", headers, data);
             System.out.println("Reporte creado en: " + filePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        HTMLReportGenerator.createCenterReport(filePath);
 
     }
 }
