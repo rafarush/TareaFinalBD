@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Infraction {
     private String infractionCode;
-    private int licenseId;
+    private String licenseId;
     private String violationType;
     private Date date;
     private String location;
@@ -14,7 +14,7 @@ public class Infraction {
 
     public Infraction() {}
 
-    public Infraction(String infractionCode, int licenseId, String violationType, Date date, String location,
+    public Infraction(String infractionCode, String licenseId, String violationType, Date date, String location,
                       String description, int points, boolean ispaid) {
         setInfractionCode(infractionCode);
         setLicenseId(licenseId);
@@ -32,10 +32,10 @@ public class Infraction {
     public void setInfractionCode(String infractionCode) {
         this.infractionCode = infractionCode; }
 
-    public int getLicenseId() {
+    public String getLicenseId() {
         return licenseId; }
 
-    public void setLicenseId(int licenseId) {
+    public void setLicenseId(String licenseId) {
         this.licenseId = licenseId; }
 
     public String getViolationType() {
