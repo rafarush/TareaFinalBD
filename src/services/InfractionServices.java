@@ -2,6 +2,7 @@ package services;
 
 import dataBase.DataBaseConnection;
 import models.Infraction;
+import models.License;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -181,4 +182,32 @@ public class InfractionServices {
         }
         return isDuplicated;
     }
+
+    public ArrayList<Infraction> getRecentInfractions() {
+        ArrayList<Infraction> list = new ArrayList<>();
+        String sql = "SELECT * FROM infraction WHERE \"date\" BETWEEN (CURRENT_DATE - INTERVAL '1 week') AND CURRENT_DATE";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                Infraction infraction = new Infraction();
+                infraction.setInfractionCode(rs.getString("infractionCode"));
+                infraction.setLicenseId(rs.getInt("licenseId"));
+                infraction.setViolationType(rs.getString("violationType"));
+                infraction.setDate(rs.getDate("date"));
+                infraction.setLocation(rs.getString("location"));
+                infraction.setDescription(rs.getString("description"));
+                infraction.setPoints(rs.getInt("points"));
+                infraction.setIspaid(rs.getBoolean("ispaid"));
+                list.add(infraction);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        
+        return list;
+    }
+
 }
