@@ -10,11 +10,12 @@ package visual.DriverView;
 import models.Driver;
 import services.ServicesLocator;
 import visual.CustomTable;
+import visual.MainScreen.MainScreen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 
 /**
@@ -26,8 +27,8 @@ public class DriversView extends javax.swing.JPanel {
     /**
      * Creates new form DriversView
      */
-    public DriversView() {
-        initComponents();
+    public DriversView(MainScreen father) {
+        initComponents(father);
         setupTable();
     }
     private void setupTable() {
@@ -91,8 +92,8 @@ public class DriversView extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
+    private void initComponents(MainScreen father) {
+        MainScreen padre = father;
         TitleLabel = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -136,12 +137,24 @@ public class DriversView extends javax.swing.JPanel {
 
         AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
         AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        AddDriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-más-30.png"))); // NOI18N
+        AddDriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-más-30.png")));// NOI18N
 
         AddDriversButton.setText("   Nuevo Conductor");
-        AddDriversButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDriversButtonActionPerformed(evt);
+        AddDriversButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        AddDriver dialog = new AddDriver(padre);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                System.exit(0);
+                            }
+                        });
+                        dialog.setVisible(true);
+                    }
+                });
             }
         });
         add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));
@@ -175,11 +188,6 @@ public class DriversView extends javax.swing.JPanel {
         SearchTextField.requestFocusInWindow();
         SearchTextField.setText("");
     }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void AddDriversButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDriversButtonActionPerformed
-        
-    }//GEN-LAST:event_AddDriversButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddDriversButton;

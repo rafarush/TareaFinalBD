@@ -8,6 +8,8 @@ import models.License;
 import services.ServicesLocator;
 
 import visual.CustomTable;
+import visual.MainScreen.MainScreen;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ public class LicensView extends javax.swing.JPanel {
     /**
      * Creates new form LicensView
      */
-    public LicensView() {
+    public LicensView(MainScreen father) {
         initComponents();
         setupTable();
     }
