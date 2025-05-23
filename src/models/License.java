@@ -3,8 +3,8 @@ package models;
 import java.sql.Date;
 
 public class License {
-    private int licenseId;
-    private int driverId;
+    private String licenseId;
+    private String driverId;
     private String licenseType;
     private Date issueDate;
     private Date expirationDate;
@@ -14,7 +14,7 @@ public class License {
 
     public License() {}
 
-    public License(int licenseId, int driverId, String licenseType, Date issueDate, Date expirationDate,
+    public License(String licenseId, String driverId, String licenseType, Date issueDate, Date expirationDate,
                    String restrictions, boolean renewed, String licenseStatus) {
         setLicenseId(licenseId);
         setDriverId(driverId);
@@ -26,16 +26,16 @@ public class License {
         setLicenseStatus(licenseStatus);
     }
 
-    public int getLicenseId() {
+    public String getLicenseId() {
         return licenseId; }
 
-    public void setLicenseId(int licenseId) {
+    public void setLicenseId(String licenseId) {
         this.licenseId = licenseId; }
 
-    public int getDriverId() {
+    public String getDriverId() {
         return driverId; }
 
-    public void setDriverId(int driverId) {
+    public void setDriverId(String driverId) {
         this.driverId = driverId; }
 
     public String getLicenseType() {
