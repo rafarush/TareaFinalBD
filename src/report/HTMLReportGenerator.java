@@ -1,74 +1,59 @@
 package report;
 
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
 import dataBase.DataBaseConnection;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
 
 
-import dataBase.DataBaseConnection;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 
+
 public class HTMLReportGenerator {
-
-    public static void createHTMLReport(String filePath, String title, String[] headers, String[][] data) throws IOException {
-        try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write("<html><head><title>" + title + "</title></head><body>");
-            writer.write("<h1>" + title + "</h1>");
-            writer.write("<table border='1' cellpadding='5' cellspacing='0'>");
-
-            // Crear fila de encabezados
-            writer.write("<tr>");
-            for (String header : headers) {
-                writer.write("<th>" + header + "</th>");
-            }
-            writer.write("</tr>");
-
-            // Agregar filas de datos
-            for (String[] row : data) {
-                writer.write("<tr>");
-                for (String cell : row) {
-                    writer.write("<td>" + cell + "</td>");
-                }
-                writer.write("</tr>");
-            }
-
-            writer.write("</table>");
-            writer.write("</body></html>");
-        }
-
-    }
-
-
 
     public static void createCenterReport() {
         String filePath = "reportsHTML\\centerReporte.html";
-        String query = "SELECT centerCode, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center";
+        // Consulta con LIMIT 1 para devolver solo el primer registro
+        String query = "SELECT centerCode, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
 
         try (Connection conn = DataBaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
              FileWriter writer = new FileWriter(filePath)) {
 
-            writer.write("<html><head><title>Reporte de Centro</title>");
-            writer.write("<style>");
-            writer.write("body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }");
-            writer.write("h2 { text-align: center; color: #333; }");
-            writer.write("table { width: 100%; border-collapse: collapse; background-color: #fff; }");
-            writer.write("th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }");
-            writer.write("th { background-color: #007acc; color: white; }");
-            writer.write("tr:nth-child(even) { background-color: #f2f2f2; }");
-            writer.write("</style>");
-            writer.write("</head><body>");
-            writer.write("<h2>Reporte de Centro</h2>");
-            writer.write("<table>");
-            writer.write("<tr><th>Código del Centro</th><th>Dirección Postal</th><th>Logo</th><th>Email</th><th>Teléfono</th><th>Director General</th><th>Gerente de RRHH</th><th>Gerente de Contabilidad</th><th>Secretario</th></tr>");
+            if (rs.next()) {
+                String logoPath = rs.getString("logo");
 
-            while (rs.next()) {
+                writer.write("<html><head><title>Reporte de Centro</title>");
+                writer.write("<style>");
+                writer.write("body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }");
+                writer.write("h2 { text-align: center; color: #333; }");
+                writer.write("table { width: 100%; border-collapse: collapse; background-color: #fff; margin-top: 20px; }");
+                writer.write("th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }");
+                writer.write("th { background-color: #007acc; color: white; }");
+                writer.write("tr:nth-child(even) { background-color: #f2f2f2; }");
+                writer.write("img { display: block; margin: 0 auto 20px auto; max-width: 200px; max-height: 100px; }");
+                writer.write("</style>");
+                writer.write("</head><body>");
+                writer.write("<h2>Reporte de Centro</h2>");
+
+                // Imagen del logo antes de la tabla
+                writer.write("<img src='" + logoPath + "' alt='Logo del Centro'>");
+
+                // Tabla sin la columna logo
+                writer.write("<table>");
+                writer.write("<tr><th>Código del Centro</th><th>Dirección Postal</th><th>Email</th><th>Teléfono</th><th>Director General</th><th>Gerente de RRHH</th><th>Gerente de Contabilidad</th><th>Secretario</th></tr>");
+
                 writer.write("<tr>");
                 writer.write("<td>" + rs.getString("centerCode") + "</td>");
                 writer.write("<td>" + rs.getString("postalAddress") + "</td>");
-                writer.write("<td>" + rs.getString("logo") + "</td>");
                 writer.write("<td>" + rs.getString("centerEmail") + "</td>");
                 writer.write("<td>" + rs.getString("phone") + "</td>");
                 writer.write("<td>" + rs.getString("generalDirectorName") + "</td>");
@@ -76,16 +61,18 @@ public class HTMLReportGenerator {
                 writer.write("<td>" + rs.getString("accountingManager") + "</td>");
                 writer.write("<td>" + rs.getString("secretaryName") + "</td>");
                 writer.write("</tr>");
-            }
 
-            writer.write("</table></body></html>");
-            System.out.println("Reporte generado correctamente en: " + filePath);
+                writer.write("</table></body></html>");
+
+                System.out.println("Reporte generado correctamente en: " + filePath);
+            } else {
+                System.out.println("No se encontraron centros en la base de datos.");
+            }
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
-
 
 
     public static void createDriverReport(int driverId) {
@@ -171,9 +158,6 @@ public class HTMLReportGenerator {
         }
     }
 
-
-
-
     public static void createRelatedEntityReport(String entityName) {
         String filePath="reportsHTML\\relatedEntityReporte.html";
 
@@ -220,11 +204,6 @@ public class HTMLReportGenerator {
             e.printStackTrace();
         }
     }
-
-
-
-
-
 
     public static void createLicenseReport(java.sql.Date startDate, java.sql.Date endDate) {
         String filePath = "reportsHTML\\reportLicense.html";
@@ -278,8 +257,6 @@ public class HTMLReportGenerator {
         }
     }
 
-
-
     public static void createTestReport(java.sql.Date startDate, java.sql.Date endDate) {
         String filePath = "reportsHTML\\reportTest.html";
         String query = "SELECT t.testCode, d.firstName, d.lastName, t.testType, t.date, t.result, t.entityName " +
@@ -332,8 +309,6 @@ public class HTMLReportGenerator {
             e.printStackTrace();
         }
     }
-
-
 
 }
 
