@@ -172,11 +172,8 @@ public class DriversView extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-<<<<<<< HEAD
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 1250, 760));
-=======
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 1250, 810));
->>>>>>> master
+
 
     }// </editor-fold>//GEN-END:initComponents
 

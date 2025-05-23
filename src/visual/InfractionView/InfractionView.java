@@ -159,11 +159,8 @@ public class InfractionView extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-<<<<<<< HEAD
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 760));
-=======
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 790));
->>>>>>> master
+
 
     }// </editor-fold>//GEN-END:initComponents
 
