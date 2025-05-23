@@ -21,7 +21,7 @@ public class HTMLReportGenerator {
     public static void createCenterReport() {
         String filePath = "reportsHTML\\centerReporte.html";
         // Consulta con LIMIT 1 para devolver solo el primer registro
-        String query = "SELECT centerCode, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
+        String query = "SELECT centerName, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
 
         try (Connection conn = DataBaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -49,10 +49,10 @@ public class HTMLReportGenerator {
 
                 // Tabla sin la columna logo
                 writer.write("<table>");
-                writer.write("<tr><th>Código del Centro</th><th>Dirección Postal</th><th>Email</th><th>Teléfono</th><th>Director General</th><th>Gerente de RRHH</th><th>Gerente de Contabilidad</th><th>Secretario</th></tr>");
+                writer.write("<tr><th>Nombre del Centro</th><th>Dirección Postal</th><th>Email</th><th>Teléfono</th><th>Director General</th><th>Gerente de RRHH</th><th>Gerente de Contabilidad</th><th>Secretario</th></tr>");
 
                 writer.write("<tr>");
-                writer.write("<td>" + rs.getString("centerCode") + "</td>");
+                writer.write("<td>" + rs.getString("centerName") + "</td>");
                 writer.write("<td>" + rs.getString("postalAddress") + "</td>");
                 writer.write("<td>" + rs.getString("centerEmail") + "</td>");
                 writer.write("<td>" + rs.getString("phone") + "</td>");
