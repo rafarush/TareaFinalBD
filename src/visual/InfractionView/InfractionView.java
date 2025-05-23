@@ -8,6 +8,8 @@ import models.Driver;
 import models.Infraction;
 import services.ServicesLocator;
 import visual.CustomTable;
+import visual.MainScreen.MainScreen;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ public class InfractionView extends javax.swing.JPanel {
     /**
      * Creates new form InfractionView
      */
-    public InfractionView() {
+    public InfractionView(MainScreen father) {
         initComponents();
         setupTable();
     }

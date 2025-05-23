@@ -174,7 +174,7 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_ExamButtonActionPerformed
 
     private void DriversButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DriversButtonMouseClicked
-        DriversView p2 = new DriversView();
+        DriversView p2 = new DriversView(this);
         p2.setSize(1560, 1050);
         p2.setLocation(0,0);
         
@@ -200,7 +200,7 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_LicensButtonActionPerformed
 
     private void LicensButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LicensButtonMouseClicked
-        LicensView p3 = new LicensView();
+        LicensView p3 = new LicensView(this);
         p3.setSize(1560, 1050);
         p3.setLocation(0,0);
         
@@ -212,7 +212,7 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_LicensButtonMouseClicked
 
     private void ExamButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExamButtonMouseClicked
-        ExamView p4 = new ExamView();
+        ExamView p4 = new ExamView(this);
         p4.setSize(1560, 1050);
         p4.setLocation(0,0);
         
@@ -224,7 +224,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void InfractionButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InfractionButtonMouseClicked
         // TODO add your handling code here:
-        InfractionView p5 = new InfractionView();
+        InfractionView p5 = new InfractionView(this);
         p5.setSize(1560, 1050);
         p5.setLocation(0,0);
         
@@ -234,7 +234,46 @@ public class MainScreen extends javax.swing.JFrame {
         Content.repaint();
     }//GEN-LAST:event_InfractionButtonMouseClicked
 
-   
+   public void Actualizar(int pantalla){
+        switch(pantalla){
+            case 1: DriversView p2 = new DriversView(this);
+                p2.setSize(1560, 1050);
+                p2.setLocation(0,0);
+
+                Content.removeAll();
+                Content.add(p2,BorderLayout.CENTER);
+                Content.revalidate();
+                Content.repaint();
+                break;
+            case 2: LicensView p3 = new LicensView(this);
+                p3.setSize(1560, 1050);
+                p3.setLocation(0,0);
+
+                Content.removeAll();
+                Content.add(p3,BorderLayout.CENTER);
+                Content.revalidate();
+                Content.repaint();
+                break;
+                case 3: ExamView p4 = new ExamView(this);
+                    p4.setSize(1560, 1050);
+                    p4.setLocation(0,0);
+
+                    Content.removeAll();
+                    Content.add(p4,BorderLayout.CENTER);
+                    Content.revalidate();
+                    Content.repaint();
+                    break;
+                    case 4:InfractionView p5 = new InfractionView(this);
+                        p5.setSize(1560, 1050);
+                        p5.setLocation(0,0);
+
+                        Content.removeAll();
+                        Content.add(p5,BorderLayout.CENTER);
+                        Content.revalidate();
+                        Content.repaint();
+                        break;
+        }
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Content;

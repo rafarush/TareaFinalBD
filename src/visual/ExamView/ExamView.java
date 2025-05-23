@@ -8,6 +8,8 @@ import models.Driver;
 import models.Test;
 import services.ServicesLocator;
 import visual.CustomTable;
+import visual.MainScreen.MainScreen;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ public class ExamView extends javax.swing.JPanel {
     /**
      * Creates new form ExamView
      */
-    public ExamView() {
+    public ExamView(MainScreen father) {
         initComponents();
         setupTable();
     }
