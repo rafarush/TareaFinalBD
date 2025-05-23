@@ -19,8 +19,8 @@ public class LicenseServices {
                 try (Connection conn = DataBaseConnection.getConnection();
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                    pstmt.setInt(1, license.getLicenseId());
-                    pstmt.setInt(2, license.getDriverId());
+                    pstmt.setString(1, license.getLicenseId());
+                    pstmt.setString(2, license.getDriverId());
                     pstmt.setString(3, license.getLicenseType());
                     pstmt.setDate(4, license.getIssueDate());
                     pstmt.setDate(5, license.getExpirationDate());
@@ -52,8 +52,8 @@ public class LicenseServices {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     license = new License();
-                    license.setLicenseId(rs.getInt("licenseId"));
-                    license.setDriverId(rs.getInt("driverId"));
+                    license.setLicenseId(rs.getString("licenseId"));
+                    license.setDriverId(rs.getString("driverId"));
                     license.setLicenseType(rs.getString("licenseType"));
                     license.setIssueDate(rs.getDate("issueDate"));
                     license.setExpirationDate(rs.getDate("expirationDate"));
@@ -78,8 +78,8 @@ public class LicenseServices {
 
             while (rs.next()) {
                 License license = new License();
-                license.setLicenseId(rs.getInt("licenseId"));
-                license.setDriverId(rs.getInt("driverId"));
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("driverId"));
                 license.setLicenseType(rs.getString("licenseType"));
                 license.setIssueDate(rs.getDate("issueDate"));
                 license.setExpirationDate(rs.getDate("expirationDate"));
@@ -102,14 +102,14 @@ public class LicenseServices {
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setInt(1, license.getDriverId());
+                pstmt.setString(1, license.getDriverId());
                 pstmt.setString(2, license.getLicenseType());
                 pstmt.setDate(3, license.getIssueDate());
                 pstmt.setDate(4, license.getExpirationDate());
                 pstmt.setString(5, license.getRestrictions());
                 pstmt.setBoolean(6, license.isRenewed());
                 pstmt.setString(7, license.getLicenseStatus());
-                pstmt.setInt(8, license.getLicenseId());
+                pstmt.setString(8, license.getLicenseId());
 
                 int affectedrows = pstmt.executeUpdate();
 
@@ -126,12 +126,12 @@ public class LicenseServices {
 
     }
 
-    public void deleteLicense(int licenseId) {
+    public void deleteLicense(String licenseId) {
         String sql = "DELETE FROM License WHERE licenseId = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, licenseId);
+            pstmt.setString(1, licenseId);
             int affectedrows = pstmt.executeUpdate();
 
             if (affectedrows == 0) {
@@ -202,8 +202,8 @@ public class LicenseServices {
 
             while (rs.next()) {
                 License license = new License();
-                license.setLicenseId(rs.getInt("licenseId"));
-                license.setDriverId(rs.getInt("driverId"));
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("driverId"));
                 license.setLicenseType(rs.getString("licenseType"));
                 license.setIssueDate(rs.getDate("issueDate"));
                 license.setExpirationDate(rs.getDate("expirationDate"));
