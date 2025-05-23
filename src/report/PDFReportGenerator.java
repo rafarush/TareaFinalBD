@@ -116,21 +116,25 @@ public class PDFReportGenerator {
     }
 
 
-    public static void createDriverReportPDF(int driverId) {
+
+    public static void createDriverReportPDF(String driverId) {
         String pdfPath = "reportsPDF\\driverReporte.pdf";
 
-        String driverQuery = "SELECT firstName, lastName, birthDate, address, phone, email FROM Driver WHERE driverId = ?";
-        String licensesQuery = "SELECT licenseType, issueDate, expirationDate, restrictions, renewed, licenseStatus FROM License WHERE driverId = ?";
-        String infractionsQuery = "SELECT violationType, date, points FROM Infraction i JOIN License l ON i.licenseId = l.licenseId WHERE l.driverId = ?";
+        String driverQuery = "SELECT firstname, lastname, birthdate, address, phone, email FROM driver WHERE driverid = ?";
+        String licensesQuery = "SELECT licensetype, issuedate, expirationdate, restrictions, renewed, licensestatus FROM license WHERE driverid = ?";
+        String infractionsQuery = "SELECT i.violationtype, i.date, i.points " +
+                "FROM infraction i " +
+                "JOIN license l ON i.licenseid = l.licenseid " +
+                "WHERE l.driverid = ?";
 
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement driverStmt = conn.prepareStatement(driverQuery);
              PreparedStatement licensesStmt = conn.prepareStatement(licensesQuery);
              PreparedStatement infractionsStmt = conn.prepareStatement(infractionsQuery)) {
 
-            driverStmt.setInt(1, driverId);
-            licensesStmt.setInt(1, driverId);
-            infractionsStmt.setInt(1, driverId);
+            driverStmt.setString(1, driverId);
+            licensesStmt.setString(1, driverId);
+            infractionsStmt.setString(1, driverId);
 
             ResultSet driverRs = driverStmt.executeQuery();
 
@@ -138,6 +142,7 @@ public class PDFReportGenerator {
             PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
             document.open();
 
+            // Usar java.awt.Color directamente
             Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLACK);
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
             Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.BLACK);
@@ -146,7 +151,7 @@ public class PDFReportGenerator {
             Paragraph title = new Paragraph("Reporte de Conductor", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
-            document.add(Paragraph.getInstance("\n"));
+            document.add(new Paragraph("\n"));
 
             if (driverRs.next()) {
                 // Info conductor
@@ -160,8 +165,8 @@ public class PDFReportGenerator {
                 driverTable.setSpacingAfter(20);
 
                 String[][] driverData = {
-                        {"Nombre", driverRs.getString("firstName") + " " + driverRs.getString("lastName")},
-                        {"Fecha de Nacimiento", driverRs.getDate("birthDate").toString()},
+                        {"Nombre", driverRs.getString("firstname") + " " + driverRs.getString("lastname")},
+                        {"Fecha de Nacimiento", driverRs.getDate("birthdate") != null ? driverRs.getDate("birthdate").toString() : ""},
                         {"Dirección", driverRs.getString("address")},
                         {"Teléfono", driverRs.getString("phone")},
                         {"Email", driverRs.getString("email")}
@@ -198,28 +203,29 @@ public class PDFReportGenerator {
                     licensesTable.addCell(headerCell);
                 }
 
-                ResultSet licensesRs = licensesStmt.executeQuery();
-                boolean evenRow = false;
-                while (licensesRs.next()) {
-                    evenRow = !evenRow;
+                try (ResultSet licensesRs = licensesStmt.executeQuery()) {
+                    boolean evenRow = false;
+                    while (licensesRs.next()) {
+                        evenRow = !evenRow;
 
-                    String renewedStr = licensesRs.getBoolean("renewed") ? "Sí" : "No";
+                        String renewedStr = licensesRs.getBoolean("renewed") ? "Sí" : "No";
 
-                    String[] licenseRow = {
-                            licensesRs.getString("licenseType"),
-                            licensesRs.getDate("issueDate").toString(),
-                            licensesRs.getDate("expirationDate").toString(),
-                            licensesRs.getString("restrictions"),
-                            renewedStr,
-                            licensesRs.getString("licenseStatus")
-                    };
+                        String[] licenseRow = {
+                                licensesRs.getString("licensetype"),
+                                licensesRs.getDate("issuedate") != null ? licensesRs.getDate("issuedate").toString() : "",
+                                licensesRs.getDate("expirationdate") != null ? licensesRs.getDate("expirationdate").toString() : "",
+                                licensesRs.getString("restrictions"),
+                                renewedStr,
+                                licensesRs.getString("licensestatus")
+                        };
 
-                    for (String col : licenseRow) {
-                        PdfPCell cell = new PdfPCell(new Phrase(col != null ? col : "", cellFont));
-                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cell.setPadding(6);
-                        if (evenRow) cell.setBackgroundColor(new Color(242, 242, 242));
-                        licensesTable.addCell(cell);
+                        for (String col : licenseRow) {
+                            PdfPCell cell = new PdfPCell(new Phrase(col != null ? col : "", cellFont));
+                            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell.setPadding(6);
+                            if (evenRow) cell.setBackgroundColor(new Color(242, 242, 242));
+                            licensesTable.addCell(cell);
+                        }
                     }
                 }
                 document.add(licensesTable);
@@ -242,23 +248,24 @@ public class PDFReportGenerator {
                     infractionsTable.addCell(headerCell);
                 }
 
-                ResultSet infractionsRs = infractionsStmt.executeQuery();
-                evenRow = false;
-                while (infractionsRs.next()) {
-                    evenRow = !evenRow;
+                try (ResultSet infractionsRs = infractionsStmt.executeQuery()) {
+                    boolean evenRow = false;
+                    while (infractionsRs.next()) {
+                        evenRow = !evenRow;
 
-                    String[] infractionRow = {
-                            infractionsRs.getString("violationType"),
-                            infractionsRs.getDate("date").toString(),
-                            String.valueOf(infractionsRs.getInt("points"))
-                    };
+                        String[] infractionRow = {
+                                infractionsRs.getString("violationtype"),
+                                infractionsRs.getDate("date") != null ? infractionsRs.getDate("date").toString() : "",
+                                String.valueOf(infractionsRs.getInt("points"))
+                        };
 
-                    for (String col : infractionRow) {
-                        PdfPCell cell = new PdfPCell(new Phrase(col != null ? col : "", cellFont));
-                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cell.setPadding(6);
-                        if (evenRow) cell.setBackgroundColor(new Color(242, 242, 242));
-                        infractionsTable.addCell(cell);
+                        for (String col : infractionRow) {
+                            PdfPCell cell = new PdfPCell(new Phrase(col != null ? col : "", cellFont));
+                            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell.setPadding(6);
+                            if (evenRow) cell.setBackgroundColor(new Color(242, 242, 242));
+                            infractionsTable.addCell(cell);
+                        }
                     }
                 }
                 document.add(infractionsTable);
@@ -275,6 +282,9 @@ public class PDFReportGenerator {
             e.printStackTrace();
         }
     }
+
+
+
 
 
 
@@ -497,6 +507,208 @@ public class PDFReportGenerator {
             e.printStackTrace();
         }
     }
+
+
+
+
+    public static void createInfractionReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+        String pdfPath = "reportsPDF/reportInfraction.pdf";
+        String query = "SELECT i.infractioncode, d.firstname, d.lastname, i.violationtype, i.date, i.location, i.points, i.ispaid " +
+                "FROM infraction i " +
+                "JOIN license l ON i.licenseid = l.licenseid " +
+                "JOIN driver d ON l.driverid = d.driverid " +
+                "WHERE i.date BETWEEN ? AND ? " +
+                "ORDER BY i.date";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.BLACK);
+
+            Paragraph title = new Paragraph("Reporte de Infracciones Registradas", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            document.add(new Paragraph("Desde: " + startDate + "  Hasta: " + endDate, subtitleFont));
+            document.add(Chunk.NEWLINE);
+
+            PdfPTable table = new PdfPTable(7);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            addHeaderCell(table, "Código de Infracción", headerFont);
+            addHeaderCell(table, "Nombre del Conductor", headerFont);
+            addHeaderCell(table, "Tipo de Infracción", headerFont);
+            addHeaderCell(table, "Fecha", headerFont);
+            addHeaderCell(table, "Lugar", headerFont);
+            addHeaderCell(table, "Puntos", headerFont);
+            addHeaderCell(table, "Estado", headerFont);
+
+            while (rs.next()) {
+                table.addCell(new Phrase(rs.getString("infractioncode"), cellFont));
+                table.addCell(new Phrase(rs.getString("firstname") + " " + rs.getString("lastname"), cellFont));
+                table.addCell(new Phrase(rs.getString("violationtype"), cellFont));
+                table.addCell(new Phrase(rs.getDate("date").toString(), cellFont));
+                table.addCell(new Phrase(rs.getString("location"), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getInt("points")), cellFont));
+                String estado = rs.getBoolean("ispaid") ? "Pagada" : "Pendiente";
+                table.addCell(new Phrase(estado, cellFont));
+            }
+
+            document.add(table);
+            document.close();
+
+            System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public static void createConsolidatedInfractionReportPDF(int year) {
+        String pdfPath = "reportsPDF/reportConsolidatedInfraction.pdf";
+        String query = "SELECT violationType, COUNT(*) AS totalInfractions, " +
+                "SUM(points) AS totalPoints, " +
+                "SUM(CASE WHEN isPaid THEN 1 ELSE 0 END) AS totalPaid, " +
+                "SUM(CASE WHEN NOT isPaid THEN 1 ELSE 0 END) AS totalPending " +
+                "FROM infraction " +
+                "WHERE EXTRACT(YEAR FROM date) = ? " +
+                "GROUP BY violationType " +
+                "ORDER BY violationType";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, year);
+            ResultSet rs = stmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.BLACK);
+
+            Paragraph title = new Paragraph("Reporte Consolidado de Infracciones por Tipo - Año " + year, titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            document.add(new Paragraph("Año: " + year, subtitleFont));
+            document.add(Chunk.NEWLINE);
+
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            addHeaderCell(table, "Tipo de Infracción", headerFont);
+            addHeaderCell(table, "Cantidad de Infracciones", headerFont);
+            addHeaderCell(table, "Puntos Totales Deducidos", headerFont);
+            addHeaderCell(table, "Multas Pagadas", headerFont);
+            addHeaderCell(table, "Multas Pendientes", headerFont);
+
+            while (rs.next()) {
+                table.addCell(new Phrase(rs.getString("violationType"), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getInt("totalInfractions")), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getInt("totalPoints")), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getInt("totalPaid")), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getInt("totalPending")), cellFont));
+            }
+
+            document.add(table);
+            document.close();
+
+            System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    public static void createExpiredLicensesReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+        String pdfPath = "reportsPDF/reportExpiredLicenses.pdf";
+        String query = "SELECT d.firstName, d.lastName, d.driverId, l.licenseType, l.expirationDate, l.licenseStatus " +
+                "FROM License l " +
+                "JOIN Driver d ON l.driverId = d.driverId " +
+                "WHERE l.expirationDate BETWEEN ? AND ? " +
+                "AND l.expirationDate < CURRENT_DATE " +
+                "ORDER BY l.expirationDate";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.BLACK);
+
+            // Título
+            Paragraph title = new Paragraph("Reporte de Licencias Vencidas", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            // Subtítulo con fechas
+            document.add(new Paragraph("Desde: " + startDate + "  Hasta: " + endDate, subtitleFont));
+            document.add(Chunk.NEWLINE);
+
+            // Tabla con 5 columnas
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            addHeaderCell(table, "Nombre del Conductor", headerFont);
+            addHeaderCell(table, "Número de Documento", headerFont);
+            addHeaderCell(table, "Tipo de Licencia", headerFont);
+            addHeaderCell(table, "Fecha de Vencimiento", headerFont);
+            addHeaderCell(table, "Estado de la Licencia", headerFont);
+
+            while (rs.next()) {
+                table.addCell(new Phrase(rs.getString("firstName") + " " + rs.getString("lastName"), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getInt("driverId")), cellFont));
+                table.addCell(new Phrase(rs.getString("licenseType"), cellFont));
+                table.addCell(new Phrase(rs.getDate("expirationDate").toString(), cellFont));
+                table.addCell(new Phrase(rs.getString("licenseStatus"), cellFont));
+            }
+
+            document.add(table);
+            document.close();
+
+            System.out.println("Reporte PDF de licencias vencidas generado en: " + pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 
