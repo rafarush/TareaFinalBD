@@ -692,7 +692,7 @@ public class PDFReportGenerator {
 
             while (rs.next()) {
                 table.addCell(new Phrase(rs.getString("firstName") + " " + rs.getString("lastName"), cellFont));
-                table.addCell(new Phrase(String.valueOf(rs.getInt("driverId")), cellFont));
+                table.addCell(new Phrase(String.valueOf(rs.getString("driverId")), cellFont));
                 table.addCell(new Phrase(rs.getString("licenseType"), cellFont));
                 table.addCell(new Phrase(rs.getDate("expirationDate").toString(), cellFont));
                 table.addCell(new Phrase(rs.getString("licenseStatus"), cellFont));
