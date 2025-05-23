@@ -3,7 +3,7 @@ package models;
 import java.sql.Date;
 
 public class Driver {
-    private int driverId;
+    private String driverId;
     private String firstName;
     private String lastName;
     private Date birthDate;
@@ -13,7 +13,7 @@ public class Driver {
 
     public Driver() {}
 
-    public Driver(int driverId, String firstName, String lastName, Date birthDate,
+    public Driver(String driverId, String firstName, String lastName, Date birthDate,
                   String address, String phone, String email) {
         setDriverId(driverId);
         setFirstName(firstName);
@@ -24,10 +24,10 @@ public class Driver {
         setEmail(email);
     }
 
-    public int getDriverId() {
+    public String getDriverId() {
         return driverId; }
 
-    public void setDriverId(int driverId) {
+    public void setDriverId(String driverId) {
         this.driverId = driverId; }
 
     public String getFirstName() {
