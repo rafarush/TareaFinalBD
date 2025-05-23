@@ -25,7 +25,7 @@ public class TestServices {
             pstmt.setBoolean(4, test.getResult());
             pstmt.setString(5, test.getEntityName());
             pstmt.setString(6, test.getExaminerName());
-            pstmt.setInt(7, test.getDriverId());
+            pstmt.setString(7, test.getDriverId());
             pstmt.setString(8, test.getLicenseType());
 
             pstmt.executeUpdate();
@@ -51,7 +51,7 @@ public class TestServices {
                     test.setResult(rs.getBoolean("result"));
                     test.setEntityName(rs.getString("entityName"));
                     test.setExaminerName(rs.getString("examinerName"));
-                    test.setDriverId(rs.getInt("driverId"));
+                    test.setDriverId(rs.getString("driverId"));
                     test.setLicenseType(rs.getString("licensetype"));
                 }
             }
@@ -77,7 +77,7 @@ public class TestServices {
                 test.setResult(rs.getBoolean("result"));
                 test.setEntityName(rs.getString("entityName"));
                 test.setExaminerName(rs.getString("examinerName"));
-                test.setDriverId(rs.getInt("driverId"));
+                test.setDriverId(rs.getString("driverId"));
                 test.setLicenseType(rs.getString("licensetype"));
                 list.add(test);
             }
@@ -101,7 +101,7 @@ public class TestServices {
             pstmt.setBoolean(3, test.getResult());
             pstmt.setString(4, test.getEntityName());
             pstmt.setString(5, test.getExaminerName());
-            pstmt.setInt(6, test.getDriverId());
+            pstmt.setString(6, test.getDriverId());
             pstmt.setString(7, test.getTestCode());
             pstmt.setString(8, test.getLicenseType());
 
@@ -159,7 +159,7 @@ public class TestServices {
                 test.setResult(rs.getBoolean("result"));
                 test.setEntityName(rs.getString("entityName"));
                 test.setExaminerName(rs.getString("examinerName"));
-                test.setDriverId(rs.getInt("driverId"));
+                test.setDriverId(rs.getString("driverId"));
                 test.setLicenseType(rs.getString("licensetype"));
                 list.add(test);
             }

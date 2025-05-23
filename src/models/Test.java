@@ -9,13 +9,13 @@ public class Test {
     private boolean result;
     private String entityName;
     private String examinerName;
-    private int driverId;
+    private String driverId;
     private String licenseType;
 
     public Test() {}
 
     public Test(String testCode, String testType, Date date, boolean result, String entityName,
-                String examinerName, int driverId, String licenseType) {
+                String examinerName, String driverId, String licenseType) {
         setTestCode(testCode);
         setTestType(testType);
         setDate(date);
@@ -44,8 +44,8 @@ public class Test {
     public String getExaminerName() { return examinerName; }
     public void setExaminerName(String examinerName) { this.examinerName = examinerName; }
 
-    public int getDriverId() { return driverId; }
-    public void setDriverId(int driverId) { this.driverId = driverId; }
+    public String getDriverId() { return driverId; }
+    public void setDriverId(String driverId) { this.driverId = driverId; }
 
     public String getLicenseType() { return licenseType; }
     public void setLicenseType(String licenseType) { this.licenseType = licenseType; }
