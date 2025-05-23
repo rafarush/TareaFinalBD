@@ -177,8 +177,7 @@ public class AddDriver extends javax.swing.JDialog {
                                 try{
                                     //int driverId, String firstName, String lastName, Date birthDate,
                                     //                  String address, String phone, String email
-                                   int carnet = Integer.parseInt(carnetID);
-                                    ServicesLocator.getInstance().getDriverServices().createDriver(new Driver(carnet,firstName,lastName,fechaSQL,address,phone,email));
+                                    ServicesLocator.getInstance().getDriverServices().createDriver(new Driver(carnetID,firstName,lastName,fechaSQL,address,phone,email));
                                     father.Actualizar(1);
                                     dispose();
 

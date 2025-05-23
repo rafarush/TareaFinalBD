@@ -12,7 +12,7 @@ public class DriverServices {
 
     public void createDriver(Driver driver) throws Exception {
         if (driver != null) {
-            if (isDuplicated(driver.getDriverId())){
+            if (!isDuplicated(driver.getDriverId())){
                 String sql = "INSERT INTO Driver (driverId, firstName, lastName, birthDate, address, phone, email) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = DataBaseConnection.getConnection();
