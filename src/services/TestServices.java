@@ -11,6 +11,9 @@ import java.util.NoSuchElementException;
 public class TestServices {
 
     public void createTest(Test test) {
+        if (test == null) {
+            throw new NullPointerException("The test is null");
+        }
         String sql = "INSERT INTO Test (testCode, testType, date, result, entityName, examinerName, driverId, licensetype) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DataBaseConnection.getConnection();
@@ -86,6 +89,9 @@ public class TestServices {
     }
 
     public void updateTest(Test test) {
+        if (test == null) {
+            throw new NullPointerException("The test is null");
+        }
         String sql = "UPDATE Test SET testType = ?, date = ?, result = ?, entityName = ?, examinerName = ?, driverId = ?, licensetype = ? WHERE testCode = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -99,7 +105,11 @@ public class TestServices {
             pstmt.setString(7, test.getTestCode());
             pstmt.setString(8, test.getLicenseType());
 
-            pstmt.executeUpdate();
+            int affectedrows = pstmt.executeUpdate();
+
+            if (affectedrows == 0) {
+                throw new NoSuchElementException("There is not record of the license category: " + test.getTestCode());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,12 +117,19 @@ public class TestServices {
     }
 
     public void deleteTest(String testCode) {
+        if (testCode == null) {
+            throw new NullPointerException("The test is null");
+        }
         String sql = "DELETE FROM Test WHERE testCode = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, testCode);
-            pstmt.executeUpdate();
+            int affectedrows = pstmt.executeUpdate();
+
+            if (affectedrows == 0) {
+                throw new NoSuchElementException("There is not record of the license category: " + testCode);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
