@@ -18,7 +18,7 @@ public class DriverServices {
                 try (Connection conn = DataBaseConnection.getConnection();
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                    pstmt.setInt(1, driver.getDriverId());
+                    pstmt.setString(1, driver.getDriverId());
                     pstmt.setString(2, driver.getFirstName());
                     pstmt.setString(3, driver.getLastName());
                     pstmt.setDate(4, driver.getBirthDate());
@@ -40,17 +40,17 @@ public class DriverServices {
 
     }
 
-    public Driver obtainDriver(int driverId) {
+    public Driver obtainDriver(String driverId) {
         Driver driver = null;
         String sql = "SELECT * FROM Driver WHERE driverId = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, driverId);
+            pstmt.setString(1, driverId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     driver = new Driver();
-                    driver.setDriverId(rs.getInt("driverId"));
+                    driver.setDriverId(rs.getString("driverId"));
                     driver.setFirstName(rs.getString("firstName"));
                     driver.setLastName(rs.getString("lastName"));
                     driver.setBirthDate(rs.getDate("birthDate"));
@@ -75,7 +75,7 @@ public class DriverServices {
 
             while (rs.next()) {
                 Driver driver = new Driver();
-                driver.setDriverId(rs.getInt("driverId"));
+                driver.setDriverId(rs.getString("driverId"));
                 driver.setFirstName(rs.getString("firstName"));
                 driver.setLastName(rs.getString("lastName"));
                 driver.setBirthDate(rs.getDate("birthDate"));
@@ -103,7 +103,7 @@ public class DriverServices {
                 pstmt.setString(4, driver.getAddress());
                 pstmt.setString(5, driver.getPhone());
                 pstmt.setString(6, driver.getEmail());
-                pstmt.setInt(7, driver.getDriverId());
+                pstmt.setString(7, driver.getDriverId());
 
                 int affectedRows = pstmt.executeUpdate();
 
@@ -119,12 +119,12 @@ public class DriverServices {
         }
     }
 
-    public void deleteDriver(int driverId) {
+    public void deleteDriver(String driverId) {
         String sql = "DELETE FROM Driver WHERE driverId = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, driverId);
+            pstmt.setString(1, driverId);
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
@@ -156,12 +156,12 @@ public class DriverServices {
         return count;
     }
 
-    public boolean isDuplicated(int id) {
+    public boolean isDuplicated(String id) {
         boolean isDuplicated = false;
         String sql = "Select * from driver where driverid = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
+            pstmt.setString(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     isDuplicated = true;
