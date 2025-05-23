@@ -96,25 +96,34 @@ public class LicenseServices {
     }
 
     public void updateLicense(License license) {
-        String sql = "UPDATE License SET driverId = ?, licenseType = ?, issueDate = ?, expirationDate = ?, " +
-                "restrictions = ?, renewed = ?, licenseStatus = ? WHERE licenseId = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (license != null) {
+            String sql = "UPDATE License SET driverId = ?, licenseType = ?, issueDate = ?, expirationDate = ?, " +
+                    "restrictions = ?, renewed = ?, licenseStatus = ? WHERE licenseId = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, license.getDriverId());
-            pstmt.setString(2, license.getLicenseType());
-            pstmt.setDate(3, license.getIssueDate());
-            pstmt.setDate(4, license.getExpirationDate());
-            pstmt.setString(5, license.getRestrictions());
-            pstmt.setBoolean(6, license.isRenewed());
-            pstmt.setString(7, license.getLicenseStatus());
-            pstmt.setInt(8, license.getLicenseId());
+                pstmt.setInt(1, license.getDriverId());
+                pstmt.setString(2, license.getLicenseType());
+                pstmt.setDate(3, license.getIssueDate());
+                pstmt.setDate(4, license.getExpirationDate());
+                pstmt.setString(5, license.getRestrictions());
+                pstmt.setBoolean(6, license.isRenewed());
+                pstmt.setString(7, license.getLicenseStatus());
+                pstmt.setInt(8, license.getLicenseId());
 
-            pstmt.executeUpdate();
+                int affectedrows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedrows == 0) {
+                    throw new NoSuchElementException("There is not record of the license: " + license.getLicenseId());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License is null");
         }
+
     }
 
     public void deleteLicense(int licenseId) {
@@ -123,7 +132,12 @@ public class LicenseServices {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, licenseId);
-            pstmt.executeUpdate();
+            int affectedrows = pstmt.executeUpdate();
+
+            if (affectedrows == 0) {
+                throw new NoSuchElementException("There is not record of the license: " + licenseId);
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
