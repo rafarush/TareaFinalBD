@@ -20,7 +20,7 @@ public class PDFReportGenerator {
 
     public static void createCenterReportPDF() {
         String pdfPath = "reportsPDF\\centerReporte.pdf";
-        String query = "SELECT centerCode, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
+        String query = "SELECT centerName, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
 
         try (Connection conn = DataBaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -58,7 +58,7 @@ public class PDFReportGenerator {
                 pdfTable.setWidthPercentage(100);
 
                 String[] headers = {
-                        "Código del Centro",
+                        "Nombre del Centro",
                         "Dirección Postal",
                         "Email",
                         "Teléfono",
@@ -77,7 +77,7 @@ public class PDFReportGenerator {
                 }
 
                 String[] columns = {
-                        "centerCode",
+                        "centerName",
                         "postalAddress",
                         "centerEmail",
                         "phone",
