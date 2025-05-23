@@ -1,5 +1,8 @@
 package utils;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class Validations {
     public static boolean validarCarnet(String cadena) {
         boolean valido = true;
@@ -71,4 +74,34 @@ public class Validations {
         }
         return valido;
     }
+
+
+
+    public static Date extractBirthdateFromCI(String ci) {
+        if (ci == null || ci.length() < 6) {
+            throw new IllegalArgumentException("Carné de identidad inválido.");
+        }
+
+        try {
+            String aa = ci.substring(0, 2);
+            String mm = ci.substring(2, 4);
+            String dd = ci.substring(4, 6);
+
+            int year = Integer.parseInt(aa);
+            int month = Integer.parseInt(mm);
+            int day = Integer.parseInt(dd);
+
+            // Asumimos que nadie tiene más de 100 años
+            int currentYear = LocalDate.now().getYear() % 100;
+            int century = (year <= currentYear) ? 2000 : 1900;
+
+            LocalDate birthDate = LocalDate.of(century + year, month, day);
+            return Date.valueOf(birthDate); // Convertimos a java.sql.Date
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al procesar el carné de identidad: " + e.getMessage());
+        }
+    }
+
+
 }

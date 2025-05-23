@@ -168,8 +168,9 @@ public class AddDriver extends javax.swing.JDialog {
                 String lastName = lastNameTextField.getText();
                 String address = addressjTextField.getText();
                 String phone = phoneTextField.getText();
-                Date fechaActual = new Date(2020, 8, 1);
-                java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
+                //Date fechaActual = new Date(2020, 8, 1);
+                //java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
+                java.sql.Date fechaSQL = Validations.extractBirthdateFromCI(carnetID);
                 if(carnetID!=null && !Objects.equals(email, "") && !Objects.equals(firstName, "") && !Objects.equals(lastName, "") && !Objects.equals(address, "") && !Objects.equals(phone, "")){
                     if (carnetID.length()==carnetIDJTextField1.getLimite()){
                         if(Validations.validarCarnet(carnetID)){
