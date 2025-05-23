@@ -20,7 +20,7 @@ public class InfractionServices {
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
                     pstmt.setString(1, infraction.getInfractionCode());
-                    pstmt.setInt(2, infraction.getLicenseId());
+                    pstmt.setString(2, infraction.getLicenseId());
                     pstmt.setString(3, infraction.getViolationType());
                     pstmt.setDate(4, infraction.getDate());
                     pstmt.setString(5, infraction.getLocation());
@@ -51,7 +51,7 @@ public class InfractionServices {
                 if (rs.next()) {
                     infraction = new Infraction();
                     infraction.setInfractionCode(rs.getString("infractionCode"));
-                    infraction.setLicenseId(rs.getInt("licenseId"));
+                    infraction.setLicenseId(rs.getString("licenseId"));
                     infraction.setViolationType(rs.getString("violationType"));
                     infraction.setDate(rs.getDate("date"));
                     infraction.setLocation(rs.getString("location"));
@@ -77,7 +77,7 @@ public class InfractionServices {
             while (rs.next()) {
                 Infraction infraction = new Infraction();
                 infraction.setInfractionCode(rs.getString("infractionCode"));
-                infraction.setLicenseId(rs.getInt("licenseId"));
+                infraction.setLicenseId(rs.getString("licenseId"));
                 infraction.setViolationType(rs.getString("violationType"));
                 infraction.setDate(rs.getDate("date"));
                 infraction.setLocation(rs.getString("location"));
@@ -100,7 +100,7 @@ public class InfractionServices {
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setInt(1, infraction.getLicenseId());
+                pstmt.setString(1, infraction.getLicenseId());
                 pstmt.setString(2, infraction.getViolationType());
                 pstmt.setDate(3, infraction.getDate());
                 pstmt.setString(4, infraction.getLocation());
@@ -194,7 +194,7 @@ public class InfractionServices {
             while (rs.next()) {
                 Infraction infraction = new Infraction();
                 infraction.setInfractionCode(rs.getString("infractionCode"));
-                infraction.setLicenseId(rs.getInt("licenseId"));
+                infraction.setLicenseId(rs.getString("licenseId"));
                 infraction.setViolationType(rs.getString("violationType"));
                 infraction.setDate(rs.getDate("date"));
                 infraction.setLocation(rs.getString("location"));
