@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class AddDriver extends javax.swing.JDialog {
     /**
@@ -169,7 +170,7 @@ public class AddDriver extends javax.swing.JDialog {
                 String phone = phoneTextField.getText();
                 Date fechaActual = new Date(2020, 8, 1);
                 java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
-                if(carnetID!=null && email!=null && firstName!=null && lastName!=null && address!=null && phone!=null){
+                if(carnetID!=null && !Objects.equals(email, "") && !Objects.equals(firstName, "") && !Objects.equals(lastName, "") && !Objects.equals(address, "") && !Objects.equals(phone, "")){
                     if (carnetID.length()==carnetIDJTextField1.getLimite()){
                         if(Validations.validarCarnet(carnetID)){
                             if(!Validations.nameValidation(firstName)){
@@ -242,38 +243,6 @@ public class AddDriver extends javax.swing.JDialog {
     private void AddjButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-
-    }
-
     // Variables declaration - do not modify
     private javax.swing.JButton AddjButton1;
     private javax.swing.JLabel TitleLabel;

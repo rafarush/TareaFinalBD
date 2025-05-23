@@ -4,6 +4,11 @@
  */
 package visual.MainView;
 
+import models.License;
+import services.ServicesLocator;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author adian
@@ -105,7 +110,14 @@ public class MainView extends javax.swing.JPanel {
 
         IDriversPanel_Data1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         IDriversPanel_Data1.setForeground(new java.awt.Color(255, 215, 179));
-        IDriversPanel_Data1.setText("  1,700 registrados");
+        int cantDrivers=0;
+        try {
+            cantDrivers= ServicesLocator.getInstance().getDriverServices().countDrivers();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        IDriversPanel_Data1.setText("   "+cantDrivers+ " registrados");
         IDriverPanel6.add(IDriversPanel_Data1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 100, -1));
 
         add(IDriverPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 275, 150));
@@ -128,7 +140,14 @@ public class MainView extends javax.swing.JPanel {
 
         IDriversPanel_Data.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         IDriversPanel_Data.setForeground(new java.awt.Color(255, 215, 179));
-        IDriversPanel_Data.setText("1,700 emitidas");
+        int cantLicenses=0;
+        try{
+            cantLicenses= ServicesLocator.getInstance().getLicenseServices().countLicenses();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        IDriversPanel_Data.setText("   "+cantLicenses+" emitidas");
         IDriverPanel5.add(IDriversPanel_Data, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 100, -1));
 
         add(IDriverPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(375, 170, 275, 150));
@@ -149,7 +168,14 @@ public class MainView extends javax.swing.JPanel {
 
         IDriversPanel_Data2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         IDriversPanel_Data2.setForeground(new java.awt.Color(255, 215, 179));
-        IDriversPanel_Data2.setText(" 1,700 realizados");
+        int cantText=0;
+        try{
+            cantText= ServicesLocator.getInstance().getTestServices().countTests();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        IDriversPanel_Data2.setText(" "+cantText+ " realizados");
         IDriverPanel7.add(IDriversPanel_Data2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 100, -1));
 
         add(IDriverPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 170, 275, 150));
@@ -171,7 +197,14 @@ public class MainView extends javax.swing.JPanel {
 
         IDriversPanel_Data3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         IDriversPanel_Data3.setForeground(new java.awt.Color(255, 215, 179));
-        IDriversPanel_Data3.setText("1,700 registradas");
+        int cantInfraction=0;
+        try{
+            cantInfraction= ServicesLocator.getInstance().getInfractionServices().countInfractions();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        IDriversPanel_Data3.setText("  "+cantInfraction+ " registradas");
         IInfractionPanel.add(IDriversPanel_Data3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 100, -1));
 
         add(IInfractionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1025, 170, 275, 150));
