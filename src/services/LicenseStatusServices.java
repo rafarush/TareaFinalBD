@@ -6,20 +6,26 @@ import models.LicenseStatus;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class LicenseStatusServices {
 
     public void createLicenseStatus(LicenseStatus status) {
-        String sql = "INSERT INTO LicenseStatus (licenseStatus) VALUES (?)";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (status != null) {
+            String sql = "INSERT INTO LicenseStatus (licenseStatus) VALUES (?)";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, status.getLicenseStatus());
-            pstmt.executeUpdate();
+                pstmt.setString(1, status.getLicenseStatus());
+                pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License Status is null");
         }
+
     }
 
     public LicenseStatus obtainLicenseStatus(String licenseStatus) {
@@ -62,29 +68,47 @@ public class LicenseStatusServices {
     }
 
     public void updateLicenseStatus(LicenseStatus status, String oldLicenseStatus) {
-        String sql = "UPDATE LicenseStatus SET licenseStatus = ? WHERE licenseStatus = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (status != null && oldLicenseStatus != null) {
+            String sql = "UPDATE LicenseStatus SET licenseStatus = ? WHERE licenseStatus = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, status.getLicenseStatus());
-            pstmt.setString(2, oldLicenseStatus);
-            pstmt.executeUpdate();
+                pstmt.setString(1, status.getLicenseStatus());
+                pstmt.setString(2, oldLicenseStatus);
+                int affectedrows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedrows == 0) {
+                    throw new NoSuchElementException("There is not record of the license category: " + oldLicenseStatus);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License Status is null");
         }
+
     }
 
     public void deleteLicenseStatus(String licenseStatus) {
-        String sql = "DELETE FROM LicenseStatus WHERE licenseStatus = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (licenseStatus != null) {
+            String sql = "DELETE FROM LicenseStatus WHERE licenseStatus = ?";
+            try (Connection conn = DataBaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, licenseStatus);
-            pstmt.executeUpdate();
+                pstmt.setString(1, licenseStatus);
+                int affectedrows = pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                if (affectedrows == 0) {
+                    throw new NoSuchElementException("There is not record of the license category: " + licenseStatus);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new NullPointerException("License Status is null");
         }
+
     }
 }

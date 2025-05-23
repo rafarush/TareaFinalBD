@@ -33,3 +33,7 @@ bin/
 # Ignorar archivo de configuración
 .config.properties
 /config.properties
+
+
+/reportsHTML
+/reportsPDF

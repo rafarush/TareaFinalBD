@@ -5,10 +5,14 @@ import models.RelatedEntity;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class RelatedEntityServices {
 
     public void createRelatedEntity(RelatedEntity entity) {
+        if (entity == null) {
+            throw new IllegalArgumentException("The related entity cannot be null");
+        }
         String sql = "INSERT INTO RelatedEntity (entityName, entityType, address, phone, contactEmail, directorName, centerCode) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DataBaseConnection.getConnection();
@@ -80,6 +84,9 @@ public class RelatedEntityServices {
     }
 
     public void updateRelatedEntity(RelatedEntity entity) {
+        if (entity == null) {
+            throw new IllegalArgumentException("The related entity cannot be null");
+        }
         String sql = "UPDATE RelatedEntity SET entityType = ?, address = ?, phone = ?, contactEmail = ?, " +
                 "directorName = ?, centerCode = ? WHERE entityName = ?";
         try (Connection conn = DataBaseConnection.getConnection();
@@ -92,7 +99,11 @@ public class RelatedEntityServices {
             pstmt.setString(5, entity.getDirectorName());
             pstmt.setString(6, entity.getCenterCode());
             pstmt.setString(7, entity.getEntityName());
-            pstmt.executeUpdate();
+            int affectedrows = pstmt.executeUpdate();
+
+            if (affectedrows == 0) {
+                throw new NoSuchElementException("There is not record of the license category: " + entity.getEntityName());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,12 +111,19 @@ public class RelatedEntityServices {
     }
 
     public void deleteRelatedEntity(String entityName) {
+        if (entityName == null) {
+            throw new IllegalArgumentException("The related entity cannot be null");
+        }
         String sql = "DELETE FROM RelatedEntity WHERE entityName = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, entityName);
-            pstmt.executeUpdate();
+            int affectedrows = pstmt.executeUpdate();
+
+            if (affectedrows == 0) {
+                throw new NoSuchElementException("There is not record of the license category: " + entityName);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
