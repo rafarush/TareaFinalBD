@@ -192,4 +192,31 @@ public class LicenseServices {
         return is_valid;
     }
 
+    public ArrayList<License> getAlmostExpiredLicenses() {
+        ArrayList<License> list = new ArrayList<>();
+        String sql = "SELECT * FROM license WHERE expirationdate BETWEEN CURRENT_DATE AND ( CURRENT_DATE + INTERVAL '6 months' )";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                License license = new License();
+                license.setLicenseId(rs.getInt("licenseId"));
+                license.setDriverId(rs.getInt("driverId"));
+                license.setLicenseType(rs.getString("licenseType"));
+                license.setIssueDate(rs.getDate("issueDate"));
+                license.setExpirationDate(rs.getDate("expirationDate"));
+                license.setRestrictions(rs.getString("restrictions"));
+                license.setRenewed(rs.getBoolean("renewed"));
+                license.setLicenseStatus(rs.getString("licenseStatus"));
+                list.add(license);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
 }
