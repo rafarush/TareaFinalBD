@@ -36,6 +36,5 @@ public class Main {
 
         HTMLReportGenerator.createExpiredLicensesReport(start, end);
         PDFReportGenerator.createExpiredLicensesReportPDF(start, end);
-
     }
 }

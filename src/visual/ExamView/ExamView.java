@@ -44,6 +44,7 @@ public class ExamView extends javax.swing.JPanel {
                 pos++;
             }
             CustomTable customTable = getCustomTable(columns, data);
+            customTable.getTableHeader().setReorderingAllowed(false);
 
             // 4. Asignar al scroll pane
             jScrollPane2.setViewportView(customTable);
