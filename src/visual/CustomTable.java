@@ -10,7 +10,9 @@ import java.util.function.Consumer;
 
 public class CustomTable extends JTable {
     private Consumer<Integer> rowDoubleClickListener;
-
+    public CustomTable() {
+        super();
+    }
     public CustomTable(List<String> columnNames, Object[][] data) {
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames.toArray()) {

@@ -176,8 +176,6 @@ public class AddDriver extends javax.swing.JDialog {
                         if(Validations.validarCarnet(carnetID)){
                             if(!Validations.nameValidation(firstName)){
                                 try{
-                                    //int driverId, String firstName, String lastName, Date birthDate,
-                                    //                  String address, String phone, String email
                                     ServicesLocator.getInstance().getDriverServices().createDriver(new Driver(carnetID,firstName,lastName,fechaSQL,address,phone,email));
                                     father.Actualizar(1);
                                     dispose();

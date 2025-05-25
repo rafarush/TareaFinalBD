@@ -32,7 +32,6 @@ public class DriversView extends javax.swing.JPanel {
         setupTable();
     }
     private void setupTable() {
-        // 1. Configurar datos
         List<String> columns = Arrays.asList(
             "Nombre", "Documento", "Fecha Nacimiento", 
             "Teléfono", "Correo"
@@ -48,6 +47,7 @@ public class DriversView extends javax.swing.JPanel {
                 pos++;
             }
             CustomTable customTable = getCustomTable(columns, data);
+            customTable.getTableHeader().setReorderingAllowed(false);
 
             // 4. Asignar al scroll pane
             jScrollPane2.setViewportView(customTable);
@@ -55,7 +55,6 @@ public class DriversView extends javax.swing.JPanel {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private CustomTable getCustomTable(List<String> columns, Object[][] data) {
