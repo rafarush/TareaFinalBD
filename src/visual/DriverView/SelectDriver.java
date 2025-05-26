@@ -5,6 +5,7 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import services.ServicesLocator;
 import visual.CustomTable;
+import visual.ExamView.AddTest;
 import visual.LicenseView.AddLicense;
 import visual.MainScreen.MainScreen;
 
@@ -19,9 +20,9 @@ public class SelectDriver extends JDialog {
     /**
      * Creates new form SelectDriver
      */
-    public SelectDriver(MainScreen parent) {
+    public SelectDriver(MainScreen parent, int view) {
         super(parent, true);
-        initComponents(parent);
+        initComponents(parent,view);
         //setupTable();
     }
     /*private void setupTable() {
@@ -31,7 +32,7 @@ public class SelectDriver extends JDialog {
             throw new RuntimeException(e);
         }
     }*/
-    private void initComponents(MainScreen parent) {
+    private void initComponents(MainScreen parent,int view) {
 
         jPanel1 = new JPanel();
         jButton1 = new JButton();
@@ -48,7 +49,7 @@ public class SelectDriver extends JDialog {
         jPanel1.setBackground(new Color(23, 22, 28));
         jPanel1.setLayout(new AbsoluteLayout());
         List<String> columns = Arrays.asList(
-                "Nombre", "Documento", "Fecha Nacimiento",
+                "Nombre", "Documento de identidad", "Fecha Nacimiento",
                 "Teléfono", "Correo"
         );
 
@@ -80,28 +81,55 @@ public class SelectDriver extends JDialog {
                 if(select!=-1){
                    String idDriver= (String) finalCustomTable.getValueAt(select,1);
                     Driver driver = null;
-                    try{
-                        driver=ServicesLocator.getInstance().getDriverServices().obtainDriver(idDriver);
-                        if(driver!=null){
-                            Driver finalDriver = driver;
-                            java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    AddLicense dialog = new AddLicense(parent, finalDriver);
-                                    dialog.setLocationRelativeTo(null);
-                                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                        @Override
-                                        public void windowClosing(java.awt.event.WindowEvent e) {
-                                            System.exit(0);
-                                        }
-                                    });
-                                    dispose();
-                                    dialog.setVisible(true);
+                    if(view==1) {
+                        try {
+                            driver = ServicesLocator.getInstance().getDriverServices().obtainDriver(idDriver);
+                            if (driver != null) {
+                                Driver finalDriver = driver;
+                                java.awt.EventQueue.invokeLater(new Runnable() {
+                                    public void run() {
+                                        AddLicense dialog = new AddLicense(parent, finalDriver);
+                                        dialog.setLocationRelativeTo(null);
+                                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                            @Override
+                                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                                System.exit(0);
+                                            }
+                                        });
+                                        dispose();
+                                        dialog.setVisible(true);
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    }
+                    else if (view==2) {
+                        try{
+                            driver = ServicesLocator.getInstance().getDriverServices().obtainDriver(idDriver);
+                            if (driver != null) {
+                                Driver finalDriver1 = driver;
+                                java.awt.EventQueue.invokeLater(new Runnable() {
+                                    public void run() {
+                                        AddTest dialog = new AddTest(parent, finalDriver1);
+                                        dialog.setLocationRelativeTo(null);
+                                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                            @Override
+                                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                                System.exit(0);
+                                            }
+                                        });
+                                        dispose();
+                                        dialog.setVisible(true);
+                                    }
+
+                                });
+                            }
+                        }catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
