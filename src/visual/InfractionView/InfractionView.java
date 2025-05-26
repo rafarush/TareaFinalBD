@@ -8,6 +8,7 @@ import models.Driver;
 import models.Infraction;
 import services.ServicesLocator;
 import visual.CustomTable;
+import visual.LicenseView.SelectLicense;
 import visual.MainScreen.MainScreen;
 
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class InfractionView extends javax.swing.JPanel {
      * Creates new form InfractionView
      */
     public InfractionView(MainScreen father) {
-        initComponents();
+        initComponents(father);
         setupTable();
     }
     private void setupTable() {
@@ -87,7 +88,7 @@ public class InfractionView extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(MainScreen father) {
 
         TitleLabel = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
@@ -136,7 +137,19 @@ public class InfractionView extends javax.swing.JPanel {
         AddDriversButton.setText("   Nueva Infraccion");
         AddDriversButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDriversButtonActionPerformed(evt);
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        SelectLicense dialog = new SelectLicense(father);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                System.exit(0);
+                            }
+                        });
+                        dialog.setVisible(true);
+                    }
+                });
             }
         });
         add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));

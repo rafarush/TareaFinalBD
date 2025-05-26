@@ -137,7 +137,9 @@ public class LicensView extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                        SelectDriver dialog = new SelectDriver(parent);
+
+                        SelectDriver dialog = new SelectDriver(parent,1);
+
                         dialog.setLocationRelativeTo(null);
                         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                             @Override
