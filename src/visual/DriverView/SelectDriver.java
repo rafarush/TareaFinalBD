@@ -5,7 +5,9 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import services.ServicesLocator;
 import visual.CustomTable;
+
 import visual.ExamView.AddTest;
+
 import visual.LicenseView.AddLicense;
 import visual.MainScreen.MainScreen;
 
@@ -20,11 +22,13 @@ public class SelectDriver extends JDialog {
     /**
      * Creates new form SelectDriver
      */
+
     public SelectDriver(MainScreen parent, int view) {
         super(parent, true);
         initComponents(parent,view);
     }
     private void initComponents(MainScreen parent,int view) {
+
 
         jPanel1 = new JPanel();
         jButton1 = new JButton();
@@ -41,7 +45,9 @@ public class SelectDriver extends JDialog {
         jPanel1.setBackground(new Color(23, 22, 28));
         jPanel1.setLayout(new AbsoluteLayout());
         List<String> columns = Arrays.asList(
+
                 "Nombre", "Documento de identidad", "Fecha Nacimiento",
+
                 "Teléfono", "Correo"
         );
 
@@ -73,6 +79,7 @@ public class SelectDriver extends JDialog {
                 if(select!=-1){
                    String idDriver= (String) finalCustomTable.getValueAt(select,1);
                     Driver driver = null;
+
                     if(view==1) {
                         try {
                             driver = ServicesLocator.getInstance().getDriverServices().obtainDriver(idDriver);
@@ -122,6 +129,7 @@ public class SelectDriver extends JDialog {
                         }catch (Exception e) {
                             throw new RuntimeException(e);
                         }
+
                     }
                 }
             }
