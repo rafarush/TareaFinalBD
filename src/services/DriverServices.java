@@ -172,4 +172,39 @@ public class DriverServices {
         }
         return isDuplicated;
     }
+
+    public List<String> getMissingLicenses(String driverId) {
+        List<String> missingLicenses = new ArrayList<>();
+        String sql = """
+            SELECT lc.licensetype
+            FROM licensecategory lc
+            WHERE lc.licensetype NOT IN (
+                SELECT l.licensetype
+                FROM license l
+                WHERE l.driverid = ?
+            )
+        """;
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, driverId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    missingLicenses.add(rs.getString("licensetype"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return missingLicenses;
+    }
+
+
+
+
+
 }
