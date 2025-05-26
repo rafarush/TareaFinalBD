@@ -190,7 +190,6 @@ public class TestServices {
     }
 
     public String necessaryTest (String driverId, String licenseType) {
-        //String sql = "SELECT testtype FROM test WHERE driverid = ?, licensetype = ? ORDER BY testtype ASC";
         String sql = "SELECT testtype FROM test WHERE driverid = ? AND licensetype = ? ORDER BY testtype ASC";
 
 
