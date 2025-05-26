@@ -189,4 +189,32 @@ public class TestServices {
         return count;
     }
 
+    public String necessaryTest (String driverId, String licenseType) {
+        //String sql = "SELECT testtype FROM test WHERE driverid = ?, licensetype = ? ORDER BY testtype ASC";
+        String sql = "SELECT testtype FROM test WHERE driverid = ? AND licensetype = ? ORDER BY testtype ASC";
+
+
+        String testType = "Medico";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, driverId);
+            pstmt.setString(2, licenseType);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    if (rs.getString("testtype").equals("Medico"))
+                        testType = "Teorico";
+                    if (rs.getString("testtype").equals("Teorico"))
+                        testType = "Practico";
+                }
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return testType;
+    }
 }
