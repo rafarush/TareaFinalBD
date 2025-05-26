@@ -23,15 +23,7 @@ public class SelectDriver extends JDialog {
     public SelectDriver(MainScreen parent, int view) {
         super(parent, true);
         initComponents(parent,view);
-        //setupTable();
     }
-    /*private void setupTable() {
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }*/
     private void initComponents(MainScreen parent,int view) {
 
         jPanel1 = new JPanel();

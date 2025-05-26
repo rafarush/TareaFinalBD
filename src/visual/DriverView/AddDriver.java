@@ -170,12 +170,13 @@ public class AddDriver extends javax.swing.JDialog {
                 String phone = phoneTextField.getText();
                 //Date fechaActual = new Date(2020, 8, 1);
                 //java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
-                java.sql.Date fechaSQL = Validations.extractBirthdateFromCI(carnetID);
+
                 if(carnetID!=null && !Objects.equals(email, "") && !Objects.equals(firstName, "") && !Objects.equals(lastName, "") && !Objects.equals(address, "") && !Objects.equals(phone, "")){
                     if (carnetID.length()==carnetIDJTextField1.getLimite()){
                         if(Validations.validarCarnet(carnetID)){
                             if(!Validations.nameValidation(firstName)){
                                 try{
+                                    java.sql.Date fechaSQL = Validations.extractBirthdateFromCI(carnetID);
                                     ServicesLocator.getInstance().getDriverServices().createDriver(new Driver(carnetID,firstName,lastName,fechaSQL,address,phone,email));
                                     father.Actualizar(1);
                                     dispose();
