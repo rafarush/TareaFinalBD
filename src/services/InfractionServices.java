@@ -222,6 +222,7 @@ public class InfractionServices {
         String sql = "SELECT * " +
                 " FROM infraction " +
                 " WHERE infraction.date < ( CURRENT_DATE - INTERVAL '6 months' ) AND infraction.ispaid = FALSE";
+
         ArrayList<Infraction> ls = new ArrayList<>();
         try (Connection conn = DataBaseConnection.getConnection();
              Statement stmt = conn.createStatement();
