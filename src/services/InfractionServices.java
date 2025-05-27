@@ -218,7 +218,7 @@ public class InfractionServices {
         return list;
     }
 
-    private ArrayList<Infraction> get6MonthsNotPaidInfractions(){
+    public ArrayList<Infraction> get6MonthsNotPaidInfractions(){
         String sql = "SELECT * " +
                 " FROM infraction " +
                 " WHERE infraction.date < ( CURRENT_DATE - INTERVAL '6 months' ) AND infraction.ispaid = FALSE";
