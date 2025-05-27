@@ -8,7 +8,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,7 +16,7 @@ public class InfractionServices {
     public void createInfraction(Infraction infraction) {
         if (infraction != null) {
             if (!isDuplicated(infraction.getInfractionCode())){
-                String sql = "INSERT INTO Infraction (infractionCode, licenseId, violationType, date, location, description, points, status) " +
+                String sql = "INSERT INTO Infraction (infractionCode, licenseId, violationType, date, location, description, points, ispaid) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = DataBaseConnection.getConnection();
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -104,7 +103,7 @@ public class InfractionServices {
 
     public void updateInfraction(Infraction infraction) {
         if (infraction != null) {
-            String sql = "UPDATE Infraction SET licenseId = ?, violationType = ?, date = ?, location = ?, description = ?, points = ?, status = ? " +
+            String sql = "UPDATE Infraction SET licenseId = ?, violationType = ?, date = ?, location = ?, description = ?, points = ?, ispaid = ? " +
                     "WHERE infractionCode = ?";
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -222,7 +221,7 @@ public class InfractionServices {
     private ArrayList<Infraction> get6MonthsNotPaidInfractions(){
         String sql = "SELECT * " +
                 " FROM infraction " +
-                " WHERE infraction.\"date\" < ( CURRENT_DATE - INTERVAL '6 months' ) AND infraction.ispaid = FALSE";
+                " WHERE infraction.date < ( CURRENT_DATE - INTERVAL '6 months' ) AND infraction.ispaid = FALSE";
         ArrayList<Infraction> ls = new ArrayList<>();
         try (Connection conn = DataBaseConnection.getConnection();
              Statement stmt = conn.createStatement();
