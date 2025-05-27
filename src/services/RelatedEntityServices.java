@@ -129,4 +129,35 @@ public class RelatedEntityServices {
             e.printStackTrace();
         }
     }
+
+
+    public List<RelatedEntity> getAllEntityByType(String entityType) {
+        List<RelatedEntity> allEntities = new ArrayList<>();
+        RelatedEntity entity = null;
+        String sql = "SELECT * FROM RelatedEntity WHERE entityType = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, entityType);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    entity = new RelatedEntity();
+                    entity.setEntityName(rs.getString("entityName"));
+                    entity.setEntityType(rs.getString("entityType"));
+                    entity.setAddress(rs.getString("address"));
+                    entity.setPhone(rs.getString("phone"));
+                    entity.setContactEmail(rs.getString("contactEmail"));
+                    entity.setDirectorName(rs.getString("directorName"));
+                    entity.setCenterCode(rs.getString("centerCode"));
+                    allEntities.add(entity);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allEntities;
+    }
+
+
 }
