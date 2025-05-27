@@ -11,25 +11,25 @@ public class Validations {
         int compSiglo = Integer.parseInt(siglo);
 
         if (compSiglo == 9 && valido) {
-            valido = false; // Siglo XIX
+            valido = false;
         }
 
         String anyo = cadena.substring(0, 2);
         int compAnyo = Integer.parseInt(anyo);
 
         if (valido && ((compSiglo >= 6 && compSiglo < 9) && compAnyo > 25)) {
-            valido = false; // Siglo XXI y a�o mayor que el actual (inv�lido).
+            valido = false;
         }
 
         if (valido && ((compSiglo >= 0 && compSiglo < 6) && compAnyo < 60)) {
-            valido = false; // Siglo XX y mayor que 100 a�os.
+            valido = false;
         }
 
         String mes = cadena.substring(2, 4);
         int compMes = Integer.parseInt(mes);
 
         if (compMes < 1 || compMes > 12) {
-            valido = false; // Solo 12 meses.
+            valido = false;
         }
 
         String dia = cadena.substring(4, 6);
@@ -48,7 +48,6 @@ public class Validations {
             valido = false;
         }
 
-        // A�o bisiesto y validaci�n de febrero
         int annoInt = Integer.parseInt(cadena.substring(0, 2));
         if (valido && (compMes == 2 && annoInt % 4 == 0 && compDia > 29)) {
             valido = false;
