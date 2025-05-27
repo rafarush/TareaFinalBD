@@ -219,6 +219,33 @@ public class InfractionServices {
         return list;
     }
 
+    private ArrayList<Infraction> get6MonthsNotPaidInfractions(){
+        String sql = "SELECT * " +
+                " FROM infraction " +
+                " WHERE infraction.\"date\" < ( CURRENT_DATE - INTERVAL '6 months' ) AND infraction.ispaid = FALSE";
+        ArrayList<Infraction> ls = new ArrayList<>();
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                Infraction infraction = new Infraction();
+                infraction.setInfractionCode(rs.getString("infractionCode"));
+                infraction.setLicenseId(rs.getString("licenseId"));
+                infraction.setViolationType(rs.getString("violationType"));
+                infraction.setDate(rs.getDate("date"));
+                infraction.setLocation(rs.getString("location"));
+                infraction.setDescription(rs.getString("description"));
+                infraction.setPoints(rs.getInt("points"));
+                infraction.setIspaid(rs.getBoolean("ispaid"));
+                ls.add(infraction);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ls;
+    }
+
     private void checkForSuspension(Infraction infraction) {
         String licenseId = infraction.getLicenseId();
         License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
