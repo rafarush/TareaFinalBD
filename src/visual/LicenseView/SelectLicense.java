@@ -15,10 +15,7 @@ public class SelectLicense extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
     }
-
-
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
