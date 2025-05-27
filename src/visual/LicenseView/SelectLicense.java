@@ -3,6 +3,8 @@ package visual.LicenseView;
 import models.License;
 import services.ServicesLocator;
 import visual.CustomTable;
+import visual.InfractionView.AddInfraction;
+import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -11,11 +13,11 @@ import java.util.List;
 public class SelectLicense extends javax.swing.JDialog {
 
 
-    public SelectLicense(java.awt.Frame parent) {
+    public SelectLicense(MainScreen parent) {
         super(parent, true);
-        initComponents();
+        initComponents(parent);
     }
-    private void initComponents() {
+    private void initComponents(MainScreen parent) {
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -45,7 +47,20 @@ public class SelectLicense extends javax.swing.JDialog {
         });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        AddInfraction dialog = new AddInfraction(parent);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                System.exit(0);
+                            }
+                        });
+                        dispose();
+                        dialog.setVisible(true);
+                    }
+                });
             }
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, 130, 30));
