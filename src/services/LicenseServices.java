@@ -1,6 +1,7 @@
 package services;
 
 import dataBase.DataBaseConnection;
+import models.Infraction;
 import models.License;
 import models.Test;
 
@@ -240,6 +241,14 @@ public class LicenseServices {
         }
 
         return list;
+    }
+
+    public void cancelLicensesWithInfractionsNotPaid(){
+        ArrayList<Infraction> infractions = ServicesLocator.getInstance().getInfractionServices().get6MonthsNotPaidInfractions();
+        for (Infraction infraction : infractions) {
+            License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(infraction.getLicenseId());
+            changeLicenceStatus(license, "Revocada");
+        }
     }
 
 }
