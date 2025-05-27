@@ -144,6 +144,29 @@ public class LicenseServices {
         }
     }
 
+    protected void changeLicenceStatus(License license, String status) {
+        if (license == null || status == null) {
+            throw new NullPointerException("License or status is null");
+        }
+        switch (status) {
+            case "Suspendida":
+                license.setLicenseStatus("Suspendida");
+                break;
+            case "Vigente":
+                license.setLicenseStatus("Vigente");
+                break;
+            case "Vencida":
+                license.setLicenseStatus("Vencida");
+                break;
+            case "Revocada":
+                license.setLicenseStatus("Revocada");
+                break;
+            default:
+                throw new IllegalArgumentException("License status is not valid");
+        }
+        updateLicense(license);
+    }
+
     public int countLicenses() {
         int count = 0;
         String sql = "SELECT count(*) as quantity FROM license";
