@@ -42,13 +42,13 @@ public class LicenseServices {
         }
     }
 
-    public License obtainLicense(int licenseId) {
+    public License obtainLicense(String licenseId) {
         License license = null;
         String sql = "SELECT * FROM License WHERE licenseId = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, licenseId);
+            pstmt.setString(1, licenseId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     license = new License();
