@@ -2,6 +2,7 @@ package report;
 
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
 import dataBase.DataBaseConnection;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
@@ -30,16 +31,16 @@ public class PDFReportGenerator {
             PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
             document.open();
 
-            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
-            Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.BLACK);
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new Color(0, 122, 204));
+            Font labelFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
+            Font valueFont = FontFactory.getFont(FontFactory.HELVETICA, 11, Color.BLACK);
 
-            Paragraph title = new Paragraph("Reporte de Centro", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
+            Paragraph title = new Paragraph("Reporte de Centro", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
             document.add(Chunk.NEWLINE);
 
             if (rs.next()) {
-                // Construir ruta absoluta dinámica para el logo
                 String basePath = System.getProperty("user.dir");
                 String logoPath = basePath + File.separator + "src" + File.separator + "utils" + File.separator + "logos" + File.separator + "PFBD.png";
 
@@ -54,54 +55,45 @@ public class PDFReportGenerator {
                     e.printStackTrace();
                 }
 
-                PdfPTable pdfTable = new PdfPTable(8); // Sin columna logo
-                pdfTable.setWidthPercentage(100);
+                PdfPTable table = new PdfPTable(2);
+                table.setWidthPercentage(80);
+                table.setSpacingBefore(10f);
+                table.setSpacingAfter(10f);
+                table.setWidths(new float[]{3f, 7f});
 
-                String[] headers = {
-                        "Nombre del Centro",
-                        "Dirección Postal",
-                        "Email",
-                        "Teléfono",
-                        "Director General",
-                        "Gerente de RRHH",
-                        "Gerente de Contabilidad",
-                        "Secretario"
+                Color labelBgColor = new Color(0, 122, 204);
+                Color valueBgColor = Color.WHITE;
+
+                String[][] data = {
+                        {"Nombre del Centro:", rs.getString("centerName")},
+                        {"Dirección Postal:", rs.getString("postalAddress")},
+                        {"Email:", rs.getString("centerEmail")},
+                        {"Teléfono:", rs.getString("phone")},
+                        {"Director General:", rs.getString("generalDirectorName")},
+                        {"Gerente de RRHH:", rs.getString("hrManager")},
+                        {"Gerente de Contabilidad:", rs.getString("accountingManager")},
+                        {"Secretario:", rs.getString("secretaryName")}
                 };
 
-                for (String header : headers) {
-                    PdfPCell cell = new PdfPCell(new Phrase(header, headerFont));
-                    cell.setBackgroundColor(new Color(0, 122, 204));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell.setPadding(8);
-                    pdfTable.addCell(cell);
+                for (String[] entry : data) {
+                    PdfPCell labelCell = new PdfPCell(new Phrase(entry[0], labelFont));
+                    labelCell.setBackgroundColor(labelBgColor);
+                    labelCell.setPadding(8);
+                    labelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    labelCell.setBorder(Rectangle.NO_BORDER);
+
+                    PdfPCell valueCell = new PdfPCell(new Phrase(entry[1] == null ? "No disponible" : entry[1], valueFont));
+                    valueCell.setBackgroundColor(valueBgColor);
+                    valueCell.setPadding(8);
+                    valueCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    valueCell.setBorderColor(new Color(220, 220, 220));
+                    valueCell.setBorderWidth(1f);
+
+                    table.addCell(labelCell);
+                    table.addCell(valueCell);
                 }
 
-                String[] columns = {
-                        "centerName",
-                        "postalAddress",
-                        "centerEmail",
-                        "phone",
-                        "generalDirectorName",
-                        "hrManager",
-                        "accountingManager",
-                        "secretaryName"
-                };
-
-                boolean evenRow = true;
-
-                for (String col : columns) {
-                    PdfPCell cell = new PdfPCell(new Phrase(rs.getString(col) == null ? "" : rs.getString(col), cellFont));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell.setPadding(6);
-                    if (evenRow) {
-                        cell.setBackgroundColor(new Color(242, 242, 242));
-                    } else {
-                        cell.setBackgroundColor(Color.WHITE);
-                    }
-                    pdfTable.addCell(cell);
-                }
-
-                document.add(pdfTable);
+                document.add(table);
 
                 System.out.println("Reporte PDF generado correctamente en: " + pdfPath);
             } else {
@@ -194,7 +186,7 @@ public class PDFReportGenerator {
                 licensesTable.setSpacingBefore(10);
                 licensesTable.setSpacingAfter(20);
 
-                String[] licensesHeaders = {"Tipo", "Fecha de Emisión", "Fecha de Vencimiento", "Restricciones", "Renovada", "Estado"};
+                String[] licensesHeaders = {"Tipo", "Fecha de Emisión", "Fecha de Vencimiento", "Limitaciones", "Renovada", "Estado"};
                 for (String header : licensesHeaders) {
                     PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
                     headerCell.setBackgroundColor(new Color(0, 122, 204));
