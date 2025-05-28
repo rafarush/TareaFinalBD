@@ -93,8 +93,6 @@ public class AddTest extends javax.swing.JDialog {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     String seleccion = (String) licenseType.getSelectedItem();
-
-                    // Actualizar otros componentes según la selección
                     switch(seleccion) {
                         case "A":
                             testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));

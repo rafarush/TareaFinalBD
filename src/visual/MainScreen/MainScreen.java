@@ -1,22 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package visual.MainScreen;
-
 import visual.DriverView.DriversView;
 import visual.ExamView.ExamView;
 import visual.InfractionView.InfractionView;
 import visual.LicenseView.LicensView;
 import visual.MainView.MainView;
+import visual.RelatedEntityView.RelatedEntityView;
 import visual.ReportView.ReportView;
-
 import java.awt.BorderLayout;
-
-/**
- *
- * @author adian
- */
 public class MainScreen extends javax.swing.JFrame {
 
     /**
@@ -67,11 +57,6 @@ public class MainScreen extends javax.swing.JFrame {
                 InfractionButtonMouseClicked(evt);
             }
         });
-        InfractionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InfractionButtonActionPerformed(evt);
-            }
-        });
         SideBar.add(InfractionButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 90, 45));
 
         DriversButton.setBackground(new java.awt.Color(47, 50, 65));
@@ -82,11 +67,6 @@ public class MainScreen extends javax.swing.JFrame {
         DriversButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DriversButtonMouseClicked(evt);
-            }
-        });
-        DriversButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DriversButtonActionPerformed(evt);
             }
         });
         SideBar.add(DriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 90, 45));
@@ -117,11 +97,6 @@ public class MainScreen extends javax.swing.JFrame {
                 ExamButtonMouseClicked(evt);
             }
         });
-        ExamButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExamButtonActionPerformed(evt);
-            }
-        });
         SideBar.add(ExamButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 90, 45));
 
         HomeButton.setBackground(new java.awt.Color(47, 50, 65));
@@ -135,11 +110,6 @@ public class MainScreen extends javax.swing.JFrame {
                 HomeButtonMouseClicked(evt);
             }
         });
-        HomeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HomeButtonActionPerformed(evt);
-            }
-        });
         SideBar.add(HomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 90, 45));
 
 
@@ -150,7 +120,7 @@ public class MainScreen extends javax.swing.JFrame {
         RelatedEntityButton.setBorder(null);
         RelatedEntityButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-
+                RelatedEntityButtonMouseClicked(evt);
             }
         });
         SideBar.add(RelatedEntityButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 90, 45));
@@ -184,23 +154,16 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_HomeButtonActionPerformed
+    private void RelatedEntityButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        RelatedEntityView p6 = new RelatedEntityView(this);
+        p6.setSize(1560, 1050);
+        p6.setLocation(0,0);
 
-    private void InfractionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfractionButtonActionPerformed
-        
-    }//GEN-LAST:event_InfractionButtonActionPerformed
-
-    private void DriversButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DriversButtonActionPerformed
-       
-    }//GEN-LAST:event_DriversButtonActionPerformed
-
-    private void ExamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExamButtonActionPerformed
-       
-    }//GEN-LAST:event_ExamButtonActionPerformed
-
+        Content.removeAll();
+        Content.add(p6,BorderLayout.CENTER);
+        Content.revalidate();
+        Content.repaint();
+    }
     private void DriversButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DriversButtonMouseClicked
         DriversView p2 = new DriversView(this);
         p2.setSize(1560, 1050);
@@ -300,6 +263,15 @@ public class MainScreen extends javax.swing.JFrame {
                         Content.revalidate();
                         Content.repaint();
                         break;
+            case 5:RelatedEntityView p6 = new RelatedEntityView(this);
+                p6.setSize(1560, 1050);
+                p6.setLocation(0,0);
+
+                Content.removeAll();
+                Content.add(p6,BorderLayout.CENTER);
+                Content.revalidate();
+                Content.repaint();
+                break;
         }
    }
 
