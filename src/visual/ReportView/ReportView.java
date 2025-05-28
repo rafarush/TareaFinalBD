@@ -13,7 +13,7 @@ public class ReportView extends javax.swing.JPanel {
     /**
      * Creates new form ReportsView
      */
-    public ReportsView() {
+    public ReportView() {
         initComponents();
     }
 
