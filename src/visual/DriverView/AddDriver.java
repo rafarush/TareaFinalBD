@@ -173,25 +173,30 @@ public class AddDriver extends javax.swing.JDialog {
 
                 if(carnetID!=null && !Objects.equals(email, "") && !Objects.equals(firstName, "") && !Objects.equals(lastName, "") && !Objects.equals(address, "") && !Objects.equals(phone, "")){
                     if (carnetID.length()==carnetIDJTextField1.getLimite()){
-                        if(Validations.validarCarnet(carnetID)){
-                            if(!Validations.nameValidation(firstName)){
-                                try{
-                                    java.sql.Date fechaSQL = Validations.extractBirthdateFromCI(carnetID);
-                                    ServicesLocator.getInstance().getDriverServices().createDriver(new Driver(carnetID,firstName,lastName,fechaSQL,address,phone,email));
-                                    father.Actualizar(1);
-                                    dispose();
+                        try {
+                            if(Validations.validarCarnet(carnetID)){
+                                if(!Validations.nameValidation(firstName)){
+                                    try{
+                                        Validations.validateEmail(email);
+                                        java.sql.Date fechaSQL = Validations.extractBirthdateFromCI(carnetID);
+                                        ServicesLocator.getInstance().getDriverServices().createDriver(new Driver(carnetID,firstName,lastName,fechaSQL,address,phone,email));
+                                        father.Actualizar(1);
+                                        dispose();
 
+                                    }
+                                    catch(Exception e){
+                                        JOptionPane.showMessageDialog(null, e.getMessage(),"", JOptionPane.INFORMATION_MESSAGE);
+                                    }
                                 }
-                                catch(Exception e){
-                                    JOptionPane.showMessageDialog(null, e.getMessage(),"", JOptionPane.INFORMATION_MESSAGE);
+                                else{
+                                    JOptionPane.showMessageDialog(null, "El nombre introducido no es correcto","", JOptionPane.INFORMATION_MESSAGE);
                                 }
                             }
                             else{
-                                JOptionPane.showMessageDialog(null, "El nombre introducido no es correcto","", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "El carnet de identidad introducido no es valido","", JOptionPane.INFORMATION_MESSAGE);
                             }
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(null, "El carnet de identidad introducido no es valido","", JOptionPane.INFORMATION_MESSAGE);
+                        }catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage(),"", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 }
