@@ -269,10 +269,10 @@ public class InfractionServices {
         }
         String sql = "SELECT sum(points) FROM infraction WHERE licenseid = ?";
         try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery(sql)){
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
 
             pstmt.setString(1, licenseId);
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
                 int currentPoints = rs.getInt("sum(points)");
@@ -307,14 +307,14 @@ public class InfractionServices {
         boolean found = false;
         String sql = "SELECT COUNT(*) AS quantity FROM infraction WHERE violationtype = 'Muy Grave' AND licenseid = ?";
         try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery(sql)){
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
 
             pstmt.setString(1, licenseId);
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
                 int quantity = rs.getInt("quantity");
-                if (quantity == 2) {
+                if (quantity >= 2) {
                     found = true;
                 }
 
