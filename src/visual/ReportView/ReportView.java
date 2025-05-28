@@ -282,9 +282,9 @@ public class ReportView extends javax.swing.JPanel {
 
     private void jPanelCenterMouseClicked(java.awt.event.MouseEvent evt) {
 
-
         try {
             String pdfPath = PDFReportGenerator.createCenterReportPDF();
+
             File file = new File(pdfPath);
             if (file.exists()) {
                 Desktop.getDesktop().open(file);
@@ -292,6 +292,7 @@ public class ReportView extends javax.swing.JPanel {
                 throw new UnsupportedOperationException("El archivo no existe.");
             }
         } catch (IOException e) {
+
             JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
         }
 
