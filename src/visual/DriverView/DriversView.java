@@ -33,7 +33,7 @@ public class DriversView extends javax.swing.JPanel {
     }
     private void setupTable() {
         List<String> columns = Arrays.asList(
-            "Nombre", "Documento", "Fecha Nacimiento", 
+            "Nombre", "Documento de Identidad", "Fecha Nacimiento",
             "Teléfono", "Correo"
         );
 
@@ -67,10 +67,10 @@ public class DriversView extends javax.swing.JPanel {
         customTable.setRowDoubleClickListener(row -> {
             String info = "Información del Conductor:\n\n" +
                          "Nombre: " + customTable.getValueAt(row, 0) + "\n" +
-                         "Documento: " + customTable.getValueAt(row, 1) + "\n" +
+                         "Documento de Identidad: " + customTable.getValueAt(row, 1) + "\n" +
                          "Fecha Nacimiento: " + customTable.getValueAt(row, 2) + "\n" +
                          "Teléfono: " + customTable.getValueAt(row, 3) + "\n" +
-                         "Estado Licencia: " + customTable.getValueAt(row, 4);
+                         "Correo: " + customTable.getValueAt(row, 4);
 
             JOptionPane.showMessageDialog(
                 this,

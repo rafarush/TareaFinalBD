@@ -28,8 +28,60 @@ public class LicensView extends javax.swing.JPanel {
     public LicensView(MainScreen father) {
         initComponents(father);
     }
+    private void setupTable() {
+        // 1. Configurar datos
+        List<String> columns = Arrays.asList(
+                "Código", "Conductor", "Tipo",
+                "Emision", "Vencimiento", "Estado"
+        );
+
+        try {
+            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicenses();
+            Object[][] data =new Object[driversBD.size()][6];
+            int pos=0;
+            for (License d : driversBD) {
+                Object[] row = {d.getLicenseId(),d.getDriverId(),d.getLicenseType(),d.getIssueDate().toString(),d.getExpirationDate().toString(),d.getLicenseStatus()};
+                data[pos]=row;
+                pos++;
+            }
+            CustomTable customTable = getCustomTable(columns, data);
+            customTable.getTableHeader().setReorderingAllowed(false);
+
+            // 4. Asignar al scroll pane
+            jScrollPane2.setViewportView(customTable);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private CustomTable getCustomTable(List<String> columns, Object[][] data) {
+        CustomTable customTable = new CustomTable(columns, data);
 
 
+        // 2. Crear tabla personalizada
+
+
+        // 3. Configurar acción al hacer doble click
+        customTable.setRowDoubleClickListener(row -> {
+            String info = "Información de la Licencia:\n\n" +
+                    "Código: " + customTable.getValueAt(row, 0) + "\n" +
+                    "Conductor: " + customTable.getValueAt(row, 1) + "\n" +
+                    "Tipo: " + customTable.getValueAt(row, 2) + "\n" +
+                    "Emision: " + customTable.getValueAt(row, 3) + "\n" +
+                    "Vencimiento: " + customTable.getValueAt(row, 4) + "\n" +
+                    "Estado: " + customTable.getValueAt(row, 5);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    info,
+                    "Detalles de la Licencia",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+        return customTable;
+    }
 
     private void initComponents(MainScreen parent) {
 
