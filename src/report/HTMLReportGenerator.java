@@ -465,7 +465,7 @@ public class HTMLReportGenerator {
             while (rs.next()) {
                 writer.write("<tr>");
                 writer.write("<td>" + rs.getString("firstname") + " " + rs.getString("lastname") + "</td>");
-                writer.write("<td>" + rs.getInt("driverid") + "</td>");
+                writer.write("<td>" + rs.getString("driverid") + "</td>");
                 writer.write("<td>" + rs.getString("licensetype") + "</td>");
                 writer.write("<td>" + rs.getDate("expirationdate") + "</td>");
                 writer.write("<td>" + rs.getString("licensestatus") + "</td>");

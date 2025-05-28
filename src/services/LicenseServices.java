@@ -1,6 +1,7 @@
 package services;
 
 import dataBase.DataBaseConnection;
+import models.Infraction;
 import models.License;
 import models.Test;
 
@@ -42,13 +43,13 @@ public class LicenseServices {
         }
     }
 
-    public License obtainLicense(int licenseId) {
+    public License obtainLicense(String licenseId) {
         License license = null;
         String sql = "SELECT * FROM License WHERE licenseId = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, licenseId);
+            pstmt.setString(1, licenseId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     license = new License();
@@ -144,6 +145,29 @@ public class LicenseServices {
         }
     }
 
+    protected void changeLicenceStatus(License license, String status) {
+        if (license == null || status == null) {
+            throw new NullPointerException("License or status is null");
+        }
+        switch (status) {
+            case "Suspendida":
+                license.setLicenseStatus("Suspendida");
+                break;
+            case "Vigente":
+                license.setLicenseStatus("Vigente");
+                break;
+            case "Vencida":
+                license.setLicenseStatus("Vencida");
+                break;
+            case "Revocada":
+                license.setLicenseStatus("Revocada");
+                break;
+            default:
+                throw new IllegalArgumentException("License status is not valid");
+        }
+        updateLicense(license);
+    }
+
     public int countLicenses() {
         int count = 0;
         String sql = "SELECT count(*) as quantity FROM license";
@@ -217,6 +241,14 @@ public class LicenseServices {
         }
 
         return list;
+    }
+
+    public void cancelLicensesWithInfractionsNotPaid(){
+        ArrayList<Infraction> infractions = ServicesLocator.getInstance().getInfractionServices().get6MonthsNotPaidInfractions();
+        for (Infraction infraction : infractions) {
+            License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(infraction.getLicenseId());
+            changeLicenceStatus(license, "Revocada");
+        }
     }
 
 }

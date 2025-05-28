@@ -5,6 +5,8 @@ import models.Infraction;
 import models.License;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,7 +16,7 @@ public class InfractionServices {
     public void createInfraction(Infraction infraction) {
         if (infraction != null) {
             if (!isDuplicated(infraction.getInfractionCode())){
-                String sql = "INSERT INTO Infraction (infractionCode, licenseId, violationType, date, location, description, points, status) " +
+                String sql = "INSERT INTO Infraction (infractionCode, licenseId, violationType, date, location, description, points, ispaid) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = DataBaseConnection.getConnection();
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -33,6 +35,12 @@ public class InfractionServices {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                //Checking for suspension or cancellation reasons
+                checkForSuspension(infraction);
+                // TODO
+                // Look for cancellation reasons
+
             }
         } else {
             throw new NullPointerException("The Infraction cannot be null");
@@ -95,7 +103,7 @@ public class InfractionServices {
 
     public void updateInfraction(Infraction infraction) {
         if (infraction != null) {
-            String sql = "UPDATE Infraction SET licenseId = ?, violationType = ?, date = ?, location = ?, description = ?, points = ?, status = ? " +
+            String sql = "UPDATE Infraction SET licenseId = ?, violationType = ?, date = ?, location = ?, description = ?, points = ?, ispaid = ? " +
                     "WHERE infractionCode = ?";
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -208,6 +216,116 @@ public class InfractionServices {
         }
         
         return list;
+    }
+
+    public ArrayList<Infraction> get6MonthsNotPaidInfractions(){
+        String sql = "SELECT * " +
+                " FROM infraction " +
+                " WHERE infraction.date < ( CURRENT_DATE - INTERVAL '6 months' ) AND infraction.ispaid = FALSE";
+
+        ArrayList<Infraction> ls = new ArrayList<>();
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                Infraction infraction = new Infraction();
+                infraction.setInfractionCode(rs.getString("infractionCode"));
+                infraction.setLicenseId(rs.getString("licenseId"));
+                infraction.setViolationType(rs.getString("violationType"));
+                infraction.setDate(rs.getDate("date"));
+                infraction.setLocation(rs.getString("location"));
+                infraction.setDescription(rs.getString("description"));
+                infraction.setPoints(rs.getInt("points"));
+                infraction.setIspaid(rs.getBoolean("ispaid"));
+                ls.add(infraction);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ls;
+    }
+
+    private void checkForSuspension(Infraction infraction) {
+        String licenseId = infraction.getLicenseId();
+        License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
+
+        // Searching for two major infractions
+        if(infraction.getViolationType().equalsIgnoreCase("Muy Grave"))
+            if (searchForTwoMajorInfraction(licenseId))
+                ServicesLocator.getInstance().getLicenseServices().changeLicenceStatus(license, "Suspendida");
+
+
+        // Checks if the license points has reached the limit
+        license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
+        if (!license.getLicenseStatus().equalsIgnoreCase("Suspendida"))
+            checkLicensePoints(licenseId);
+
+    }
+
+    private void checkLicensePoints(String licenseId) {
+        if (licenseId == null) {
+            throw new NullPointerException("The license ID cannot be null");
+        }
+        String sql = "SELECT sum(points) FROM infraction WHERE licenseid = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery(sql)){
+
+            pstmt.setString(1, licenseId);
+            if (rs.next()) {
+                License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
+                int currentPoints = rs.getInt("sum(points)");
+                changeStatusOnYears(currentPoints, license);
+
+            }else{
+                throw new NoSuchElementException("There is not record of a infraction with ID: " + licenseId);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void changeStatusOnYears(int currentPoints, License license){
+        LocalDate issueDate = license.getIssueDate().toLocalDate();
+        LocalDate now = LocalDate.now();
+        if (ChronoUnit.YEARS.between(issueDate, now) < 1) {
+            if (currentPoints >= 24){
+                ServicesLocator.getInstance().getLicenseServices().changeLicenceStatus(license, "Suspendida");
+            }
+        }else{
+            if (currentPoints >= 32){
+                ServicesLocator.getInstance().getLicenseServices().changeLicenceStatus(license, "Suspendida");
+            }
+        }
+    }
+
+    private boolean searchForTwoMajorInfraction(String licenseId) {
+        if (licenseId == null) {
+            throw new NullPointerException("The license ID cannot be null");
+        }
+        boolean found = false;
+        String sql = "SELECT COUNT(*) AS quantity FROM infraction WHERE violationtype = 'Muy Grave' AND licenseid = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery(sql)){
+
+            pstmt.setString(1, licenseId);
+            if (rs.next()) {
+                License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
+                int quantity = rs.getInt("quantity");
+                if (quantity == 2) {
+                    found = true;
+                }
+
+            }else{
+                throw new NoSuchElementException("There is not record of a infraction with ID: " + licenseId);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return found;
     }
 
 }
