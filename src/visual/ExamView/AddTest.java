@@ -98,7 +98,7 @@ public class AddTest extends javax.swing.JDialog {
                     switch(seleccion) {
                         case "A":
                             testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(licenseType.getSelectedItem().toString()=="Medico"? "Clinica":"Autoescuela");
+                            ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(licenseType.getSelectedItem().toString()=="Medico"? "Clinica":"Auto Escuela");
                             ArrayList<String> nameCenter = new ArrayList<>();
                             for (RelatedEntity relatedEntity : relatedCenter) {
                                 nameCenter.add(relatedEntity.getEntityName());
@@ -108,7 +108,7 @@ public class AddTest extends javax.swing.JDialog {
                             break;
                         case "B":
                             testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relatedCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Autoescuela");
+                            ArrayList<RelatedEntity> relatedCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
                             ArrayList<String> nameCente = new ArrayList<>();
                             for (RelatedEntity relatedEntity : relatedCente) {
                                 nameCente.add(relatedEntity.getEntityName());
@@ -118,7 +118,7 @@ public class AddTest extends javax.swing.JDialog {
                             break;
                         case "C":
                             testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relateCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Autoescuela");
+                            ArrayList<RelatedEntity> relateCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
                             ArrayList<String> nCenter = new ArrayList<>();
                             for (RelatedEntity relatedEntity : relateCente) {
                                 nCenter.add(relatedEntity.getEntityName());
@@ -128,7 +128,7 @@ public class AddTest extends javax.swing.JDialog {
                             break;
                         case "D":
                             testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relateCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Autoescuela");
+                            ArrayList<RelatedEntity> relateCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
                             ArrayList<String> nCente = new ArrayList<>();
                             for (RelatedEntity relatedEntity : relateCenter) {
                                 nCente.add(relatedEntity.getEntityName());
@@ -138,7 +138,7 @@ public class AddTest extends javax.swing.JDialog {
                             break;
                         case "E":
                             testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> rCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Autoescuela");
+                            ArrayList<RelatedEntity> rCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
                             ArrayList<String> centerNames = new ArrayList<>();
                             for (RelatedEntity relatedEntity : rCenter) {
                                 centerNames.add(relatedEntity.getEntityName());
@@ -164,7 +164,7 @@ public class AddTest extends javax.swing.JDialog {
 
         centerName.setBackground(new Color(47, 50, 65));
         centerName.setForeground(new Color(255, 215, 179));
-        ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Autoescuela");
+        ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
         ArrayList<String> nameCenter = new ArrayList<>();
         for (RelatedEntity relatedEntity : relatedCenter) {
             nameCenter.add(relatedEntity.getEntityName());
