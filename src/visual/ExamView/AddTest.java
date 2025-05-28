@@ -92,61 +92,69 @@ public class AddTest extends javax.swing.JDialog {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    String seleccion = (String) licenseType.getSelectedItem();
+                    //String seleccion = (String) licenseType.getSelectedItem();
+                    testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
+                    ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(licenseType.getSelectedItem().toString()=="Medico"? "Clinica":"Auto Escuela");
+                    ArrayList<String> nameCenter = new ArrayList<>();
+                    for (RelatedEntity relatedEntity : relatedCenter) {
+                        nameCenter.add(relatedEntity.getEntityName());
+                    }
+                    String[] nameCenterArray = nameCenter.toArray(new String[nameCenter.size()]);
+                    centerName.setModel(new DefaultComboBoxModel<>(nameCenterArray));
 
                     // Actualizar otros componentes según la selección
-                    switch(seleccion) {
-                        case "A":
-                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(licenseType.getSelectedItem().toString()=="Medico"? "Clinica":"Auto Escuela");
-                            ArrayList<String> nameCenter = new ArrayList<>();
-                            for (RelatedEntity relatedEntity : relatedCenter) {
-                                nameCenter.add(relatedEntity.getEntityName());
-                            }
-                            String[] nameCenterArray = nameCenter.toArray(new String[nameCenter.size()]);
-                            centerName.setModel(new DefaultComboBoxModel<>(nameCenterArray));
-                            break;
-                        case "B":
-                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relatedCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
-                            ArrayList<String> nameCente = new ArrayList<>();
-                            for (RelatedEntity relatedEntity : relatedCente) {
-                                nameCente.add(relatedEntity.getEntityName());
-                            }
-                            String[] nCenterArray = nameCente.toArray(new String[nameCente.size()]);
-                            centerName.setModel(new DefaultComboBoxModel<>(nCenterArray));
-                            break;
-                        case "C":
-                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relateCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
-                            ArrayList<String> nCenter = new ArrayList<>();
-                            for (RelatedEntity relatedEntity : relateCente) {
-                                nCenter.add(relatedEntity.getEntityName());
-                            }
-                            String[] CenterArray = nCenter.toArray(new String[nCenter.size()]);
-                            centerName.setModel(new DefaultComboBoxModel<>(CenterArray));
-                            break;
-                        case "D":
-                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> relateCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
-                            ArrayList<String> nCente = new ArrayList<>();
-                            for (RelatedEntity relatedEntity : relateCenter) {
-                                nCente.add(relatedEntity.getEntityName());
-                            }
-                            String[] centerNameArray = nCente.toArray(new String[nCente.size()]);
-                            centerName.setModel(new DefaultComboBoxModel<>(centerNameArray));
-                            break;
-                        case "E":
-                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
-                            ArrayList<RelatedEntity> rCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
-                            ArrayList<String> centerNames = new ArrayList<>();
-                            for (RelatedEntity relatedEntity : rCenter) {
-                                centerNames.add(relatedEntity.getEntityName());
-                            }
-                            String[] centerArray = centerNames.toArray(new String[centerNames.size()]);
-                            centerName.setModel(new DefaultComboBoxModel<>(centerArray));
-                            break;
-                    }
+//                    switch(seleccion) {
+//                        case "A":
+//                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
+//                            ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(licenseType.getSelectedItem().toString()=="Medico"? "Clinica":"Auto Escuela");
+//                            ArrayList<String> nameCenter = new ArrayList<>();
+//                            for (RelatedEntity relatedEntity : relatedCenter) {
+//                                nameCenter.add(relatedEntity.getEntityName());
+//                            }
+//                            String[] nameCenterArray = nameCenter.toArray(new String[nameCenter.size()]);
+//                            centerName.setModel(new DefaultComboBoxModel<>(nameCenterArray));
+//                            break;
+//                        case "B":
+//                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
+//                            ArrayList<RelatedEntity> relatedCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
+//                            ArrayList<String> nameCente = new ArrayList<>();
+//                            for (RelatedEntity relatedEntity : relatedCente) {
+//                                nameCente.add(relatedEntity.getEntityName());
+//                            }
+//                            String[] nCenterArray = nameCente.toArray(new String[nameCente.size()]);
+//                            centerName.setModel(new DefaultComboBoxModel<>(nCenterArray));
+//                            break;
+//                        case "C":
+//                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
+//                            ArrayList<RelatedEntity> relateCente = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
+//                            ArrayList<String> nCenter = new ArrayList<>();
+//                            for (RelatedEntity relatedEntity : relateCente) {
+//                                nCenter.add(relatedEntity.getEntityName());
+//                            }
+//                            String[] CenterArray = nCenter.toArray(new String[nCenter.size()]);
+//                            centerName.setModel(new DefaultComboBoxModel<>(CenterArray));
+//                            break;
+//                        case "D":
+//                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
+//                            ArrayList<RelatedEntity> relateCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
+//                            ArrayList<String> nCente = new ArrayList<>();
+//                            for (RelatedEntity relatedEntity : relateCenter) {
+//                                nCente.add(relatedEntity.getEntityName());
+//                            }
+//                            String[] centerNameArray = nCente.toArray(new String[nCente.size()]);
+//                            centerName.setModel(new DefaultComboBoxModel<>(centerNameArray));
+//                            break;
+//                        case "E":
+//                            testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
+//                            ArrayList<RelatedEntity> rCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
+//                            ArrayList<String> centerNames = new ArrayList<>();
+//                            for (RelatedEntity relatedEntity : rCenter) {
+//                                centerNames.add(relatedEntity.getEntityName());
+//                            }
+//                            String[] centerArray = centerNames.toArray(new String[centerNames.size()]);
+//                            centerName.setModel(new DefaultComboBoxModel<>(centerArray));
+//                            break;
+//                    }
                 }
             }
         });
