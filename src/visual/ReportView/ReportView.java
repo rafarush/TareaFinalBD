@@ -97,6 +97,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelRelatedEntityMouseClicked(evt);
             }
         });
+        jPanelRelatedEntity.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelRelatedEntity.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/edifice.png"))); // NOI18N
@@ -120,6 +121,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelInfractionMouseClicked(evt);
             }
         });
+        jPanelInfraction.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelInfraction.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-error-50 (1).png"))); // NOI18N
@@ -161,6 +163,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelLicenseMouseClicked(evt);
             }
         });
+        jPanelLicense.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelLicense.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-licencia-50 (1).png"))); // NOI18N
@@ -184,6 +187,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelExpiredLicenseMouseClicked(evt);
             }
         });
+        jPanelExpiredLicense.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelExpiredLicense.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-calendario-50.png"))); // NOI18N
@@ -207,6 +211,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelDriver1MouseClicked(evt);
             }
         });
+        jPanelDriver1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelDriver1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-grupos-de-usuarios-50 (1).png"))); // NOI18N
@@ -230,6 +235,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelTestMouseClicked(evt);
             }
         });
+        jPanelTest.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelTest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-examen-50 (1).png"))); // NOI18N
@@ -253,6 +259,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelConsolidatedInfractionMouseClicked(evt);
             }
         });
+        jPanelConsolidatedInfraction.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelConsolidatedInfraction.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-bar-chart-50.png"))); // NOI18N
@@ -274,9 +281,10 @@ public class ReportView extends javax.swing.JPanel {
     }// </editor-fold>
 
     private void jPanelCenterMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-        String pdfPath = PDFReportGenerator.createCenterReportPDF();
+
         try {
+            String pdfPath = PDFReportGenerator.createCenterReportPDF();
+
             File file = new File(pdfPath);
             if (file.exists()) {
                 Desktop.getDesktop().open(file);
@@ -284,38 +292,45 @@ public class ReportView extends javax.swing.JPanel {
                 throw new UnsupportedOperationException("El archivo no existe.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
 
     }
 
     private void jPanelDriver1MouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "driver report");
     }
 
     private void jPanelRelatedEntityMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "RelatedEntity report");
     }
 
     private void jPanelLicenseMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "License report");
     }
 
     private void jPanelTestMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Test report");
     }
 
     private void jPanelInfractionMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Infraction report");
     }
 
     private void jPanelConsolidatedInfractionMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "ConsolidatedInfraction report");
     }
 
     private void jPanelExpiredLicenseMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "ExpiredLicense report");
     }
 
 
