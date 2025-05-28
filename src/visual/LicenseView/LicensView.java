@@ -27,7 +27,6 @@ public class LicensView extends javax.swing.JPanel {
      */
     public LicensView(MainScreen father) {
         initComponents(father);
-        setupTable();
     }
     private void setupTable() {
         // 1. Configurar datos
@@ -84,7 +83,6 @@ public class LicensView extends javax.swing.JPanel {
         return customTable;
     }
 
-
     private void initComponents(MainScreen parent) {
 
         TitleLabel = new javax.swing.JLabel();
@@ -94,6 +92,10 @@ public class LicensView extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        DeleteButton = new javax.swing.JButton();
+        EditJButton = new javax.swing.JButton();
+        CustomTable customTable = new CustomTable();
+
 
         setBackground(new java.awt.Color(23, 22, 28));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -155,25 +157,75 @@ public class LicensView extends javax.swing.JPanel {
         });
         add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 60, 200, 40));
 
-
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-calendario-24.png"))); // NOI18N
         jLabel2.setText("Periodo:");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 100, 40));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null}
-                },
-                new String [] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
+        List<String> columns = Arrays.asList(
+                "Código", "Conductor", "Tipo",
+                "Emicion", "Vencimiento", "Estado"
+        );
+
+        try {
+            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicenses();
+            Object[][] data =new Object[driversBD.size()][6];
+            int pos=0;
+            for (License d : driversBD) {
+                Object[] row = {d.getLicenseId(),d.getDriverId(),d.getLicenseType(),d.getIssueDate().toString(),d.getExpirationDate().toString(),d.getLicenseStatus()};
+                data[pos]=row;
+                pos++;
+            }
+            customTable = new CustomTable(columns, data);
+            customTable.getTableHeader().setReorderingAllowed(false);
+            jScrollPane2.setViewportView(customTable);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+        DeleteButton.setBackground(new java.awt.Color(204, 0, 0));
+        DeleteButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        DeleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-borrar-para-siempre-30.png"))); // NOI18N
+        DeleteButton.setText("Eliminar");
+        CustomTable finalCustomTable = customTable;
+        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int selectedRow = finalCustomTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    String licenseID = finalCustomTable.getValueAt(selectedRow, 0).toString();
+                    int respuesta= JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar este examen?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    if(respuesta==0){
+                        try{
+                            ServicesLocator.getInstance().getLicenseServices().deleteLicense(licenseID);
+                            parent.Actualizar(2);
+                        }
+                        catch(Exception e){
+
+                        }
+                    }
                 }
-        ));
-        jScrollPane2.setViewportView(jTable1);
+                else{
+                    JOptionPane.showMessageDialog(null, "Selecione la Licencia que desea eliminar antes de realizar esta accion");
+                }
+            }
+        });
+        add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 130, 140, 40));
+
+        EditJButton.setBackground(new java.awt.Color(255, 204, 0));
+        EditJButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        EditJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-pencil-30.png"))); // NOI18N
+        EditJButton.setText("   Editar");
+        EditJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+            }
+        });
+        add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));
+
+
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 690));
 
@@ -185,19 +237,16 @@ public class LicensView extends javax.swing.JPanel {
 
     private void SearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextFieldActionPerformed
 
-    }//GEN-LAST:event_SearchTextFieldActionPerformed
+    }
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {
         SearchTextField.requestFocusInWindow();
         SearchTextField.setText("");
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }
 
-    private void AddDriversButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDriversButtonActionPerformed
+    private void AddDriversButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
-    }//GEN-LAST:event_AddDriversButtonActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    }
     private javax.swing.JButton AddDriversButton;
     private javax.swing.JTextField SearchTextField;
     private javax.swing.JLabel TitleLabel;
@@ -205,5 +254,6 @@ public class LicensView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JButton DeleteButton;
+    private javax.swing.JButton EditJButton;
 }

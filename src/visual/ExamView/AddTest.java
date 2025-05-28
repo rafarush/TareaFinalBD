@@ -92,6 +92,7 @@ public class AddTest extends javax.swing.JDialog {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
+
                     //String seleccion = (String) licenseType.getSelectedItem();
                     testType.setText(ServicesLocator.getInstance().getTestServices().necessaryTest(driver.getDriverId(),licenseType.getSelectedItem().toString()));
                     ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(licenseType.getSelectedItem().toString()=="Medico"? "Clinica":"Auto Escuela");
@@ -155,6 +156,7 @@ public class AddTest extends javax.swing.JDialog {
 //                            centerName.setModel(new DefaultComboBoxModel<>(centerArray));
 //                            break;
 //                    }
+
                 }
             }
         });

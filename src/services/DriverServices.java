@@ -181,7 +181,7 @@ public class DriverServices {
             WHERE lc.licensetype NOT IN (
                 SELECT l.licensetype
                 FROM license l
-                WHERE l.driverid = ?
+                WHERE l.driverid = ? AND l.licensestatus!='Revocada'
             )
         """;
 
