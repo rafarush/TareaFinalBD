@@ -2,6 +2,7 @@ package utils;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Year;
 
 public class Validations {
     public static boolean validarCarnet(String cadena) {
@@ -55,6 +56,15 @@ public class Validations {
         if (valido && (compMes == 2 && annoInt % 4 != 0 && compDia > 28)) {
             valido = false;
         }
+
+        int anioActual = Year.now().getValue();
+        int anioCompleto = (annoInt <= anioActual % 100) ? (2000 + annoInt) : (1900 + annoInt);
+        int edad = anioActual - anioCompleto;
+        if (edad < 18) {
+            valido = false;
+            throw new IllegalArgumentException("La persona no puede ser menor de edad. ");
+        }
+
 
         return valido;
     }
