@@ -1,16 +1,24 @@
 package visual.LicenseView;
 import models.Driver;
+import models.License;
+import services.ServicesLocator;
+import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class AddLicense extends javax.swing.JDialog {
 
-    public AddLicense(java.awt.Frame parent, Driver driver) {
+    public AddLicense(MainScreen parent, Driver driver) {
         super(parent, true);
-        initComponents(driver);
+        initComponents(driver,parent);
     }
 
 
-    private void initComponents(Driver driver) {
+    private void initComponents(Driver driver,MainScreen parent) {
 
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
@@ -56,7 +64,23 @@ public class AddLicense extends javax.swing.JDialog {
 
         jComboBox1.setBackground(new java.awt.Color(47, 50, 65));
         jComboBox1.setForeground(new java.awt.Color(255, 215, 179));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ArrayList<String> licenseDriver = new ArrayList<String>();
+        try{
+            licenseDriver= (ArrayList<String>) ServicesLocator.getInstance().getDriverServices().getMissingLicenses(driver.getDriverId());
+
+            if(licenseDriver.size()>0){
+                String[] driverLicense = licenseDriver.toArray(new String[licenseDriver.size()]);
+                jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(driverLicense));
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "El chofer ya cuenta con todas las licencias por lo tanto no se puede crear una nueva licencia de este conductor");
+                dispose();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -108,7 +132,23 @@ public class AddLicense extends javax.swing.JDialog {
         AddjButton1.setText("Añadir");
         AddjButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddjButton1ActionPerformed(evt);
+                //String licenseId, String driverId, String licenseType, Date issueDate, Date expirationDate,
+                //                   String restrictions, boolean renewed, String licenseStatus
+                String idLicense=carnetIDJTextField3.getText();
+                String licenseType=jComboBox1.getSelectedItem().toString();
+                String restricciones=carnetIDJTextField1.getText();
+                if(!Objects.equals(idLicense, "") && !Objects.equals(licenseType, "") && !Objects.equals(restricciones, "")){
+                    try {
+                        LocalDate createDate=LocalDate.now();
+                        Date creact=Date.valueOf(LocalDate.now());
+                        Date expirationDate=Date.valueOf(LocalDate.now().plusYears(10));
+                        ServicesLocator.getInstance().getLicenseServices().createLicense(new License(idLicense,driver.getDriverId(),licenseType,creact,expirationDate,restricciones,false,"Vigente"));
+                        parent.Actualizar(2);
+                        dispose();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null,e.getMessage()+" Verifique que el codigo de la licencia no este repetido y que todos los examenes correspondientes esten realizados");
+                    }
+                }
             }
         });
         jPanel1.add(AddjButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 470, 120, 30));
@@ -131,19 +171,15 @@ public class AddLicense extends javax.swing.JDialog {
     private void carnetIDJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
     private void carnetIDJTextField3ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
+    private void AddjButton1ActionPerformed(java.awt.event.ActionEvent evt, Driver driver, MainScreen father) {
 
-    private void AddjButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
-
     private void deletejButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int respuesta= JOptionPane.showConfirmDialog(null, "Está seguro que desea cerrar esta ventana?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if(respuesta==0){
@@ -151,36 +187,6 @@ public class AddLicense extends javax.swing.JDialog {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddLicense.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddLicense.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddLicense.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddLicense.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-
-    }
 
     // Variables declaration - do not modify
     private javax.swing.JButton AddjButton1;

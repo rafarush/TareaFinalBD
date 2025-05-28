@@ -65,4 +65,5 @@ public class CustomTable extends JTable {
             getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
+
 }
