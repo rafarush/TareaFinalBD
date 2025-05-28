@@ -165,7 +165,7 @@ public class LicensView extends javax.swing.JPanel {
 
         List<String> columns = Arrays.asList(
                 "Código", "Conductor", "Tipo",
-                "Emicion", "Vencimiento", "Estado"
+                "Emision", "Vencimiento", "Estado"
         );
 
         try {
