@@ -70,7 +70,7 @@ public class DriversView extends javax.swing.JPanel {
                          "Documento de Identidad: " + customTable.getValueAt(row, 1) + "\n" +
                          "Fecha Nacimiento: " + customTable.getValueAt(row, 2) + "\n" +
                          "Teléfono: " + customTable.getValueAt(row, 3) + "\n" +
-                         "Estado Licencia: " + customTable.getValueAt(row, 4);
+                         "Correo: " + customTable.getValueAt(row, 4);
 
             JOptionPane.showMessageDialog(
                 this,

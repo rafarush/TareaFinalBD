@@ -33,7 +33,7 @@ public class LicensView extends javax.swing.JPanel {
         // 1. Configurar datos
         List<String> columns = Arrays.asList(
                 "Código", "Conductor", "Tipo",
-                "Emicion", "Vencimiento", "Estado"
+                "Emision", "Vencimiento", "Estado"
         );
 
         try {
@@ -66,17 +66,18 @@ public class LicensView extends javax.swing.JPanel {
 
         // 3. Configurar acción al hacer doble click
         customTable.setRowDoubleClickListener(row -> {
-            String info = "Información del Conductor:\n\n" +
-                    "Nombre: " + customTable.getValueAt(row, 0) + "\n" +
-                    "Documento: " + customTable.getValueAt(row, 1) + "\n" +
-                    "Fecha Nacimiento: " + customTable.getValueAt(row, 2) + "\n" +
-                    "Teléfono: " + customTable.getValueAt(row, 3) + "\n" +
-                    "Estado Licencia: " + customTable.getValueAt(row, 4);
+            String info = "Información de la Licencia:\n\n" +
+                    "Código: " + customTable.getValueAt(row, 0) + "\n" +
+                    "Conductor: " + customTable.getValueAt(row, 1) + "\n" +
+                    "Tipo: " + customTable.getValueAt(row, 2) + "\n" +
+                    "Emision: " + customTable.getValueAt(row, 3) + "\n" +
+                    "Vencimiento: " + customTable.getValueAt(row, 4) + "\n" +
+                    "Estado: " + customTable.getValueAt(row, 5);
 
             JOptionPane.showMessageDialog(
                     this,
                     info,
-                    "Detalles del Conductor",
+                    "Detalles de la Licencia",
                     JOptionPane.INFORMATION_MESSAGE
             );
         });
