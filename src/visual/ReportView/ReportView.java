@@ -1,5 +1,13 @@
 package visual.ReportView;
 
+import report.PDFReportGenerator;
+import services.ServicesLocator;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 public class ReportView extends javax.swing.JPanel {
 
 
@@ -64,6 +72,7 @@ public class ReportView extends javax.swing.JPanel {
                 jPanelCenterMouseClicked(evt);
             }
         });
+        jPanelCenter.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelCenter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-información-50 (1).png"))); // NOI18N
@@ -72,6 +81,7 @@ public class ReportView extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));
         jLabel2.setText("Ficha del Centro");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanelCenter.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
@@ -265,6 +275,19 @@ public class ReportView extends javax.swing.JPanel {
 
     private void jPanelCenterMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        String pdfPath = PDFReportGenerator.createCenterReportPDF();
+        try {
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void jPanelDriver1MouseClicked(java.awt.event.MouseEvent evt) {

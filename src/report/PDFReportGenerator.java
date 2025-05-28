@@ -19,7 +19,7 @@ import java.sql.*;
 
 public class PDFReportGenerator {
 
-    public static void createCenterReportPDF() {
+    public static String createCenterReportPDF() {
         String pdfPath = "reportsPDF\\centerReporte.pdf";
         String query = "SELECT centerName, postalAddress, logo, centerEmail, phone, generalDirectorName, hrManager, accountingManager, secretaryName FROM Center LIMIT 1";
 
@@ -105,6 +105,7 @@ public class PDFReportGenerator {
         } catch (SQLException | IOException | DocumentException e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
 
