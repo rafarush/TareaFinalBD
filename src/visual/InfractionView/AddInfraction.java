@@ -5,13 +5,18 @@
 package visual.InfractionView;
 
 import models.Infraction;
+import models.InfractionType;
 import models.License;
 import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.JOptionPane;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -91,10 +96,31 @@ public class AddInfraction extends javax.swing.JDialog {
 
         infractionType.setBackground(new java.awt.Color(47, 50, 65));
         infractionType.setForeground(new java.awt.Color(255, 215, 179));
-        infractionType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Leve", "Grave", "Muy Grave" }));
-        infractionType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+        List<InfractionType> type = ServicesLocator.getInstance().getInfractionTypeServices().getAllInfractionTypes();
+        ArrayList<String> list = new ArrayList<>();
+        for (InfractionType i : type) {
+            list.add(i.getInfractionType());
+        }
+        String[] arr = list.toArray(new String[list.size()]);
+        infractionType.setModel(new javax.swing.DefaultComboBoxModel<>(arr));
+        infractionType.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String seleccion = (String) infractionType.getSelectedItem();
+                    switch(seleccion){
+                        case "Leve":
+                            point.setText("6");
+                            break;
+                            case "Grave":
+                                point.setText("8");
+                                break;
+                                case "Muy Grave":
+                                    point.setText("12");
+                                    break;
+
+                    }
+                }
             }
         });
         jPanel2.add(infractionType, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 230, 40));
@@ -125,6 +151,11 @@ public class AddInfraction extends javax.swing.JDialog {
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, 100, -1));
 
         point.setForeground(new java.awt.Color(255, 215, 179));
+        try {
+            point.setText("6");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         jPanel2.add(point, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 230, 40));
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -165,12 +196,13 @@ public class AddInfraction extends javax.swing.JDialog {
                 int points = Integer.parseInt(point.getText());
                 String diretions = direccion.getText();
                 String description = descripcion.getText();
-                if (idInfraction.equals("") && estado.equals("") && infractiomType.equals("") && description.equals("") && diretions.equals("")) {
+                if (!idInfraction.equals("") && !estado.equals("") && !infractiomType.equals("") && !description.equals("") && !diretions.equals("")) {
                     try{
                         //String infractionCode, String licenseId, String violationType, Date date, String location,
                         //                      String description, int points, boolean ispaid
                         LocalDate createDate=LocalDate.now();
                         Date creact=Date.valueOf(LocalDate.now());
+                        System.out.println(license.getLicenseId());
                         ServicesLocator.getInstance().getInfractionServices().createInfraction(new Infraction(idInfraction,license.getLicenseId(),infractiomType,creact,diretions,description,points,estado));
                         parent.Actualizar(4);
                         dispose();

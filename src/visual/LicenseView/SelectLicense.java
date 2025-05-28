@@ -37,41 +37,6 @@ public class SelectLicense extends javax.swing.JDialog {
         TitleLabel.setText("Seleccione una Licencia");
         jPanel1.add(TitleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 600, 40));
 
-        jButton1.setBackground(new java.awt.Color(232, 152, 70));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setText("Selecionar");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-        CustomTable finalCustomTable = customTable;
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        int select = finalCustomTable.getSelectedRow();
-                        License license = null;
-                        if (select != -1) {
-                            String idDriver= (String) finalCustomTable.getValueAt(select,1);
-                            license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(Integer.parseInt(idDriver));
-                            AddInfraction dialog = new AddInfraction(parent,license);
-                            dialog.setLocationRelativeTo(null);
-                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                @Override
-                                public void windowClosing(java.awt.event.WindowEvent e) {
-                                    System.exit(0);
-                                }
-                            });
-                            dispose();
-                            dialog.setVisible(true);
-                        }
-                    }
-                });
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, 130, 30));
-
         List<String> columns = Arrays.asList(
                 "Código", "Conductor", "Tipo",
                 "Emicion", "Vencimiento", "Estado"
@@ -94,6 +59,43 @@ public class SelectLicense extends javax.swing.JDialog {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        jButton1.setBackground(new java.awt.Color(232, 152, 70));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setText("Selecionar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        CustomTable finalCustomTable = customTable;
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        int select = finalCustomTable.getSelectedRow();
+                        License license = null;
+                        if (select != -1) {
+                            String idDLicense= (String) finalCustomTable.getValueAt(select,0);
+                            license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(idDLicense);
+                            AddInfraction dialog = new AddInfraction(parent,license);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                    System.exit(0);
+                                }
+                            });
+                            dispose();
+                            dialog.setVisible(true);
+                        }
+                    }
+                });
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, 130, 30));
+
+
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 700, 430));
 

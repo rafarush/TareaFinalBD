@@ -186,42 +186,7 @@ public class TestServices {
 
 
 
-    protected List<Test> getAllApprovedValidTests() {
 
-        List<Test> list = new ArrayList<>();
-        String sql = "SELECT * FROM test " +
-                " WHERE driverid = ? " +
-                "  AND licensetype = ? " +
-                "  AND date BETWEEN (current_date - INTERVAL '6 months') AND current_date " +
-                "  AND result = true ";
-
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, driverId);
-            pstmt.setString(2, licenseType);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-
-                while (rs.next()) {
-                    Test test = new Test();
-                    test.setTestCode(rs.getString("testCode"));
-                    test.setTestType(rs.getString("testType"));
-                    test.setDate(rs.getDate("date"));
-                    test.setResult(rs.getBoolean("result"));
-                    test.setEntityName(rs.getString("entityName"));
-                    test.setExaminerName(rs.getString("examinerName"));
-                    test.setDriverId(rs.getString("driverId"));
-                    test.setLicenseType(rs.getString("licensetype"));
-                    list.add(test);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
 
     private List<Test> getTestsFromDB(List<Test> list, String sql) {
         try (Connection conn = DataBaseConnection.getConnection();

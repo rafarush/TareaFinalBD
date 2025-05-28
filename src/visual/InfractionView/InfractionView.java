@@ -147,7 +147,7 @@ public class InfractionView extends javax.swing.JPanel {
                                 System.exit(0);
                             }
                         });
-                        dialog.setVisible(true);
+                        dialog.    setVisible(true);
                     }
                 });
             }
