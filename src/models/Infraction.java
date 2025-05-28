@@ -15,7 +15,7 @@ public class Infraction {
     public Infraction() {}
 
     public Infraction(String infractionCode, String licenseId, String violationType, Date date, String location,
-                      String description, int points, boolean ispaid) {
+                      String description, int points, boolean ispaid){
         setInfractionCode(infractionCode);
         setLicenseId(licenseId);
         setViolationType(violationType);

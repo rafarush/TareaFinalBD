@@ -45,20 +45,27 @@ public class SelectLicense extends javax.swing.JDialog {
                 jButton1MouseClicked(evt);
             }
         });
+        CustomTable finalCustomTable = customTable;
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                        AddInfraction dialog = new AddInfraction(parent);
-                        dialog.setLocationRelativeTo(null);
-                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                            @Override
-                            public void windowClosing(java.awt.event.WindowEvent e) {
-                                System.exit(0);
-                            }
-                        });
-                        dispose();
-                        dialog.setVisible(true);
+                        int select = finalCustomTable.getSelectedRow();
+                        License license = null;
+                        if (select != -1) {
+                            String idDriver= (String) finalCustomTable.getValueAt(select,1);
+                            license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(Integer.parseInt(idDriver));
+                            AddInfraction dialog = new AddInfraction(parent,license);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                    System.exit(0);
+                                }
+                            });
+                            dispose();
+                            dialog.setVisible(true);
+                        }
                     }
                 });
             }

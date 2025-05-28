@@ -33,7 +33,7 @@ public class DriversView extends javax.swing.JPanel {
     }
     private void setupTable() {
         List<String> columns = Arrays.asList(
-            "Nombre", "Documento", "Fecha Nacimiento", 
+            "Nombre", "Documento de Identidad", "Fecha Nacimiento",
             "Teléfono", "Correo"
         );
 

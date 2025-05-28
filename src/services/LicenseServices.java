@@ -170,7 +170,7 @@ public class LicenseServices {
         boolean medical = false;
 
         List<Test> tests = new ArrayList<>();
-        tests = ServicesLocator.getInstance().getTestServices().getAllApprovedValidTests();
+        tests = ServicesLocator.getInstance().getTestServices().getAllApprovedValidTests(license.getDriverId(), license.getLicenseType());
 
 
         int i = 0;

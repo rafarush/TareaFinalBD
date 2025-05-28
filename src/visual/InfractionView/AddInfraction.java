@@ -4,7 +4,14 @@
  */
 package visual.InfractionView;
 
+import models.Infraction;
+import models.License;
+import services.ServicesLocator;
+import visual.MainScreen.MainScreen;
+
 import javax.swing.JOptionPane;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -15,9 +22,9 @@ public class AddInfraction extends javax.swing.JDialog {
     /**
      * Creates new form AddInfraction
      */
-    public AddInfraction(java.awt.Frame parent) {
+    public AddInfraction(MainScreen parent, License license) {
         super(parent, true);
-        initComponents();
+        initComponents(parent,license);
     }
 
     /**
@@ -27,24 +34,24 @@ public class AddInfraction extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
-    private void initComponents() {
+    private void initComponents(MainScreen parent, License license) {
 
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         TitleLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        carnetIDJTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        descripcion = new javax.swing.JTextField();
+        infractionType = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        estadoInfraction = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        point = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        carnetIDJTextField4 = new javax.swing.JTextField();
+        infractionID = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        carnetIDJTextField5 = new javax.swing.JTextField();
+        direccion = new javax.swing.JTextField();
         AddjButton1 = new javax.swing.JButton();
         deletejButton = new javax.swing.JButton();
 
@@ -73,24 +80,24 @@ public class AddInfraction extends javax.swing.JDialog {
         jLabel7.setText("Puntos:");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, -1, -1));
 
-        carnetIDJTextField3.setBackground(new java.awt.Color(47, 50, 65));
-        carnetIDJTextField3.setForeground(new java.awt.Color(204, 204, 204));
-        carnetIDJTextField3.addActionListener(new java.awt.event.ActionListener() {
+        descripcion.setBackground(new java.awt.Color(47, 50, 65));
+        descripcion.setForeground(new java.awt.Color(204, 204, 204));
+        descripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
             }
         });
-        jPanel2.add(carnetIDJTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 330, 230, 40));
+        jPanel2.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 330, 230, 40));
 
-        jComboBox1.setBackground(new java.awt.Color(47, 50, 65));
-        jComboBox1.setForeground(new java.awt.Color(255, 215, 179));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Leve", "Grave", "Muy Grave" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        infractionType.setBackground(new java.awt.Color(47, 50, 65));
+        infractionType.setForeground(new java.awt.Color(255, 215, 179));
+        infractionType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Leve", "Grave", "Muy Grave" }));
+        infractionType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 230, 40));
+        jPanel2.add(infractionType, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 230, 40));
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 215, 179));
@@ -102,57 +109,78 @@ public class AddInfraction extends javax.swing.JDialog {
         jLabel9.setText("Estado:");
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
 
-        jComboBox2.setBackground(new java.awt.Color(47, 50, 65));
-        jComboBox2.setForeground(new java.awt.Color(255, 215, 179));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagada", "No pagada" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        estadoInfraction.setBackground(new java.awt.Color(47, 50, 65));
+        estadoInfraction.setForeground(new java.awt.Color(255, 215, 179));
+        estadoInfraction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagada", "No pagada" }));
+        estadoInfraction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 230, 40));
+        jPanel2.add(estadoInfraction, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 230, 40));
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 215, 179));
         jLabel10.setText("Descripcion:");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, 100, -1));
 
-        jLabel1.setForeground(new java.awt.Color(255, 215, 179));
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 230, 40));
+        point.setForeground(new java.awt.Color(255, 215, 179));
+        jPanel2.add(point, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 230, 40));
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 215, 179));
         jLabel11.setText("Tipo de infracción:");
         jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
-        carnetIDJTextField4.setBackground(new java.awt.Color(47, 50, 65));
-        carnetIDJTextField4.setForeground(new java.awt.Color(204, 204, 204));
-        carnetIDJTextField4.addActionListener(new java.awt.event.ActionListener() {
+        infractionID.setBackground(new java.awt.Color(47, 50, 65));
+        infractionID.setForeground(new java.awt.Color(204, 204, 204));
+        infractionID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField4ActionPerformed(evt);
             }
         });
-        jPanel2.add(carnetIDJTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 230, 40));
+        jPanel2.add(infractionID, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 230, 40));
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 215, 179));
         jLabel12.setText("Direccion donde se Cometio:");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
 
-        carnetIDJTextField5.setBackground(new java.awt.Color(47, 50, 65));
-        carnetIDJTextField5.setForeground(new java.awt.Color(204, 204, 204));
-        carnetIDJTextField5.addActionListener(new java.awt.event.ActionListener() {
+        direccion.setBackground(new java.awt.Color(47, 50, 65));
+        direccion.setForeground(new java.awt.Color(204, 204, 204));
+        direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField5ActionPerformed(evt);
             }
         });
-        jPanel2.add(carnetIDJTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 230, 40));
+        jPanel2.add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 230, 40));
 
         AddjButton1.setBackground(new java.awt.Color(232, 152, 70));
         AddjButton1.setText("Añadir");
         AddjButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddjButton1ActionPerformed(evt);
+                String idInfraction=infractionID.getText();
+                Boolean estado = estadoInfraction.getSelectedItem().toString().equals("Pagada");
+                String infractiomType=infractionType.getSelectedItem().toString();
+                int points = Integer.parseInt(point.getText());
+                String diretions = direccion.getText();
+                String description = descripcion.getText();
+                if (idInfraction.equals("") && estado.equals("") && infractiomType.equals("") && description.equals("") && diretions.equals("")) {
+                    try{
+                        //String infractionCode, String licenseId, String violationType, Date date, String location,
+                        //                      String description, int points, boolean ispaid
+                        LocalDate createDate=LocalDate.now();
+                        Date creact=Date.valueOf(LocalDate.now());
+                        ServicesLocator.getInstance().getInfractionServices().createInfraction(new Infraction(idInfraction,license.getLicenseId(),infractiomType,creact,diretions,description,points,estado));
+                        parent.Actualizar(4);
+                        dispose();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else {
+
+                }
             }
         });
         jPanel2.add(AddjButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 470, 120, 30));
@@ -205,37 +233,17 @@ public class AddInfraction extends javax.swing.JDialog {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AddInfraction dialog = new AddInfraction(new javax.swing.JFrame());
-                dialog.setLocationRelativeTo(null);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify
     private javax.swing.JButton AddjButton1;
     private javax.swing.JLabel TitleLabel;
     private javax.swing.JLabel TitleLabel1;
-    private javax.swing.JTextField carnetIDJTextField3;
-    private javax.swing.JTextField carnetIDJTextField4;
-    private javax.swing.JTextField carnetIDJTextField5;
+    private javax.swing.JTextField descripcion;
+    private javax.swing.JTextField infractionID;
+    private javax.swing.JTextField direccion;
     private javax.swing.JButton deletejButton;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> infractionType;
+    private javax.swing.JComboBox<String> estadoInfraction;
+    private javax.swing.JLabel point;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
