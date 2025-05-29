@@ -126,7 +126,7 @@ public class RelatedEntityServices {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("No se puede eliminar esta entidad al estar relacionada con varios examenes.");
         }
     }
 

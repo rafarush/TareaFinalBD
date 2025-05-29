@@ -125,7 +125,7 @@ public class RelatedEntityView extends javax.swing.JPanel {
                             father.Actualizar(5);
                         }
                         catch(Exception e){
-
+                            JOptionPane.showMessageDialog(null, "\"No se puede eliminar esta entidad al estar relacionada con varios examenes.\"");
                         }
                     }
                 }
