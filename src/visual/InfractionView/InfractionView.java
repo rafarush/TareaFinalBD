@@ -96,16 +96,7 @@ public class InfractionView extends javax.swing.JPanel {
         });
         add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));
 
-        EditJButton.setBackground(new java.awt.Color(255, 204, 0));
-        EditJButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        EditJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-pencil-30.png"))); // NOI18N
-        EditJButton.setText("   Editar");
-        EditJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-            }
-        });
-        add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 215, 179));
@@ -163,6 +154,36 @@ public class InfractionView extends javax.swing.JPanel {
             }
         });
         add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 130, 140, 40));
+
+        EditJButton.setBackground(new java.awt.Color(255, 204, 0));
+        EditJButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        EditJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-pencil-30.png"))); // NOI18N
+        EditJButton.setText("   Editar");
+        EditJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        int selectedRow = finalCustomTable.getSelectedRow();
+                        if (selectedRow != -1) {
+                            String infractionId = finalCustomTable.getValueAt(selectedRow, 0).toString();
+                            Infraction edit = ServicesLocator.getInstance().getInfractionServices().obtainInfraction(infractionId);
+                            EditInfraction dialog = new EditInfraction(father, edit);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                    System.exit(0);
+                                }
+                            });
+                            dialog.setVisible(true);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Seleccione la infraction que desea editar");
+                        }
+                    }
+                });
+            }
+        });
+        add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));
 
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 1250, 690));

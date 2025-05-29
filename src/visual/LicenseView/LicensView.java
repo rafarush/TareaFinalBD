@@ -220,7 +220,24 @@ public class LicensView extends javax.swing.JPanel {
         EditJButton.setText("   Editar");
         EditJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        int selectedRow = finalCustomTable.getSelectedRow();
+                        if (selectedRow != -1) {
+                            String licenseID = finalCustomTable.getValueAt(selectedRow, 0).toString();
+                            License edit = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseID);
+                            EditLicense dialog = new EditLicense(parent,edit);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                    System.exit(0);
+                                }
+                            });
+                            dialog.setVisible(true);
+                        }
+                    }
+                });
             }
         });
         add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));
