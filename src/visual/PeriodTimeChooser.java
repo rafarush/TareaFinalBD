@@ -4,6 +4,7 @@
  */
 package visual;
 
+import com.toedter.calendar.JTextFieldDateEditor;
 import report.PDFReportGenerator;
 
 import javax.swing.JOptionPane;
@@ -21,10 +22,10 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
     /**
      * Creates new form AddLicense
      */
-    public PeriodTimeChooser(java.awt.Frame parent, boolean modal) {
+    public PeriodTimeChooser(java.awt.Frame parent, boolean modal, int report) {
         super(parent, modal);
         setUndecorated(true);
-        initComponents();
+        initComponents(report);
         setLocationRelativeTo(null);
     }
 
@@ -35,7 +36,7 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
-    private void initComponents() {
+    private void initComponents(int report) {
 
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
@@ -51,6 +52,12 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
 
         beginDate.addPropertyChangeListener(this::beginDatePropertyChange);
         endDate.addPropertyChangeListener(this::endDatePropertyChange);
+        JTextFieldDateEditor editorBegin = (JTextFieldDateEditor) beginDate.getDateEditor();
+        editorBegin.setEditable(false);
+
+        JTextFieldDateEditor editorEnd = (JTextFieldDateEditor) endDate.getDateEditor();
+        editorEnd.setEditable(false);
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -86,7 +93,7 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
         AcceptjButton1.setText("Aceptar");
         AcceptjButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddjButton1ActionPerformed(evt);
+                AddjButton1ActionPerformed(evt, report);
             }
         });
         jPanel1.add(AcceptjButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 120, 30));
@@ -108,8 +115,52 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
         pack();
     }// </editor-fold>
 
-    private void AddjButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void AddjButton1ActionPerformed(java.awt.event.ActionEvent evt, int report) {
+        switch (report){
+            case 1:
+                issuedLicenses();
+                break;
+            case 2:
+                testReport();
+                break;
+            case 3:
+                issuedInfractions();
+            break;
+            case 4:
+                expiredLicenses();
+                break;
+            default:
+                throw new IllegalArgumentException("No such report");
+        }
+
+    }
+
+    private void deletejButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        int respuesta=JOptionPane.showConfirmDialog(null, "Está seguro que desea cerrar esta ventana?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(respuesta==0){
+            dispose();
+        }
+    }
+
+    private void beginDatePropertyChange(java.beans.PropertyChangeEvent evt) {
+        if ("date".equals(evt.getPropertyName())) {
+            Date fechaInicio = beginDate.getDate();
+            if (fechaInicio != null) {
+                endDate.setMinSelectableDate(fechaInicio); // Restringe selección en endDate
+            }
+        }
+    }
+
+    private void endDatePropertyChange(java.beans.PropertyChangeEvent evt) {
+        if ("date".equals(evt.getPropertyName())) {
+            Date fechaFin = endDate.getDate();
+            if (fechaFin != null) {
+                beginDate.setMaxSelectableDate(fechaFin); // Restringe selección en beginDate
+            }
+        }
+    }
+
+    private void issuedLicenses(){
         Date beginDate = this.beginDate.getDate();
         Date endDate = this.endDate.getDate();
 
@@ -140,28 +191,57 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
         }
     }
 
-    private void deletejButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        int respuesta=JOptionPane.showConfirmDialog(null, "Está seguro que desea cerrar esta ventana?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-        if(respuesta==0){
-            dispose();
+    private void testReport(){
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createTestReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
         }
     }
 
-    private void beginDatePropertyChange(java.beans.PropertyChangeEvent evt) {
-        if ("date".equals(evt.getPropertyName())) {
-            Date fechaInicio = beginDate.getDate();
-            if (fechaInicio != null) {
-                endDate.setMinSelectableDate(fechaInicio); // Restringe selección en endDate
+    private void issuedInfractions(){
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createInfractionReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
             }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
         }
     }
 
-    private void endDatePropertyChange(java.beans.PropertyChangeEvent evt) {
-        if ("date".equals(evt.getPropertyName())) {
-            Date fechaFin = endDate.getDate();
-            if (fechaFin != null) {
-                beginDate.setMaxSelectableDate(fechaFin); // Restringe selección en beginDate
+    private void expiredLicenses(){
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createExpiredLicensesReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
             }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
         }
     }
 
