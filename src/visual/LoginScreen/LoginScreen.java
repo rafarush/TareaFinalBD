@@ -90,7 +90,7 @@ public class LoginScreen extends JFrame {
             try {
                 User user = ServicesLocator.getInstance().getUserServices().getUser(username, password);
                 if (user != null) {
-                    abrirVentanaPorRol(user);
+                    openWindowsOnRole(user);
                     dispose();
                 } else {
                     errorLabel.setText("Usuario o contraseña incorrectos.");
@@ -104,7 +104,7 @@ public class LoginScreen extends JFrame {
         add(panel);
     }
 
-    private void abrirVentanaPorRol(User user) {
+    private void openWindowsOnRole(User user) {
         switch (user.getRole()) {
             case "admin":
                 new MainScreen().setVisible(true);
