@@ -135,7 +135,7 @@ public class ExamView extends javax.swing.JPanel {
                 int selectedRow = finalCustomTable.getSelectedRow();
                 if (selectedRow != -1) {
                     String testID = finalCustomTable.getValueAt(selectedRow, 0).toString();
-                    int respuesta= JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar este examen?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    int respuesta= JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar este Chofer?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                     if(respuesta==0){
                         try{
                             ServicesLocator.getInstance().getTestServices().deleteTest(testID);
@@ -148,7 +148,7 @@ public class ExamView extends javax.swing.JPanel {
 
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Selecione el examen que quiere eliminar antes de realizar esta accion");
+                    JOptionPane.showMessageDialog(null, "Selecione el chofer que quiere eliminar antes de realizar esta accion");
                 }
             }
         });
@@ -160,7 +160,27 @@ public class ExamView extends javax.swing.JPanel {
         EditJButton.setText("   Editar");
         EditJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        int selectedRow = finalCustomTable.getSelectedRow();
+                        if (selectedRow != -1) {
+                            String testID = finalCustomTable.getValueAt(selectedRow, 0).toString();
+                            Test edit = ServicesLocator.getInstance().getTestServices().obtainTest(testID);
+                            EditTest dialog = new EditTest(father, edit);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                    System.exit(0);
+                                }
+                            });
+                            dialog.setVisible(true);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Seleccione el examen que desea editar");
+                        }
+                    }
+                });
             }
         });
         add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));

@@ -102,8 +102,8 @@ public class TestServices {
             pstmt.setString(4, test.getEntityName());
             pstmt.setString(5, test.getExaminerName());
             pstmt.setString(6, test.getDriverId());
-            pstmt.setString(7, test.getTestCode());
-            pstmt.setString(8, test.getLicenseType());
+            pstmt.setString(7, test.getLicenseType());
+            pstmt.setString(8, test.getTestCode());
 
             int affectedrows = pstmt.executeUpdate();
 
