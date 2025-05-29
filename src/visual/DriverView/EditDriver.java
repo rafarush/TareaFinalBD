@@ -2,6 +2,7 @@ package visual.DriverView;
 
 import models.Driver;
 import services.ServicesLocator;
+import utils.Validations;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
@@ -156,6 +157,7 @@ public class EditDriver extends javax.swing.JDialog {
                 try {
                     //String driverId, String firstName, String lastName, Date birthDate,
                     //                  String address, String phone, String email
+                    Validations.validateEmail(email);
                     ServicesLocator.getInstance().getDriverServices().updateDriver(new Driver(edit.getDriverId(), firstName, lastName, edit.getBirthDate(), address, phone, email));
                     parent.Actualizar(1);
                     dispose();
