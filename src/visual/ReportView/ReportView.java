@@ -5,6 +5,7 @@ import services.ServicesLocator;
 import visual.DriverView.SelectDriver;
 
 import visual.MainScreen.MainScreen;
+import visual.ReportScreen.ReportScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +14,11 @@ import java.io.IOException;
 
 public class ReportView extends javax.swing.JPanel {
 
-
-    public ReportView(MainScreen father) {
+    public ReportView(javax.swing.JFrame father) {
         initComponents(father);
     }
 
-    private void initComponents(MainScreen father) {
+    private void initComponents(javax.swing.JFrame father) {
 
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
