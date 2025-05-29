@@ -204,7 +204,28 @@ public class DriverServices {
     }
 
 
+        public List<String> getValidLicenses(String driverId) {
+            List<String> missingLicenses = new ArrayList<>();
+
+            List<String> validLicenses = getMissingLicenses(driverId);
+
+            for (String x : validLicenses) {
+                if(ServicesLocator.getInstance().getLicenseServices().hasPassedAllTestsInLast6Months(driverId, x))
+                    missingLicenses.add(x);
+            }
+
+            return missingLicenses;
+        }
 
 
+        public boolean liceseByDriverDontHas(String driverId) {
 
-}
+            boolean have = true;
+            if(getValidLicenses(driverId).isEmpty())
+                have = false;
+
+            return have;
+        }
+
+
+    }
