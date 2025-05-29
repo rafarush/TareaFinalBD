@@ -5,18 +5,19 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import java.util.Objects;
 
-public class AddRelatedEntity extends javax.swing.JDialog {
+public class EditRelatedEntity extends javax.swing.JDialog {
 
     /**
-     * Creates new form AddRelatedEmtity
+     * Creates new form EditRelatedEntity
      */
-    public AddRelatedEntity(MainScreen parent) {
+    public EditRelatedEntity(MainScreen parent, RelatedEntity edit) {
         super(parent, true);
-        initComponents(parent);
+        initComponents(parent,edit);
     }
 
-    private void initComponents(MainScreen parent) {
+    private void initComponents(MainScreen parent, RelatedEntity edit) {
 
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
@@ -28,12 +29,12 @@ public class AddRelatedEntity extends javax.swing.JDialog {
         address = new javax.swing.JTextField();
         phone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        correo = new javax.swing.JTextField();
+        entityType = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         deletejButton = new javax.swing.JButton();
         AddjButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        entityType = new javax.swing.JComboBox<>();
+        correo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -44,7 +45,7 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         TitleLabel.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         TitleLabel.setForeground(new java.awt.Color(255, 215, 179));
-        TitleLabel.setText("Añadir Entidad");
+        TitleLabel.setText("Editar Entidad");
         jPanel1.add(TitleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 210, 40));
 
         directorName.setBackground(new java.awt.Color(47, 50, 65));
@@ -103,14 +104,16 @@ public class AddRelatedEntity extends javax.swing.JDialog {
         jLabel5.setText("Telefono:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 70, 30));
 
-        correo.setBackground(new java.awt.Color(47, 50, 65));
-        correo.setForeground(new java.awt.Color(204, 204, 204));
-        correo.addActionListener(new java.awt.event.ActionListener() {
+        entityType.setBackground(new java.awt.Color(47, 50, 65));
+        entityType.setForeground(new java.awt.Color(204, 204, 204));
+        entityType.setText(edit.getEntityType());
+        entityType.setEnabled(false);
+        entityType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addressjTextFieldActionPerformed(evt);
             }
         });
-        jPanel1.add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 230, 50));
+        jPanel1.add(entityType, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 230, 50));
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 215, 179));
@@ -128,20 +131,20 @@ public class AddRelatedEntity extends javax.swing.JDialog {
         jPanel1.add(deletejButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 460, 120, 40));
 
         AddjButton1.setBackground(new java.awt.Color(232, 152, 70));
-        AddjButton1.setText("Añadir");
+        AddjButton1.setText("Editar");
         AddjButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String name =entityName.getText();
-                String gmail = correo.getText();
-                String direccion = address.getText();
-                String tel = phone.getText();
-                String director = directorName.getText();
-                String type = entityType.getSelectedItem().toString();
-                if(!name.equals("") && !gmail.equals("") && !tel.equals("") && !direccion.equals("") && !type.equals("") && !director.equals("")) {
+                int respuesta = JOptionPane.showConfirmDialog(null, "Está seguro que desea Editar a esta Entidad?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (respuesta == 0) {
+                    String name = Objects.equals(entityName.getText(), "") ? edit.getEntityName() : entityName.getText();
+                    String gmail = Objects.equals(correo.getText(), "") ? edit.getContactEmail() : correo.getText();
+                    String direccion = Objects.equals(address.getText(), "") ? edit.getAddress() : address.getText();
+                    String tel = Objects.equals(phone.getText(), "") ? edit.getPhone() : phone.getText();
+                    String director = Objects.equals(directorName.getText(), "") ? edit.getDirectorName() : directorName.getText();
                     try {
                         //String entityName, String entityType, String address, String phone, String contactEmail,
                         //                         String directorName, String centerCode
-                        ServicesLocator.getInstance().getRelatedEntityServices().createRelatedEntity(new RelatedEntity(name,type,direccion,tel,gmail,director,"JbL"));
+                        ServicesLocator.getInstance().getRelatedEntityServices().updateRelatedEntity(new RelatedEntity(name,edit.getEntityType(),direccion,tel,gmail,director,"JbL"));
                         parent.Actualizar(5);
                         dispose();
                     } catch (Exception e) {
@@ -157,15 +160,14 @@ public class AddRelatedEntity extends javax.swing.JDialog {
         jLabel7.setText("Nombre del Director");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, 30));
 
-        entityType.setBackground(new java.awt.Color(47, 50, 65));
-        entityType.setForeground(new java.awt.Color(255, 215, 179));
-        entityType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Clinica","Auto Escuela"}));
-        entityType.addActionListener(new java.awt.event.ActionListener() {
+        correo.setBackground(new java.awt.Color(47, 50, 65));
+        correo.setForeground(new java.awt.Color(204, 204, 204));
+        correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                addressjTextField1ActionPerformed(evt);
             }
         });
-        jPanel1.add(entityType, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 230, 50));
+        jPanel1.add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 230, 50));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 540));
 
@@ -193,7 +195,7 @@ public class AddRelatedEntity extends javax.swing.JDialog {
     }
 
     private void deletejButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        int respuesta=JOptionPane.showConfirmDialog(null, "Está seguro que desea cerrar esta ventana?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int respuesta= JOptionPane.showConfirmDialog(null, "Está seguro que desea cerrar esta ventana?", "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if(respuesta==0){
             dispose();
         }
@@ -203,18 +205,18 @@ public class AddRelatedEntity extends javax.swing.JDialog {
         // TODO add your handling code here:
     }
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addressjTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
     // Variables declaration - do not modify
     private javax.swing.JButton AddjButton1;
     private javax.swing.JLabel TitleLabel;
+    private javax.swing.JTextField entityType;
     private javax.swing.JTextField correo;
     private javax.swing.JTextField entityName;
     private javax.swing.JButton deletejButton;
     private javax.swing.JTextField address;
-    private javax.swing.JComboBox<String> entityType;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
