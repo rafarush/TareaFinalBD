@@ -3,6 +3,7 @@ package visual.DriverView;
 import models.Driver;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
+import report.PDFReportGenerator;
 import services.ServicesLocator;
 import visual.CustomTable;
 
@@ -15,6 +16,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -130,6 +133,24 @@ public class SelectDriver extends JDialog {
                             throw new RuntimeException(e);
                         }
 
+                    } else if (view==3) {
+                        driver = ServicesLocator.getInstance().getDriverServices().obtainDriver(idDriver);
+                        if (driver != null) {
+                            try {
+                                String pdfPath = PDFReportGenerator.createDriverReportPDF(driver.getDriverId());
+
+                                File file = new File(pdfPath);
+                                if (file.exists()) {
+                                    Desktop.getDesktop().open(file);
+                                } else {
+                                    throw new UnsupportedOperationException("El archivo no existe.");
+                                }
+                            } catch (IOException e) {
+
+                                JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+                            }
+                            dispose();
+                        }
                     }
                 }
             }
