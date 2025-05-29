@@ -303,20 +303,6 @@ public class ReportView extends javax.swing.JPanel {
     }
 
     private void jPanelDriver1MouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-//        try {
-//            String pdfPath = PDFReportGenerator.createDriverReportPDF("20321108643");
-//
-//            File file = new File(pdfPath);
-//            if (file.exists()) {
-//                Desktop.getDesktop().open(file);
-//            } else {
-//                throw new UnsupportedOperationException("El archivo no existe.");
-//            }
-//        } catch (IOException e) {
-//
-//            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
-//        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
@@ -336,8 +322,6 @@ public class ReportView extends javax.swing.JPanel {
     }
 
     private void jPanelRelatedEntityMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-
         try {
             String pdfPath = PDFReportGenerator.createRelatedEntityReportPDF("Bailey Electronic LLC");
 
@@ -354,7 +338,6 @@ public class ReportView extends javax.swing.JPanel {
     }
 
     private void jPanelLicenseMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 PeriodTimeChooser dialog = new PeriodTimeChooser(new javax.swing.JFrame(), true);
@@ -367,21 +350,6 @@ public class ReportView extends javax.swing.JPanel {
                 dialog.setVisible(true);
             }
         });
-//        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
-//        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
-//        try {
-//            String pdfPath = PDFReportGenerator.createLicenseReportPDF(start, end);
-//
-//            File file = new File(pdfPath);
-//            if (file.exists()) {
-//                Desktop.getDesktop().open(file);
-//            } else {
-//                throw new UnsupportedOperationException("El archivo no existe.");
-//            }
-//        } catch (IOException e) {
-//
-//            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
-//        }
     }
 
     private void jPanelTestMouseClicked(java.awt.event.MouseEvent evt) {
