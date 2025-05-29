@@ -300,37 +300,130 @@ public class ReportView extends javax.swing.JPanel {
 
     private void jPanelDriver1MouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "driver report");
+        try {
+            String pdfPath = PDFReportGenerator.createDriverReportPDF("20321108643");
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
     private void jPanelRelatedEntityMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "RelatedEntity report");
+
+        try {
+            String pdfPath = PDFReportGenerator.createRelatedEntityReportPDF("Bailey Electronic LLC");
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
     private void jPanelLicenseMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "License report");
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createLicenseReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
     private void jPanelTestMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Test report");
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createTestReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
     private void jPanelInfractionMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Infraction report");
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createInfractionReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
     private void jPanelConsolidatedInfractionMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "ConsolidatedInfraction report");
+        try {
+            String pdfPath = PDFReportGenerator.createConsolidatedInfractionReportPDF(2025);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
     private void jPanelExpiredLicenseMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "ExpiredLicense report");
+        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
+        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
+        try {
+            String pdfPath = PDFReportGenerator.createExpiredLicensesReportPDF(start, end);
+
+            File file = new File(pdfPath);
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                throw new UnsupportedOperationException("El archivo no existe.");
+            }
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        }
     }
 
 

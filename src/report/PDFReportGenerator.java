@@ -12,7 +12,6 @@ import com.lowagie.text.pdf.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 
@@ -110,7 +109,7 @@ public class PDFReportGenerator {
 
 
 
-    public static void createDriverReportPDF(String driverId) {
+    public static String createDriverReportPDF(String driverId) {
         String pdfPath = "reportsPDF\\driverReporte.pdf";
 
         String driverQuery = "SELECT firstname, lastname, birthdate, address, phone, email FROM driver WHERE driverid = ?";
@@ -274,6 +273,7 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
 
@@ -283,7 +283,7 @@ public class PDFReportGenerator {
 
 
 
-    public static void createRelatedEntityReportPDF(String entityName) {
+    public static String createRelatedEntityReportPDF(String entityName) {
         String pdfPath = "reportsPDF/relatedEntityReporte.pdf";
 
         String query = "SELECT entityName, entityType, address, phone, contactEmail, directorName, centerCode FROM RelatedEntity WHERE entityName = ?";
@@ -332,6 +332,7 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
     private static void addRow(PdfPTable table, String label, String value, Font labelFont, Font valueFont) {
@@ -355,7 +356,7 @@ public class PDFReportGenerator {
 
 
 
-    public static void createLicenseReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+    public static String createLicenseReportPDF(Date startDate, Date endDate) {
         String pdfPath = "reportsPDF/reportLicense.pdf";
         String query = "SELECT l.licenseId, d.firstName, d.lastName, l.licenseType, l.issueDate, l.expirationDate, l.licenseStatus " +
                 "FROM License l " +
@@ -415,6 +416,7 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
     private static void addHeaderCell(PdfPTable table, String text, Font font) {
@@ -428,7 +430,7 @@ public class PDFReportGenerator {
 
 
 
-    public static void createTestReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+    public static String createTestReportPDF(Date startDate, Date endDate) {
         String pdfPath = "reportsPDF/reportTest.pdf";
         String query = "SELECT t.testCode, d.firstName, d.lastName, t.testType, t.date, t.result, t.entityName " +
                 "FROM Test t " +
@@ -499,12 +501,13 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
 
 
 
-    public static void createInfractionReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+    public static String createInfractionReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
         String pdfPath = "reportsPDF/reportInfraction.pdf";
         String query = "SELECT i.infractioncode, d.firstname, d.lastname, i.violationtype, i.date, i.location, i.points, i.ispaid " +
                 "FROM infraction i " +
@@ -568,11 +571,12 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
 
 
-    public static void createConsolidatedInfractionReportPDF(int year) {
+    public static String createConsolidatedInfractionReportPDF(int year) {
         String pdfPath = "reportsPDF/reportConsolidatedInfraction.pdf";
         String query = "SELECT violationType, COUNT(*) AS totalInfractions, " +
                 "SUM(points) AS totalPoints, " +
@@ -632,12 +636,13 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
 
 
 
-    public static void createExpiredLicensesReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
+    public static String createExpiredLicensesReportPDF(java.sql.Date startDate, java.sql.Date endDate) {
         String pdfPath = "reportsPDF/reportExpiredLicenses.pdf";
         String query = "SELECT d.firstName, d.lastName, d.driverId, l.licenseType, l.expirationDate, l.licenseStatus " +
                 "FROM License l " +
@@ -699,6 +704,7 @@ public class PDFReportGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pdfPath;
     }
 
 
