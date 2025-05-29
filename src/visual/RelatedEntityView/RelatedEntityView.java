@@ -20,7 +20,7 @@ public class RelatedEntityView extends javax.swing.JPanel {
         TitleLabel = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        AddDriversButton = new javax.swing.JButton();
+        AddEntityButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         DeleteButton = new javax.swing.JButton();
@@ -62,16 +62,28 @@ public class RelatedEntityView extends javax.swing.JPanel {
         });
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 40, 40));
 
-        AddDriversButton.setBackground(new java.awt.Color(232, 152, 70));
-        AddDriversButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        AddDriversButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-más-30.png"))); // NOI18N
-        AddDriversButton.setText("   Nueva Entidad");
-        AddDriversButton.addActionListener(new java.awt.event.ActionListener() {
+        AddEntityButton.setBackground(new java.awt.Color(232, 152, 70));
+        AddEntityButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        AddEntityButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-más-30.png"))); // NOI18N
+        AddEntityButton.setText("   Nueva Entidad");
+        AddEntityButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDriversButtonActionPerformed(evt);
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        AddRelatedEntity dialog = new AddRelatedEntity(father);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                System.exit(0);
+                            }
+                        });
+                        dialog.setVisible(true);
+                    }
+                });
             }
         });
-        jPanel1.add(AddDriversButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));
+        jPanel1.add(AddEntityButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 200, 40));
 
         List<String> columns = Arrays.asList(
                 "Nombre", "Tipo", "Direccion",
@@ -130,7 +142,26 @@ public class RelatedEntityView extends javax.swing.JPanel {
         EditJButton.setText("   Editar");
         EditJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        int selectedRow = finalCustomTable.getSelectedRow();
+                        if (selectedRow != -1) {
+                            String entityName=finalCustomTable.getValueAt(selectedRow, 0).toString();
+                            RelatedEntity edit = ServicesLocator.getInstance().getRelatedEntityServices().obtainRelatedEntity(entityName);
+                            EditRelatedEntity dialog = new EditRelatedEntity(father, edit);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                    System.exit(0);
+                                }
+                            });
+                            dialog.setVisible(true);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Seleccione la Entidad que desea editar");
+                        }
+                    }
+                });
             }
         });
         jPanel1.add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));
@@ -157,7 +188,7 @@ public class RelatedEntityView extends javax.swing.JPanel {
 
     }
 
-    private javax.swing.JButton AddDriversButton;
+    private javax.swing.JButton AddEntityButton;
     private javax.swing.JTextField SearchTextField;
     private javax.swing.JLabel TitleLabel;
     private javax.swing.JLabel jLabel1;
