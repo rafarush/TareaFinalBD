@@ -251,4 +251,37 @@ public class LicenseServices {
         }
     }
 
+
+    public boolean hasPassedAllTestsInLast6Months(String driverId, String licenseType) {
+        String sql = """
+        SELECT COUNT(DISTINCT t.testtype) AS passed_count
+        FROM test t
+        WHERE t.driverid = ?
+          AND t.licensetype = ?
+          AND t.result = TRUE
+          AND t.date >= CURRENT_DATE - INTERVAL '6 months'
+          AND t.testtype IN ('Teorico', 'Practico', 'Medico')
+        """;
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, driverId);
+            pstmt.setString(2, licenseType);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt("passed_count");
+                    return count == 3;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 }
