@@ -6,6 +6,7 @@ import visual.DriverView.SelectDriver;
 
 import visual.MainScreen.MainScreen;
 import visual.PeriodTimeChooser;
+import visual.RelatedEntityView.SelectRelatedEntity;
 import visual.ReportScreen.ReportScreen;
 import visual.YearChooser;
 
@@ -323,19 +324,18 @@ public class ReportView extends javax.swing.JPanel {
     }
 
     private void jPanelRelatedEntityMouseClicked(java.awt.event.MouseEvent evt) {
-        try {
-            String pdfPath = PDFReportGenerator.createRelatedEntityReportPDF("Bailey Electronic LLC");
-
-            File file = new File(pdfPath);
-            if (file.exists()) {
-                Desktop.getDesktop().open(file);
-            } else {
-                throw new UnsupportedOperationException("El archivo no existe.");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                SelectRelatedEntity dialog = new SelectRelatedEntity(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
-        } catch (IOException e) {
-
-            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
-        }
+        });
     }
 
     private void jPanelLicenseMouseClicked(java.awt.event.MouseEvent evt) {
