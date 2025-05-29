@@ -65,7 +65,7 @@ public class InfractionServices {
                     infraction.setLocation(rs.getString("location"));
                     infraction.setDescription(rs.getString("description"));
                     infraction.setPoints(rs.getInt("points"));
-                    infraction.setIspaid(rs.getBoolean("status"));
+                    infraction.setIspaid(rs.getBoolean("ispaid"));
                 }
             }
 
