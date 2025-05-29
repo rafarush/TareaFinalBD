@@ -3,6 +3,7 @@ package visual.ReportView;
 import report.PDFReportGenerator;
 import services.ServicesLocator;
 import visual.DriverView.SelectDriver;
+
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
@@ -13,11 +14,11 @@ import java.io.IOException;
 public class ReportView extends javax.swing.JPanel {
 
 
-    public ReportView() {
-        initComponents();
+    public ReportView(MainScreen father) {
+        initComponents(father);
     }
 
-    private void initComponents() {
+    private void initComponents(MainScreen father) {
 
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
