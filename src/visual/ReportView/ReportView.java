@@ -7,6 +7,7 @@ import visual.DriverView.SelectDriver;
 import visual.MainScreen.MainScreen;
 import visual.PeriodTimeChooser;
 import visual.ReportScreen.ReportScreen;
+import visual.YearChooser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -350,20 +351,18 @@ public class ReportView extends javax.swing.JPanel {
     }
 
     private void jPanelConsolidatedInfractionMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-        try {
-            String pdfPath = PDFReportGenerator.createConsolidatedInfractionReportPDF(2025);
-
-            File file = new File(pdfPath);
-            if (file.exists()) {
-                Desktop.getDesktop().open(file);
-            } else {
-                throw new UnsupportedOperationException("El archivo no existe.");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                YearChooser dialog = new YearChooser(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
-        } catch (IOException e) {
-
-            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
-        }
+        });
     }
 
     private void jPanelExpiredLicenseMouseClicked(java.awt.event.MouseEvent evt) {
