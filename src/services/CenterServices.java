@@ -71,6 +71,38 @@ public class CenterServices {
         return center;
     }
 
+    public Center getCenter() {
+        Center center = null;
+        String sql = "SELECT * FROM Center LIMIT 1";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    center = new Center();
+                    center.setCenterCode(rs.getString("centerCode"));
+                    center.setCenterName(rs.getString("centerName"));
+                    center.setPostalAddress(rs.getString("postalAddress"));
+                    center.setPhone(rs.getString("phone"));
+                    center.setCenterEmail(rs.getString("centerEmail"));
+                    center.setGeneralDirectorName(rs.getString("generalDirectorName"));
+                    center.setHrManager(rs.getString("hrManager"));
+                    center.setAccountingManager(rs.getString("accountingManager"));
+                    center.setSecretaryName(rs.getString("secretaryName"));
+                    center.setLogo(rs.getString("logo"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return center;
+    }
+
+
+
+
+
     public void updateCenter(Center center) {
         if (center != null) {
             String sql = "UPDATE Center SET centerName = ?, postalAddress = ?, phone = ?, centerEmail = ?, " +
