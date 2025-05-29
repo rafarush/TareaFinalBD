@@ -133,45 +133,8 @@ public class MainScreen extends javax.swing.JFrame {
         ReportsButton.setBorder(null);
         ReportsButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ReportView p5 = new ReportView();
-                p5.setSize(1560, 1050);
-                p5.setLocation(0,0);
+                ReportsButtonMouseClicked(evt);
 
-                Content.removeAll();
-                Content.add(p5,BorderLayout.CENTER);
-                Content.revalidate();
-                Content.repaint();
-            }
-        });
-        SideBar.add(ReportsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 90, 45));
-
-
-
-        RelatedEntityButton.setBackground(new java.awt.Color(47, 50, 65));
-        RelatedEntityButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/edifice1.png"))); // NOI18N
-        RelatedEntityButton.setToolTipText("");
-        RelatedEntityButton.setBorder(null);
-        RelatedEntityButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-
-            }
-        });
-        SideBar.add(RelatedEntityButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 90, 45));
-
-        ReportsButton.setBackground(new java.awt.Color(47, 50, 65));
-        ReportsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-pizarra-50.png"))); // NOI18N
-        ReportsButton.setToolTipText("");
-        ReportsButton.setBorder(null);
-        ReportsButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ReportView p5 = new ReportView();
-                p5.setSize(1560, 1050);
-                p5.setLocation(0,0);
-
-                Content.removeAll();
-                Content.add(p5,BorderLayout.CENTER);
-                Content.revalidate();
-                Content.repaint();
             }
         });
         SideBar.add(ReportsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 90, 45));
@@ -197,6 +160,19 @@ public class MainScreen extends javax.swing.JFrame {
         Content.revalidate();
         Content.repaint();
     }
+
+    private void ReportsButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        ReportView p5 = new ReportView(this);
+        p5.setSize(1560, 1050);
+        p5.setLocation(0,0);
+
+        Content.removeAll();
+        Content.add(p5,BorderLayout.CENTER);
+        Content.revalidate();
+        Content.repaint();
+
+    }
+
     private void DriversButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DriversButtonMouseClicked
         DriversView p2 = new DriversView(this);
         p2.setSize(1560, 1050);
