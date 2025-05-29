@@ -19,7 +19,7 @@ public class UserServices {
 
                 pstmt.setString(1, user.getUsername());
                 pstmt.setString(2, user.getPassword());
-                pstmt.setString(3, user.getRole().getRole());
+                pstmt.setString(3, user.getRole());
 
                 pstmt.executeUpdate();
 
@@ -43,12 +43,36 @@ public class UserServices {
                     user = new User();
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
-                    user.setRole(new Role(rs.getString("role")));
+                    user.setRole(rs.getString("role"));
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return user;
+    }
+
+
+    public User getUser(String username, String password) {
+        User user = null;
+        String sql = "SELECT * FROM \"user\" WHERE username = ? AND password = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setRole(rs.getString("role"));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Usuario o constraseña incorrecta. ");
         }
         return user;
     }
@@ -64,7 +88,7 @@ public class UserServices {
                 User user = new User();
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
-                user.setRole(new Role(rs.getString("role")));
+                user.setRole(rs.getString("role"));
                 list.add(user);
             }
 
@@ -81,7 +105,7 @@ public class UserServices {
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
                 pstmt.setString(1, user.getPassword());
-                pstmt.setString(2, user.getRole().getRole());
+                pstmt.setString(2, user.getRole());
                 pstmt.setString(3, user.getUsername());
 
                 int affectedRows = pstmt.executeUpdate();

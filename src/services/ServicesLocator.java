@@ -16,13 +16,14 @@ public class ServicesLocator {
     private final RelatedEntityTypeServices relatedEntityTypeServices;
     private final TestServices testServices;
     private final TestTypeServices testTypeServices;
+    private final UserServices userServices;
 
     
     private ServicesLocator(CenterServices centerServices, DriverServices driverServices, InfractionServices infractionServices,
                             InfractionTypeServices infractionTypeServices, LicenseCategoryServices licenseCategoryServices,
                             LicenseServices licenseServices, LicenseStatusServices licenseStatusServices,
                             RelatedEntityServices relatedEntityServices, RelatedEntityTypeServices relatedEntityTypeServices,
-                            TestServices testServices, TestTypeServices testTypeServices) {
+                            TestServices testServices, TestTypeServices testTypeServices, UserServices userServices) {
         this.centerServices = centerServices;
         this.driverServices = driverServices;
         this.infractionServices = infractionServices;
@@ -34,13 +35,14 @@ public class ServicesLocator {
         this.relatedEntityTypeServices = relatedEntityTypeServices;
         this.testServices = testServices;
         this.testTypeServices = testTypeServices;
+        this.userServices = userServices;
     }
 
     public static ServicesLocator getInstance() {
         if (instance == null) {
             instance = new ServicesLocator(new CenterServices(), new DriverServices(), new InfractionServices(),
                     new InfractionTypeServices(), new LicenseCategoryServices(), new LicenseServices(), new LicenseStatusServices(),
-                    new RelatedEntityServices(), new RelatedEntityTypeServices(), new TestServices(), new TestTypeServices());
+                    new RelatedEntityServices(), new RelatedEntityTypeServices(), new TestServices(), new TestTypeServices(), new UserServices());
         }
         return instance;
     }
@@ -88,5 +90,7 @@ public class ServicesLocator {
     public TestTypeServices getTestTypeServices() {
         return testTypeServices;
     }
+
+    public UserServices getUserServices() {return userServices;}
 }
 
