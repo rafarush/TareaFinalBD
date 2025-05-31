@@ -2,6 +2,7 @@ package visual.LoginScreen;
 
 import models.User;
 import services.ServicesLocator;
+import utils.PasswordUtil;
 import visual.MainScreen.MainScreen;
 import visual.ReportScreen.ReportScreen;
 import visual.ReportView.ReportView;
@@ -88,11 +89,11 @@ public class LoginScreen extends JFrame {
             String password = new String(passwordText.getPassword());
 
             try {
-                User user = ServicesLocator.getInstance().getUserServices().getUser(username, password);
-                if (user != null) {
+                User user = ServicesLocator.getInstance().getUserServices().getUser(username);
+                if(user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
                     openWindowsOnRole(user);
                     dispose();
-                } else {
+                }else {
                     errorLabel.setText("Usuario o contraseña incorrectos.");
                 }
             } catch (Exception ex) {

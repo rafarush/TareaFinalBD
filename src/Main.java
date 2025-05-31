@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             /*USERS            PASSWORD      role
-            * Administrator     admin       admin
+            * Admin     admin       admin
             * Anaisa           anaisa       manager
             * Tony              tony         client
             *
