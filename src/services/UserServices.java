@@ -3,6 +3,7 @@ package services;
 import dataBase.DataBaseConnection;
 import models.Role;
 import models.User;
+import utils.PasswordUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class UserServices {
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
                 pstmt.setString(1, user.getUsername());
-                pstmt.setString(2, user.getPassword());
+                pstmt.setString(2, PasswordUtil.hashPassword(user.getPassword()));
                 pstmt.setString(3, user.getRole());
 
                 pstmt.executeUpdate();
@@ -49,30 +50,6 @@ public class UserServices {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        return user;
-    }
-
-
-    public User getUser(String username, String password) {
-        User user = null;
-        String sql = "SELECT * FROM \"user\" WHERE username = ? AND password = ?";
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    user = new User();
-                    user.setUsername(rs.getString("username"));
-                    user.setPassword(rs.getString("password"));
-                    user.setRole(rs.getString("role"));
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new IllegalArgumentException("Usuario o constraseña incorrecta. ");
         }
         return user;
     }
