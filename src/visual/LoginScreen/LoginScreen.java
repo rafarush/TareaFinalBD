@@ -107,11 +107,14 @@ public class LoginScreen extends JFrame {
     private void openWindowsOnRole(User user) {
         switch (user.getRole()) {
             case "admin":
-                new MainScreen().setVisible(true);
+                new MainScreen(true).setVisible(true);
                 break;
             case "client":
                 new ReportScreen().setVisible(true);
                 //new ReportView(null).setVisible(true);
+                break;
+            case "manager":
+                new MainScreen(false).setVisible(true);
                 break;
             default:
                 JOptionPane.showMessageDialog(this, "Rol desconocido: " + user.getRole());

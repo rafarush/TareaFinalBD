@@ -5,6 +5,7 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,8 +63,18 @@ public class AddLicense extends javax.swing.JDialog {
         });
         jPanel1.add(carnetIDJTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 500, 40));
 
-        jComboBox1.setBackground(new java.awt.Color(47, 50, 65));
+        //jComboBox1.setBackground(new java.awt.Color(47, 50, 65));
         jComboBox1.setForeground(new java.awt.Color(255, 215, 179));
+        jComboBox1.setBackground(new java.awt.Color(47, 50, 65));
+        jComboBox1.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         ArrayList<String> licenseDriver = new ArrayList<String>();
         try{
             licenseDriver= (ArrayList<String>) ServicesLocator.getInstance().getDriverServices().getMissingLicenses(driver.getDriverId());

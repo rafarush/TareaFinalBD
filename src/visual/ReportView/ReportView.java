@@ -308,7 +308,7 @@ public class ReportView extends javax.swing.JPanel {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                MainScreen parent = new MainScreen();
+                MainScreen parent = new MainScreen(false);
                 SelectDriver dialog = new SelectDriver(parent,3);
 
                 dialog.setLocationRelativeTo(null);
