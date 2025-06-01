@@ -267,7 +267,7 @@ public class InfractionServices {
         if (licenseId == null) {
             throw new NullPointerException("The license ID cannot be null");
         }
-        String sql = "SELECT sum(points) FROM infraction WHERE licenseid = ?";
+        String sql = "SELECT sum(points) as points FROM infraction WHERE licenseid = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
 
@@ -275,7 +275,7 @@ public class InfractionServices {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(licenseId);
-                int currentPoints = rs.getInt("sum(points)");
+                int currentPoints = rs.getInt("points");
                 changeStatusOnYears(currentPoints, license);
 
             }else{
@@ -327,5 +327,9 @@ public class InfractionServices {
 
         return found;
     }
+
+//    public ArrayList<Infraction> getInfractions() {
+//
+//    }
 
 }
