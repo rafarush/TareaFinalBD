@@ -96,6 +96,70 @@ public class LicenseServices {
         return list;
     }
 
+    public List<License> getAllLicensesRevocated() {
+        List<License> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT l.* \n" +
+                "FROM license l \n" +
+                "JOIN infraction i ON l.licenseid = i.licenseid \n" +
+                "WHERE l.licensestatus != 'Revocada' \n" +
+                "AND i.\"date\" < CURRENT_DATE - INTERVAL '6 months' \n" +
+                "AND i.ispaid = FALSE" ;
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                License license = new License();
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("driverId"));
+                license.setLicenseType(rs.getString("licenseType"));
+                license.setIssueDate(rs.getDate("issueDate"));
+                license.setExpirationDate(rs.getDate("expirationDate"));
+                license.setRestrictions(rs.getString("restrictions"));
+                license.setRenewed(rs.getBoolean("renewed"));
+                license.setLicenseStatus(rs.getString("licenseStatus"));
+                list.add(license);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    public List<License> getAllLicensesExpirated() {
+        List<License> list = new ArrayList<>();
+        String sql = "SELECT \n" +
+                "  * \n" +
+                "FROM \n" +
+                "  license \n" +
+                "WHERE \n" +
+                "  expirationdate < CURRENT_DATE \n" +
+                "  AND licensestatus = 'Vigente'" ;
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                License license = new License();
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("driverId"));
+                license.setLicenseType(rs.getString("licenseType"));
+                license.setIssueDate(rs.getDate("issueDate"));
+                license.setExpirationDate(rs.getDate("expirationDate"));
+                license.setRestrictions(rs.getString("restrictions"));
+                license.setRenewed(rs.getBoolean("renewed"));
+                license.setLicenseStatus(rs.getString("licenseStatus"));
+                list.add(license);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public void updateLicense(License license) {
         if (license != null) {
             String sql = "UPDATE License SET driverId = ?, licenseType = ?, issueDate = ?, expirationDate = ?, " +
@@ -243,10 +307,16 @@ public class LicenseServices {
         return list;
     }
 
+    private void expireLicense() {
+        ArrayList<License> licenses = (ArrayList<License>) ServicesLocator.getInstance().getLicenseServices().getAllLicensesExpirated();
+        for (License license : licenses) {
+            changeLicenceStatus(license, "Vencida");
+        }
+    }
+
     private void cancelLicensesWithInfractionsNotPaid(){
-        ArrayList<Infraction> infractions = ServicesLocator.getInstance().getInfractionServices().get6MonthsNotPaidInfractions();
-        for (Infraction infraction : infractions) {
-            License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(infraction.getLicenseId());
+        ArrayList<License> licenses = (ArrayList<License>) ServicesLocator.getInstance().getLicenseServices().getAllLicensesRevocated();
+        for (License license : licenses) {
             changeLicenceStatus(license, "Revocada");
         }
     }
@@ -307,13 +377,20 @@ public class LicenseServices {
         System.out.println("cancel Liceses data refreshed");
         System.out.println("Tiempo de ejecución: " + durationInMillis + " ms");
 
+        startTime = System.nanoTime();  // tiempo inicial
 
+        renewLicensesWithExpiredInfractions();
 
+        endTime = System.nanoTime();    // tiempo final
+        durationInMillis = (endTime - startTime) / 1_000_000;  // convertir a milisegundos
+
+        System.out.println("Renova Liceses data refreshed");
+        System.out.println("Tiempo de ejecución: " + durationInMillis + " ms");
 
 
         startTime = System.nanoTime();  // tiempo inicial
 
-        renewLicensesWithExpiredInfractions();
+        expireLicense();
 
         endTime = System.nanoTime();    // tiempo final
         durationInMillis = (endTime - startTime) / 1_000_000;  // convertir a milisegundos
