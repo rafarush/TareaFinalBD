@@ -94,23 +94,34 @@ public class LoginScreen extends JFrame {
         loginButton.addActionListener(e -> {
             String username = userText.getText().trim();
             String password = new String(passwordText.getPassword());
-
-            try {
-                User user = ServicesLocator.getInstance().getUserServices().getUser(username);
-                if(user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
-                    openWindowsOnRole(user);
-                    dispose();
-                }else {
-                    errorLabel.setText("Usuario o contraseña incorrectos.");
-                }
-            } catch (Exception ex) {
-                errorLabel.setText("Error de conexión o validación.");
-                ex.printStackTrace();
-            }
+            attemptLogin(username, password, errorLabel);
         });
+
+        passwordText.addActionListener(e -> {
+            String username = userText.getText().trim();
+            String password = new String(passwordText.getPassword());
+            attemptLogin(username, password, errorLabel);
+        });
+
 
         add(panel);
     }
+
+    private void attemptLogin(String username, String password, JLabel errorLabel) {
+        try {
+            User user = ServicesLocator.getInstance().getUserServices().getUser(username);
+            if(user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
+                openWindowsOnRole(user);
+                dispose();
+            } else {
+                errorLabel.setText("Usuario o contraseña incorrectos.");
+            }
+        } catch (Exception ex) {
+            errorLabel.setText("Error de conexión o validación.");
+            ex.printStackTrace();
+        }
+    }
+
 
     private void openWindowsOnRole(User user) {
         switch (user.getRole()) {
