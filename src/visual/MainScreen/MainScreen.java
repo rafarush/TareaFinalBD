@@ -163,8 +163,50 @@ public class MainScreen extends javax.swing.JFrame {
 
         getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1690, 1050));
 
+
+        RefreshButton = new javax.swing.JButton();
+        RefreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/refresh.png"))); // ícono de recargar
+        RefreshButton.setToolTipText("Refrescar vista actual");
+        RefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        RefreshButton.setBorder(null);
+        RefreshButton.setBackground(new java.awt.Color(47, 50, 65));
+        RefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refrescarVistaActual();
+            }
+        });
+
+        MainPanel.add(RefreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 20, 45, 45));
+        MainPanel.setComponentZOrder(RefreshButton, 0);
+
         pack();
+
     }// </editor-fold>//GEN-END:initComponents
+
+
+    private void refrescarVistaActual() {
+        if (Content.getComponentCount() > 0) {
+            java.awt.Component actual = Content.getComponent(0);
+            if (actual instanceof visual.DriverView.DriversView) {
+                Actualizar(1);
+            } else if (actual instanceof visual.LicenseView.LicensView) {
+                Actualizar(2);
+            } else if (actual instanceof visual.ExamView.ExamView) {
+                Actualizar(3);
+            } else if (actual instanceof visual.InfractionView.InfractionView) {
+                Actualizar(4);
+            } else if (actual instanceof visual.RelatedEntityView.RelatedEntityView) {
+                Actualizar(5);
+            } else if (actual instanceof visual.UserView.UserView) {
+                Actualizar(6);
+            } else if (actual instanceof visual.LicenseTypeView.LicenseCategoryView) {
+                Actualizar(7);
+            }
+        }
+    }
+
+
+
 
     private void RelatedEntityButtonMouseClicked(java.awt.event.MouseEvent evt) {
         RelatedEntityView p6 = new RelatedEntityView(this);
@@ -353,4 +395,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JPanel SideBar;
     private javax.swing.JButton UsuariosButton;
     private javax.swing.JButton CategoriaButton;
+
+    private javax.swing.JButton RefreshButton;
+
 }
