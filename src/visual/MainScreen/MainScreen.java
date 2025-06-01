@@ -172,7 +172,7 @@ public class MainScreen extends javax.swing.JFrame {
         RefreshButton.setBackground(new java.awt.Color(47, 50, 65));
         RefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refrescarVistaActual();
+                refreshCurrentView();
             }
         });
 
@@ -184,7 +184,7 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void refrescarVistaActual() {
+    private void refreshCurrentView() {
         if (Content.getComponentCount() > 0) {
             java.awt.Component actual = Content.getComponent(0);
             if (actual instanceof visual.DriverView.DriversView) {
