@@ -173,6 +173,7 @@ public class MainScreen extends javax.swing.JFrame {
         RefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshCurrentView();
+
             }
         });
 
@@ -183,8 +184,8 @@ public class MainScreen extends javax.swing.JFrame {
 
     }// </editor-fold>//GEN-END:initComponents
 
-
     private void refreshCurrentView() {
+
         if (Content.getComponentCount() > 0) {
             java.awt.Component actual = Content.getComponent(0);
             if (actual instanceof visual.DriverView.DriversView) {
