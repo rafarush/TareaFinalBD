@@ -100,7 +100,7 @@ public class ExamView extends javax.swing.JPanel {
 
         // 1. Configurar datos
         List<String> columns = Arrays.asList(
-                "Código","Codigo Conductor","Tipo",
+                "Código","Conductor","Tipo",
                 "Fecha", "Entidad", "Examinador", "Resultado"
         );
 
