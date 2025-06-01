@@ -173,9 +173,10 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
 
-            java.sql.Date start = new java.sql.Date(beginDate.getTime());
-            java.sql.Date end = new java.sql.Date(endDate.getTime());
+
             try {
+                java.sql.Date start = new java.sql.Date(beginDate.getTime());
+                java.sql.Date end = new java.sql.Date(endDate.getTime());
                 String pdfPath = PDFReportGenerator.createLicenseReportPDF(start, end);
 
                 File file = new File(pdfPath);
@@ -192,57 +193,92 @@ public class PeriodTimeChooser extends javax.swing.JDialog {
     }
 
     private void testReport(){
-        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
-        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
-        try {
-            String pdfPath = PDFReportGenerator.createTestReportPDF(start, end);
+        Date beginDate = this.beginDate.getDate();
+        Date endDate = this.endDate.getDate();
 
-            File file = new File(pdfPath);
-            if (file.exists()) {
-                Desktop.getDesktop().open(file);
-            } else {
-                throw new UnsupportedOperationException("El archivo no existe.");
-            }
-        } catch (IOException e) {
-
-            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        if (beginDate == null || endDate == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar ambas fechas.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        if (beginDate.after(endDate)) {
+            JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                java.sql.Date start = new java.sql.Date(beginDate.getTime());
+                java.sql.Date end = new java.sql.Date(endDate.getTime());
+                String pdfPath = PDFReportGenerator.createTestReportPDF(start, end);
+
+                File file = new File(pdfPath);
+                if (file.exists()) {
+                    Desktop.getDesktop().open(file);
+                } else {
+                    throw new UnsupportedOperationException("El archivo no existe.");
+                }
+            } catch (IOException e) {
+
+                JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+            }
+        }
+
+
     }
 
     private void issuedInfractions(){
-        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
-        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
-        try {
-            String pdfPath = PDFReportGenerator.createInfractionReportPDF(start, end);
-
-            File file = new File(pdfPath);
-            if (file.exists()) {
-                Desktop.getDesktop().open(file);
-            } else {
-                throw new UnsupportedOperationException("El archivo no existe.");
-            }
-        } catch (IOException e) {
-
-            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        Date beginDate = this.beginDate.getDate();
+        Date endDate = this.endDate.getDate();
+        if (beginDate == null || endDate == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar ambas fechas.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        if (beginDate.after(endDate)) {
+            JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            java.sql.Date start = new java.sql.Date(beginDate.getTime());
+            java.sql.Date end = new java.sql.Date(endDate.getTime());
+            try {
+                String pdfPath = PDFReportGenerator.createInfractionReportPDF(start, end);
+
+                File file = new File(pdfPath);
+                if (file.exists()) {
+                    Desktop.getDesktop().open(file);
+                } else {
+                    throw new UnsupportedOperationException("El archivo no existe.");
+                }
+            } catch (IOException e) {
+
+                JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+            }
+        }
+
     }
 
     private void expiredLicenses(){
-        java.sql.Date start = java.sql.Date.valueOf("2020-01-01");
-        java.sql.Date end = java.sql.Date.valueOf("2025-03-31");
-        try {
-            String pdfPath = PDFReportGenerator.createExpiredLicensesReportPDF(start, end);
-
-            File file = new File(pdfPath);
-            if (file.exists()) {
-                Desktop.getDesktop().open(file);
-            } else {
-                throw new UnsupportedOperationException("El archivo no existe.");
-            }
-        } catch (IOException e) {
-
-            JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+        Date beginDate = this.beginDate.getDate();
+        Date endDate = this.endDate.getDate();
+        if (beginDate == null || endDate == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar ambas fechas.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        if (beginDate.after(endDate)) {
+            JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            java.sql.Date start = new java.sql.Date(beginDate.getTime());
+            java.sql.Date end = new java.sql.Date(endDate.getTime());
+            try {
+                String pdfPath = PDFReportGenerator.createExpiredLicensesReportPDF(start, end);
+
+                File file = new File(pdfPath);
+                if (file.exists()) {
+                    Desktop.getDesktop().open(file);
+                } else {
+                    throw new UnsupportedOperationException("El archivo no existe.");
+                }
+            } catch (IOException e) {
+
+                JOptionPane.showMessageDialog(null, "Hubo un problema al crear el reporte.");
+            }
+        }
+
     }
 
     // Variables declaration - do not modify
