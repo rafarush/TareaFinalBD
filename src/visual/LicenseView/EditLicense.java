@@ -124,6 +124,7 @@ public class EditLicense extends javax.swing.JDialog {
         }
         String[] arr = list.toArray(new String[list.size()]);
         estatus.setModel(new javax.swing.DefaultComboBoxModel<>(arr));
+        estatus.setEnabled(false);
         jPanel1.add(estatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 230, 40));
 
         AddjButton1.setBackground(new java.awt.Color(232, 152, 70));
