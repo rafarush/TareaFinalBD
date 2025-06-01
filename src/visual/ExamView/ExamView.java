@@ -110,7 +110,7 @@ public class ExamView extends javax.swing.JPanel {
         );
 
         try {
-            List<Test>testBD = ServicesLocator.getInstance().getTestServices().getAllTests();
+            List<Test>testBD = ServicesLocator.getInstance().getTestServices().getAllTestsWithDriverName();
             Object[][] data =new Object[testBD.size()][7];
             int pos=0;
             for (Test d : testBD) {
