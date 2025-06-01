@@ -1,4 +1,5 @@
 package visual.MainScreen;
+import services.ServicesLocator;
 import visual.DriverView.DriversView;
 import visual.ExamView.ExamView;
 import visual.InfractionView.InfractionView;
@@ -10,6 +11,7 @@ import visual.RelatedEntityView.RelatedEntityView;
 import visual.ReportView.ReportView;
 import visual.UserView.UserView;
 
+import javax.swing.*;
 import java.awt.BorderLayout;
 public class MainScreen extends javax.swing.JFrame {
 
@@ -172,7 +174,9 @@ public class MainScreen extends javax.swing.JFrame {
         RefreshButton.setBackground(new java.awt.Color(47, 50, 65));
         RefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ServicesLocator.getInstance().getLicenseServices().refreshLicesesData();
                 refreshCurrentView();
+                JOptionPane.showMessageDialog(null, "Datos actualizados con exito");
             }
         });
 

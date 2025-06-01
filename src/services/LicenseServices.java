@@ -295,10 +295,33 @@ public class LicenseServices {
         }
     }
 
-    public void refreshLicesesData(){
+    public void refreshLicesesData() {
+        long startTime = System.nanoTime();  // tiempo inicial
+
         cancelLicensesWithInfractionsNotPaid();
+
+
+        long endTime = System.nanoTime();    // tiempo final
+        long durationInMillis = (endTime - startTime) / 1_000_000;  // convertir a milisegundos
+
+        System.out.println("cancel Liceses data refreshed");
+        System.out.println("Tiempo de ejecución: " + durationInMillis + " ms");
+
+
+
+
+
+        startTime = System.nanoTime();  // tiempo inicial
+
         renewLicensesWithExpiredInfractions();
+
+        endTime = System.nanoTime();    // tiempo final
+        durationInMillis = (endTime - startTime) / 1_000_000;  // convertir a milisegundos
+
+        System.out.println("Renova Liceses data refreshed");
+        System.out.println("Tiempo de ejecución: " + durationInMillis + " ms");
     }
+
 
     public boolean hasPassedAllTestsInLast6Months(String driverId, String licenseType) {
         String sql = """

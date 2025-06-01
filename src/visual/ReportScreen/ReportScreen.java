@@ -1,7 +1,9 @@
 package visual.ReportScreen;
 
+import services.ServicesLocator;
 import visual.ReportView.ReportView;
 
+import javax.swing.*;
 import java.awt.BorderLayout;
 
 public class ReportScreen extends javax.swing.JFrame {
@@ -37,10 +39,28 @@ public class ReportScreen extends javax.swing.JFrame {
 
         getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 1050));
 
+        RefreshButton = new javax.swing.JButton();
+        RefreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/refresh.png"))); // ícono de recargar
+        RefreshButton.setToolTipText("Refrescar vista actual");
+        RefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        RefreshButton.setBorder(null);
+        RefreshButton.setBackground(new java.awt.Color(47, 50, 65));
+        RefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ServicesLocator.getInstance().getLicenseServices().refreshLicesesData();
+                JOptionPane.showMessageDialog(null, "Datos actualizados con exito");
+            }
+        });
+
+        MainPanel.add(RefreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 20, 45, 45));
+        MainPanel.setComponentZOrder(RefreshButton, 0);
+
+
         pack();
     }
 
     private javax.swing.JPanel Content;
     private javax.swing.JPanel MainPanel;
+    private javax.swing.JButton RefreshButton;
 }
 
