@@ -12,10 +12,14 @@ import services.ServicesLocator;
 import visual.CustomTable;
 import visual.MainScreen.MainScreen;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 
 /**
@@ -52,20 +56,7 @@ public class DriversView extends javax.swing.JPanel {
         TitleLabel.setText("Gestion de Conductores");
         add(TitleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 600, 40));
 
-        SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
-        SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
-        SearchTextField.setText("Buscar conductor...");
-        SearchTextField.setBorder(null);
-        SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                SearchTextFieldMouseClicked(evt);
-            }
-        });
-        SearchTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchTextFieldActionPerformed(evt);
-            }
-        });
+
         add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 50, 230, 40));
 
         jLabel1.setBackground(new java.awt.Color(47, 50, 65));
@@ -109,7 +100,7 @@ public class DriversView extends javax.swing.JPanel {
 
         try {
             List<Driver>driversBD = ServicesLocator.getInstance().getDriverServices().getAllDrivers();
-            Object[][] data =new Object[driversBD.size()][5];
+            Object[][] data = new Object[driversBD.size()][5];
             int pos=0;
             for (Driver d : driversBD) {
                 Object[] row = {d.getFirstName()+" "+d.getLastName(),d.getDriverId(),d.getBirthDate().toString(),d.getPhone(),d.getEmail()};
@@ -118,6 +109,7 @@ public class DriversView extends javax.swing.JPanel {
             }
             customTable = new CustomTable(columns, data);
             customTable.getTableHeader().setReorderingAllowed(false);
+            tableSorter = new TableRowSorter<>((DefaultTableModel) customTable.getModel());
 
             jScrollPane2.setViewportView(customTable);
 
@@ -152,6 +144,30 @@ public class DriversView extends javax.swing.JPanel {
             }
         });
         add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 130, 140, 40));
+
+        SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
+        SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
+        SearchTextField.setText("Buscar conductor...");
+        SearchTextField.setBorder(null);
+        SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SearchTextFieldMouseClicked(evt);
+            }
+        });
+        SearchTextField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar()=='\n'){
+                    String aux = SearchTextField.getText();
+                    if(aux.trim().length()==0){
+                        tableSorter.setRowFilter(null);
+                        finalCustomTable.setRowSorter(tableSorter);
+                    }else{
+                        tableSorter.setRowFilter(RowFilter.regexFilter("(?i)"+aux));
+                        finalCustomTable.setRowSorter(tableSorter);
+                    }
+                }
+            }
+        });
 
         EditJButton.setBackground(new java.awt.Color(255, 204, 0));
         EditJButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -194,6 +210,7 @@ public class DriversView extends javax.swing.JPanel {
 
     private void SearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchTextFieldMouseClicked
         SearchTextField.setText("");
+
     }//GEN-LAST:event_SearchTextFieldMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {
@@ -208,5 +225,6 @@ public class DriversView extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JButton EditJButton;
+    private TableRowSorter<DefaultTableModel> tableSorter;
 
 }

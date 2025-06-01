@@ -11,9 +11,13 @@ import visual.CustomTable;
 import visual.DriverView.SelectDriver;
 import visual.MainScreen.MainScreen;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -51,16 +55,7 @@ public class ExamView extends javax.swing.JPanel {
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar examen...");
         SearchTextField.setBorder(null);
-        SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                SearchTextFieldMouseClicked(evt);
-            }
-        });
-        SearchTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchTextFieldActionPerformed(evt);
-            }
-        });
+
         add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 60, 230, 40));
 
 
@@ -130,6 +125,26 @@ public class ExamView extends javax.swing.JPanel {
         DeleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/utils/Icons/icons8-borrar-para-siempre-30.png"))); // NOI18N
         DeleteButton.setText("Eliminar");
         CustomTable finalCustomTable = customTable;
+        tableSorter = new TableRowSorter<>((DefaultTableModel) customTable.getModel());
+        SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SearchTextFieldMouseClicked(evt);
+            }
+        });
+        SearchTextField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar()=='\n'){
+                    String aux = SearchTextField.getText();
+                    if(aux.trim().length()==0){
+                        tableSorter.setRowFilter(null);
+                        finalCustomTable.setRowSorter(tableSorter);
+                    }else{
+                        tableSorter.setRowFilter(RowFilter.regexFilter("(?i)"+aux));
+                        finalCustomTable.setRowSorter(tableSorter);
+                    }
+                }
+            }
+        });
         DeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int selectedRow = finalCustomTable.getSelectedRow();
@@ -214,5 +229,6 @@ public class ExamView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JButton EditJButton;
+    private TableRowSorter<DefaultTableModel> tableSorter;
 
 }
