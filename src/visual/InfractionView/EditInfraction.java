@@ -6,6 +6,8 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -57,6 +59,9 @@ public class EditInfraction extends javax.swing.JDialog {
 
         description.setBackground(new java.awt.Color(47, 50, 65));
         description.setForeground(new java.awt.Color(204, 204, 204));
+        description.setText(edit.getDescription());
+        description.getCaret().setBlinkRate(500);
+        description.setCaretColor(Color.lightGray);
         description.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -66,6 +71,15 @@ public class EditInfraction extends javax.swing.JDialog {
 
         infractionType.setBackground(new java.awt.Color(47, 50, 65));
         infractionType.setForeground(new java.awt.Color(255, 215, 179));
+        infractionType.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         List<InfractionType> type = ServicesLocator.getInstance().getInfractionTypeServices().getAllInfractionTypes();
         ArrayList<String> list = new ArrayList<>();
         for (InfractionType i : type) {
@@ -106,6 +120,15 @@ public class EditInfraction extends javax.swing.JDialog {
 
         estatus.setBackground(new java.awt.Color(47, 50, 65));
         estatus.setForeground(new java.awt.Color(255, 215, 179));
+        estatus.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagada", "No pagada" }));
         estatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +169,9 @@ public class EditInfraction extends javax.swing.JDialog {
 
         address.setBackground(new java.awt.Color(47, 50, 65));
         address.setForeground(new java.awt.Color(204, 204, 204));
+        address.setText(edit.getLocation());
+        address.getCaret().setBlinkRate(500);
+        address.setCaretColor(Color.lightGray);
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField5ActionPerformed(evt);

@@ -236,6 +236,9 @@ public class LicensView extends javax.swing.JPanel {
                             });
                             dialog.setVisible(true);
                         }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Seleccione la licencia que desea editar");
+                        }
                     }
                 });
             }

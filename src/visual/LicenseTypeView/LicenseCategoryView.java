@@ -6,6 +6,7 @@ import visual.CustomTable;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class LicenseCategoryView extends javax.swing.JPanel {
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar tipo de licencia...");
         SearchTextField.setBorder(null);
+        SearchTextField.getCaret().setBlinkRate(500);
+        SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 SearchTextFieldMouseClicked(evt);
@@ -126,52 +129,11 @@ public class LicenseCategoryView extends javax.swing.JPanel {
             }
         });
         add(DeleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 130, 140, 40));
-
-        EditJButton.setBackground(new java.awt.Color(255, 204, 0));
-        EditJButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        EditJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-pencil-30.png"))); // NOI18N
-        EditJButton.setText("   Editar");
-        EditJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                int select = finalCustomTable.getSelectedRow();
-                if (select != -1) {
-                    String licensetype = (String) finalCustomTable.getValueAt(select,0);
-                    try{
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                LicenseCategory category = ServicesLocator.getInstance().getLicenseCategoryServices().obtainLicenseCategory(licensetype);
-                                EditLicenseCategory dialog = new EditLicenseCategory(parent, category);
-                                dialog.setLocationRelativeTo(null);
-                                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                    @Override
-                                    public void windowClosing(java.awt.event.WindowEvent e) {
-                                        System.exit(0);
-                                    }
-                                });
-                                dialog.setVisible(true);
-                            }
-                        });
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(parent,e.getMessage());
-                    }
-                }
-            }
-        });
-        add(EditJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 140, 40));
     }// </editor-fold>
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {
         SearchTextField.requestFocusInWindow();
         SearchTextField.setText("");
-    }
-
-
-    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }
-
-    private void EditJButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void SearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {

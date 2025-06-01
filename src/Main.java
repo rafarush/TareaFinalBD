@@ -17,6 +17,5 @@ public class Main {
             //new MainScreen().setVisible(true);
             new LoginScreen().setVisible(true);
         });
-
-    }
+    } 
 }

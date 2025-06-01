@@ -5,6 +5,7 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AddCategoryLicense extends javax.swing.JDialog {
 
@@ -71,6 +72,8 @@ public class AddCategoryLicense extends javax.swing.JDialog {
 
         licenseType.setBackground(new java.awt.Color(47, 50, 65));
         licenseType.setForeground(new java.awt.Color(204, 204, 204));
+        licenseType.getCaret().setBlinkRate(500);
+        licenseType.setCaretColor(Color.lightGray);
         jPanel1.add(licenseType, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 230, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -80,6 +83,8 @@ public class AddCategoryLicense extends javax.swing.JDialog {
 
         licenseCategory.setBackground(new java.awt.Color(47, 50, 65));
         licenseCategory.setForeground(new java.awt.Color(204, 204, 204));
+        licenseCategory.getCaret().setBlinkRate(500);
+        licenseCategory.setCaretColor(Color.lightGray);
         jPanel1.add(licenseCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 110, 230, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 310));

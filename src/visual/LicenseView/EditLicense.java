@@ -1,10 +1,17 @@
 package visual.LicenseView;
 
+import models.InfractionType;
 import models.License;
+import models.LicenseCategory;
+import models.LicenseStatus;
 import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditLicense extends javax.swing.JDialog {
 
@@ -28,6 +35,8 @@ public class EditLicense extends javax.swing.JDialog {
         AddjButton1 = new javax.swing.JButton();
         deletejButton = new javax.swing.JButton();
         LicenseID = new javax.swing.JTextField();
+        estatus = new javax.swing.JComboBox<>();
+        jLabel90 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -48,12 +57,15 @@ public class EditLicense extends javax.swing.JDialog {
 
         restricciones.setBackground(new java.awt.Color(47, 50, 65));
         restricciones.setForeground(new java.awt.Color(204, 204, 204));
+        restricciones.setText(edit.getRestrictions());
+        restricciones.getCaret().setBlinkRate(500);
+        restricciones.setCaretColor(Color.lightGray);
         restricciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
             }
         });
-        jPanel1.add(restricciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 500, 40));
+        jPanel1.add(restricciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 230, 40));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 215, 179));
@@ -89,15 +101,41 @@ public class EditLicense extends javax.swing.JDialog {
         driverName.setText(ServicesLocator.getInstance().getDriverServices().obtainDriver(edit.getDriverId()).getFirstName());
         jPanel1.add(driverName, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 230, 40));
 
+        jLabel90.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel90.setForeground(new java.awt.Color(255, 215, 179));
+        jLabel90.setText("Estado:");
+        jPanel1.add(jLabel90, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, -1, -1));
+
+        estatus.setBackground(new java.awt.Color(47, 50, 65));
+        estatus.setForeground(new java.awt.Color(204, 204, 204));
+        estatus.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65));
+                button.setForeground(new java.awt.Color(255, 215, 179));
+                return button;
+            }
+        });
+        List<LicenseStatus> type = ServicesLocator.getInstance().getLicenseStatusServices().getAllLicenseStatuses();
+        ArrayList<String> list = new ArrayList<>();
+        for (LicenseStatus ls : type) {
+            list.add(ls.getLicenseStatus());
+        }
+        String[] arr = list.toArray(new String[list.size()]);
+        estatus.setModel(new javax.swing.DefaultComboBoxModel<>(arr));
+        jPanel1.add(estatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 230, 40));
+
         AddjButton1.setBackground(new java.awt.Color(232, 152, 70));
         AddjButton1.setText("Editar");
         AddjButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String restric = restricciones.getText().equals("") ? edit.getLicenseType() : restricciones.getText();
+                String status = estatus.getSelectedItem().toString();
                 try{
                     //String licenseId, String driverId, String licenseType, Date issueDate, Date expirationDate,
                     //                   String restrictions, boolean renewed, String licenseStatus
-                    ServicesLocator.getInstance().getLicenseServices().updateLicense(new License(edit.getLicenseId(), edit.getDriverId(), edit.getLicenseType(), edit.getIssueDate(),edit.getExpirationDate(),restric,edit.isRenewed(),edit.getLicenseStatus()));
+                    ServicesLocator.getInstance().getLicenseServices().updateLicense(new License(edit.getLicenseId(), edit.getDriverId(), edit.getLicenseType(), edit.getIssueDate(),edit.getExpirationDate(),restric,edit.isRenewed(),status));
                     parent.Actualizar(2);
                     dispose();
                 } catch (Exception e) {
@@ -105,7 +143,7 @@ public class EditLicense extends javax.swing.JDialog {
                 }
             }
         });
-        jPanel1.add(AddjButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 470, 120, 30));
+        jPanel1.add(AddjButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 490, 120, 30));
 
         deletejButton.setForeground(new java.awt.Color(153, 0, 0));
         deletejButton.setText("Salir");
@@ -115,7 +153,7 @@ public class EditLicense extends javax.swing.JDialog {
                 deletejButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(deletejButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, 120, 30));
+        jPanel1.add(deletejButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 490, 120, 30));
 
         LicenseID.setBackground(new java.awt.Color(47, 50, 65));
         LicenseID.setForeground(new java.awt.Color(204, 204, 204));
@@ -156,12 +194,14 @@ public class EditLicense extends javax.swing.JDialog {
     private javax.swing.JTextField restricciones;
     private javax.swing.JTextField licenseType;
     private javax.swing.JTextField LicenseID;
+    private javax.swing.JComboBox<String> estatus;
     private javax.swing.JButton deletejButton;
     private javax.swing.JLabel driverId;
     private javax.swing.JLabel driverName;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

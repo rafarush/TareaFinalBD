@@ -6,7 +6,9 @@ import models.License;
 import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
@@ -75,6 +77,8 @@ import java.util.List;
 
         descripcion.setBackground(new java.awt.Color(47, 50, 65));
         descripcion.setForeground(new java.awt.Color(204, 204, 204));
+        descripcion.getCaret().setBlinkRate(500);
+        descripcion.setCaretColor(Color.lightGray);
         descripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -84,6 +88,15 @@ import java.util.List;
 
         infractionType.setBackground(new java.awt.Color(47, 50, 65));
         infractionType.setForeground(new java.awt.Color(255, 215, 179));
+        infractionType.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         List<InfractionType> type = ServicesLocator.getInstance().getInfractionTypeServices().getAllInfractionTypes();
         ArrayList<String> list = new ArrayList<>();
         for (InfractionType i : type) {
@@ -125,6 +138,15 @@ import java.util.List;
 
         estadoInfraction.setBackground(new java.awt.Color(47, 50, 65));
         estadoInfraction.setForeground(new java.awt.Color(255, 215, 179));
+        estadoInfraction.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         estadoInfraction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagada", "No pagada" }));
         estadoInfraction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,6 +175,8 @@ import java.util.List;
 
         infractionID.setBackground(new java.awt.Color(47, 50, 65));
         infractionID.setForeground(new java.awt.Color(204, 204, 204));
+        infractionID.getCaret().setBlinkRate(500);
+        infractionID.setCaretColor(Color.lightGray);
         infractionID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField4ActionPerformed(evt);
@@ -167,6 +191,8 @@ import java.util.List;
 
         direccion.setBackground(new java.awt.Color(47, 50, 65));
         direccion.setForeground(new java.awt.Color(204, 204, 204));
+        direccion.getCaret().setBlinkRate(500);
+        direccion.setCaretColor(Color.lightGray);
         direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField5ActionPerformed(evt);

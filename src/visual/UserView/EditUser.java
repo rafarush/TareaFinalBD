@@ -5,6 +5,8 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 import java.util.Objects;
 
 public class EditUser extends javax.swing.JDialog {
@@ -89,10 +91,21 @@ public class EditUser extends javax.swing.JDialog {
 
         password.setBackground(new java.awt.Color(47, 50, 65));
         password.setForeground(new java.awt.Color(204, 204, 204));
+        password.getCaret().setBlinkRate(500);
+        password.setCaretColor(Color.lightGray);
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 230, 40));
 
         userRol.setBackground(new java.awt.Color(47, 50, 65));
         userRol.setForeground(new java.awt.Color(255, 215, 179));
+        userRol.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         userRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cliente", "Manager"}));
         jPanel1.add(userRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 230, 40));
 

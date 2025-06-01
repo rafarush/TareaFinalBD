@@ -5,6 +5,8 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 
 public class AddRelatedEntity extends javax.swing.JDialog {
 
@@ -49,6 +51,8 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         directorName.setBackground(new java.awt.Color(47, 50, 65));
         directorName.setForeground(new java.awt.Color(204, 204, 204));
+        directorName.getCaret().setBlinkRate(500);
+        directorName.setCaretColor(Color.lightGray);
         directorName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneTextFieldActionPerformed(evt);
@@ -68,6 +72,8 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         entityName.setBackground(new java.awt.Color(47, 50, 65));
         entityName.setForeground(new java.awt.Color(204, 204, 204));
+        entityName.getCaret().setBlinkRate(500);
+        entityName.setCaretColor(Color.lightGray);
         entityName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -82,6 +88,8 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         address.setBackground(new java.awt.Color(47, 50, 65));
         address.setForeground(new java.awt.Color(204, 204, 204));
+        address.getCaret().setBlinkRate(500);
+        address.setCaretColor(Color.lightGray);
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstNamejTextFieldActionPerformed(evt);
@@ -91,6 +99,8 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         phone.setBackground(new java.awt.Color(47, 50, 65));
         phone.setForeground(new java.awt.Color(204, 204, 204));
+        phone.getCaret().setBlinkRate(500);
+        phone.setCaretColor(Color.lightGray);
         phone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastNameTextFieldActionPerformed(evt);
@@ -105,6 +115,8 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         correo.setBackground(new java.awt.Color(47, 50, 65));
         correo.setForeground(new java.awt.Color(204, 204, 204));
+        correo.getCaret().setBlinkRate(500);
+        correo.setCaretColor(Color.lightGray);
         correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addressjTextFieldActionPerformed(evt);
@@ -159,6 +171,15 @@ public class AddRelatedEntity extends javax.swing.JDialog {
 
         entityType.setBackground(new java.awt.Color(47, 50, 65));
         entityType.setForeground(new java.awt.Color(255, 215, 179));
+        entityType.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         entityType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Clinica","Auto Escuela"}));
         entityType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

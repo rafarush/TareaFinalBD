@@ -6,6 +6,7 @@ import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public class AddLicense extends javax.swing.JDialog {
 
         carnetIDJTextField1.setBackground(new java.awt.Color(47, 50, 65));
         carnetIDJTextField1.setForeground(new java.awt.Color(204, 204, 204));
+        carnetIDJTextField1.getCaret().setBlinkRate(500);
+        carnetIDJTextField1.setCaretColor(Color.lightGray);
         carnetIDJTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -77,7 +80,7 @@ public class AddLicense extends javax.swing.JDialog {
         });
         ArrayList<String> licenseDriver = new ArrayList<String>();
         try{
-            licenseDriver= (ArrayList<String>) ServicesLocator.getInstance().getDriverServices().getMissingLicenses(driver.getDriverId());
+            licenseDriver= (ArrayList<String>) ServicesLocator.getInstance().getDriverServices().getValidLicenses(driver.getDriverId());
 
             if(licenseDriver.size()>0){
                 String[] driverLicense = licenseDriver.toArray(new String[licenseDriver.size()]);
@@ -116,6 +119,8 @@ public class AddLicense extends javax.swing.JDialog {
 
         carnetIDJTextField3.setBackground(new java.awt.Color(47, 50, 65));
         carnetIDJTextField3.setForeground(new java.awt.Color(204, 204, 204));
+        carnetIDJTextField3.getCaret().setBlinkRate(500);
+        carnetIDJTextField3.setCaretColor(Color.lightGray);
         carnetIDJTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -157,7 +162,7 @@ public class AddLicense extends javax.swing.JDialog {
                         parent.Actualizar(2);
                         dispose();
                     } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null,e.getMessage()+" Verifique que el codigo de la licencia no este repetido y que todos los examenes correspondientes esten realizados");
+                        JOptionPane.showMessageDialog(null,"Verifique que el codigo de la licencia no este repetido");
                     }
                 }
             }

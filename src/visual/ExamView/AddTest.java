@@ -10,13 +10,16 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -64,6 +67,8 @@ public class AddTest extends javax.swing.JDialog {
 
         examinadorName.setBackground(new Color(47, 50, 65));
         examinadorName.setForeground(new Color(204, 204, 204));
+        examinadorName.getCaret().setBlinkRate(500);
+        examinadorName.setCaretColor(Color.lightGray);
         examinadorName.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -78,6 +83,15 @@ public class AddTest extends javax.swing.JDialog {
 
         licenseType.setBackground(new Color(47, 50, 65));
         licenseType.setForeground(new Color(255, 215, 179));
+        licenseType.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         try {
             ArrayList<String> licenseDriver = (ArrayList<String>) ServicesLocator.getInstance().getDriverServices().getMissingLicenses(driver.getDriverId());
 
@@ -102,6 +116,7 @@ public class AddTest extends javax.swing.JDialog {
                     }
                     String[] nameCenterArray = nameCenter.toArray(new String[nameCenter.size()]);
                     centerName.setModel(new DefaultComboBoxModel<>(nameCenterArray));
+
 
                     // Actualizar otros componentes según la selección
 //                    switch(seleccion) {
@@ -174,7 +189,17 @@ public class AddTest extends javax.swing.JDialog {
 
         centerName.setBackground(new Color(47, 50, 65));
         centerName.setForeground(new Color(255, 215, 179));
-        ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(testType.getText()=="Medico"? "Clinica":"Auto Escuela");
+        centerName.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
+
+        ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(Objects.equals(testType.getText(), "Medico") ? "Clinica":"Auto Escuela");
         ArrayList<String> nameCenter = new ArrayList<>();
         for (RelatedEntity relatedEntity : relatedCenter) {
             nameCenter.add(relatedEntity.getEntityName());
@@ -202,6 +227,15 @@ public class AddTest extends javax.swing.JDialog {
 
         result.setBackground(new Color(47, 50, 65));
         result.setForeground(new Color(255, 215, 179));
+        result.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         result.setModel(new DefaultComboBoxModel<>(new String[] { "Aprobado", "Reprobado" }));
         result.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -224,6 +258,8 @@ public class AddTest extends javax.swing.JDialog {
 
         TestID.setBackground(new Color(47, 50, 65));
         TestID.setForeground(new Color(204, 204, 204));
+        TestID.getCaret().setBlinkRate(500);
+        TestID.setCaretColor(Color.lightGray);
         TestID.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carnetIDJTextField4ActionPerformed(evt);
