@@ -243,7 +243,7 @@ public class LicenseServices {
         return list;
     }
 
-    public void cancelLicensesWithInfractionsNotPaid(){
+    private void cancelLicensesWithInfractionsNotPaid(){
         ArrayList<Infraction> infractions = ServicesLocator.getInstance().getInfractionServices().get6MonthsNotPaidInfractions();
         for (Infraction infraction : infractions) {
             License license = ServicesLocator.getInstance().getLicenseServices().obtainLicense(infraction.getLicenseId());
@@ -251,6 +251,54 @@ public class LicenseServices {
         }
     }
 
+    private ArrayList<License> getRenewableLicensesWithExpiredInfractions(){
+        ArrayList<License> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT l.* \n" +
+                " FROM license l \n" +
+                " JOIN infraction i ON l.licenseid = i.licenseid \n" +
+                " WHERE l.licensestatus = 'Suspendida' \n" +
+                "  AND i.ispaid = TRUE \n" +
+                "  AND l.licenseid IN (\n" +
+                "    SELECT licenseid \n" +
+                "    FROM infraction \n" +
+                "    GROUP BY licenseid \n" +
+                "    HAVING MAX(date) < CURRENT_DATE - INTERVAL '6 months' \n" +
+                "  );\n";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                License license = new License();
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("driverId"));
+                license.setLicenseType(rs.getString("licenseType"));
+                license.setIssueDate(rs.getDate("issueDate"));
+                license.setExpirationDate(rs.getDate("expirationDate"));
+                license.setRestrictions(rs.getString("restrictions"));
+                license.setRenewed(rs.getBoolean("renewed"));
+                license.setLicenseStatus(rs.getString("licenseStatus"));
+                list.add(license);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    private void renewLicensesWithExpiredInfractions(){
+        ArrayList<License> list = getRenewableLicensesWithExpiredInfractions();
+        for (License license : list) {
+            changeLicenceStatus(license, "Vigente");
+        }
+    }
+
+    public void refreshLicesesData(){
+        cancelLicensesWithInfractionsNotPaid();
+        renewLicensesWithExpiredInfractions();
+    }
 
     public boolean hasPassedAllTestsInLast6Months(String driverId, String licenseType) {
         String sql = """
