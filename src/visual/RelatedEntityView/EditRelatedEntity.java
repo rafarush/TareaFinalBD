@@ -5,6 +5,7 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 
 public class EditRelatedEntity extends javax.swing.JDialog {
@@ -50,6 +51,9 @@ public class EditRelatedEntity extends javax.swing.JDialog {
 
         directorName.setBackground(new java.awt.Color(47, 50, 65));
         directorName.setForeground(new java.awt.Color(204, 204, 204));
+        directorName.setText(edit.getDirectorName());
+        directorName.getCaret().setBlinkRate(500);
+        directorName.setCaretColor(Color.lightGray);
         directorName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneTextFieldActionPerformed(evt);
@@ -69,6 +73,9 @@ public class EditRelatedEntity extends javax.swing.JDialog {
 
         entityName.setBackground(new java.awt.Color(47, 50, 65));
         entityName.setForeground(new java.awt.Color(204, 204, 204));
+        entityName.setText(edit.getEntityName());
+        entityName.getCaret().setBlinkRate(500);
+        entityName.setCaretColor(Color.lightGray);
         entityName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -83,6 +90,9 @@ public class EditRelatedEntity extends javax.swing.JDialog {
 
         address.setBackground(new java.awt.Color(47, 50, 65));
         address.setForeground(new java.awt.Color(204, 204, 204));
+        address.setText(edit.getAddress());
+        address.getCaret().setBlinkRate(500);
+        address.setCaretColor(Color.lightGray);
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstNamejTextFieldActionPerformed(evt);
@@ -92,6 +102,9 @@ public class EditRelatedEntity extends javax.swing.JDialog {
 
         phone.setBackground(new java.awt.Color(47, 50, 65));
         phone.setForeground(new java.awt.Color(204, 204, 204));
+        phone.setText(edit.getPhone());
+        phone.getCaret().setBlinkRate(500);
+        phone.setCaretColor(Color.lightGray);
         phone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastNameTextFieldActionPerformed(evt);
@@ -162,6 +175,9 @@ public class EditRelatedEntity extends javax.swing.JDialog {
 
         correo.setBackground(new java.awt.Color(47, 50, 65));
         correo.setForeground(new java.awt.Color(204, 204, 204));
+        correo.setText(edit.getContactEmail());
+        correo.getCaret().setBlinkRate(500);
+        correo.setCaretColor(Color.lightGray);
         correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addressjTextField1ActionPerformed(evt);
@@ -199,10 +215,6 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         if(respuesta==0){
             dispose();
         }
-    }
-
-    private void AddjButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void addressjTextField1ActionPerformed(java.awt.event.ActionEvent evt) {

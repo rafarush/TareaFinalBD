@@ -82,27 +82,30 @@ public class SelectDriver extends JDialog {
                 if(select!=-1){
                    String idDriver= (String) finalCustomTable.getValueAt(select,1);
                     Driver driver = null;
-
                     if(view==1) {
                         try {
                             driver = ServicesLocator.getInstance().getDriverServices().obtainDriver(idDriver);
                             if (driver != null) {
-                                Driver finalDriver = driver;
-                                java.awt.EventQueue.invokeLater(new Runnable() {
-                                    public void run() {
-                                        AddLicense dialog = new AddLicense(parent, finalDriver);
-                                        dialog.setLocationRelativeTo(null);
-                                        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                            @Override
-                                            public void windowClosing(java.awt.event.WindowEvent e) {
-                                                System.exit(0);
-                                            }
-                                        });
-                                        dispose();
-                                        dialog.setVisible(true);
+                                if(ServicesLocator.getInstance().getDriverServices().liceseByDriverDontHas(idDriver)){
+                                    Driver finalDriver = driver;
+                                    java.awt.EventQueue.invokeLater(new Runnable() {
+                                        public void run() {
+                                            AddLicense dialog = new AddLicense(parent, finalDriver);
+                                            dialog.setLocationRelativeTo(null);
+                                            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                                @Override
+                                                public void windowClosing(java.awt.event.WindowEvent e) {
+                                                    System.exit(0);
+                                                }
+                                            });
+                                            dispose();
+                                            dialog.setVisible(true);
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "El chofer selecionado no cuenta con los examenes sufucientes para obtener alguna licencia");
+                                }
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);

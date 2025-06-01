@@ -70,6 +70,8 @@ public class AddDriver extends javax.swing.JDialog {
 
         phoneTextField.setBackground(new Color(47, 50, 65));
         phoneTextField.setForeground(new Color(204, 204, 204));
+        phoneTextField.getCaret().setBlinkRate(500);
+        phoneTextField.setCaretColor(Color.lightGray);
         phoneTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 phoneTextFieldActionPerformed(evt);
@@ -90,6 +92,8 @@ public class AddDriver extends javax.swing.JDialog {
         carnetIDJTextField1.setBackground(new Color(47, 50, 65));
         carnetIDJTextField1.setLimite(11);
         carnetIDJTextField1.setForeground(new Color(204, 204, 204));
+        carnetIDJTextField1.getCaret().setBlinkRate(500);
+        carnetIDJTextField1.setCaretColor(Color.lightGray);
         carnetIDJTextField1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -99,6 +103,8 @@ public class AddDriver extends javax.swing.JDialog {
 
         emailjTextField.setBackground(new Color(47, 50, 65));
         emailjTextField.setForeground(new Color(204, 204, 204));
+        emailjTextField.getCaret().setBlinkRate(500);
+        emailjTextField.setCaretColor(Color.lightGray);
         emailjTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 emailjTextFieldActionPerformed(evt);
@@ -113,6 +119,8 @@ public class AddDriver extends javax.swing.JDialog {
 
         firstNamejTextField.setBackground(new Color(47, 50, 65));
         firstNamejTextField.setForeground(new Color(204, 204, 204));
+        firstNamejTextField.getCaret().setBlinkRate(500);
+        firstNamejTextField.setCaretColor(Color.lightGray);
         firstNamejTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 firstNamejTextFieldActionPerformed(evt);
@@ -122,6 +130,8 @@ public class AddDriver extends javax.swing.JDialog {
 
         lastNameTextField.setBackground(new Color(47, 50, 65));
         lastNameTextField.setForeground(new Color(204, 204, 204));
+        lastNameTextField.getCaret().setBlinkRate(500);
+        lastNameTextField.setCaretColor(Color.lightGray);
         lastNameTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 lastNameTextFieldActionPerformed(evt);
@@ -136,6 +146,8 @@ public class AddDriver extends javax.swing.JDialog {
 
         addressjTextField.setBackground(new Color(47, 50, 65));
         addressjTextField.setForeground(new Color(204, 204, 204));
+        addressjTextField.getCaret().setBlinkRate(500);
+        addressjTextField.setCaretColor(Color.lightGray);
         addressjTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 addressjTextFieldActionPerformed(evt);

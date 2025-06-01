@@ -6,6 +6,8 @@ import services.ServicesLocator;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -56,6 +58,9 @@ public class EditTest extends javax.swing.JDialog {
 
         examinadorName.setBackground(new java.awt.Color(47, 50, 65));
         examinadorName.setForeground(new java.awt.Color(204, 204, 204));
+        examinadorName.setText(edit.getExaminerName());
+        examinadorName.getCaret().setBlinkRate(500);
+        examinadorName.setCaretColor(Color.lightGray);
         jPanel1.add(examinadorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 340, 230, 40));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -65,6 +70,15 @@ public class EditTest extends javax.swing.JDialog {
 
         nameCenter.setBackground(new java.awt.Color(47, 50, 65));
         nameCenter.setForeground(new java.awt.Color(255, 215, 179));
+        nameCenter.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         ArrayList<RelatedEntity> relatedCenter = (ArrayList<RelatedEntity>) ServicesLocator.getInstance().getRelatedEntityServices().getAllEntityByType(Objects.equals(edit.getTestType(), "Medico") ? "Clinica":"Auto Escuela");
         ArrayList<String> nameCente = new ArrayList<>();
         for (RelatedEntity relatedEntity : relatedCenter) {
@@ -87,6 +101,15 @@ public class EditTest extends javax.swing.JDialog {
 
         result.setBackground(new java.awt.Color(47, 50, 65));
         result.setForeground(new java.awt.Color(255, 215, 179));
+        result.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = super.createArrowButton();
+                button.setBackground(new java.awt.Color(47, 50, 65)); // Fondo del botón desplegable
+                button.setForeground(new java.awt.Color(255, 215, 179)); // Color de la flecha
+                return button;
+            }
+        });
         result.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aprobado", "Reprobado" }));
 
         jPanel1.add(result, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 230, 40));

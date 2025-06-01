@@ -8,6 +8,7 @@ import visual.ReportScreen.ReportScreen;
 import visual.ReportView.ReportView;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 public class LoginScreen extends JFrame {
@@ -43,6 +44,9 @@ public class LoginScreen extends JFrame {
 
         // Campo Usuario
         JTextField userText = new JTextField();
+        DefaultCaret caret = (DefaultCaret) userText.getCaret();
+        caret.setBlinkRate(500);
+        userText.setCaretColor(Color.lightGray);
         userText.setBounds(150, 50, 180, 25);
         userText.setFont(FIELD_FONT);
         userText.setBackground(SIDEBAR_GRAY);
@@ -59,6 +63,9 @@ public class LoginScreen extends JFrame {
 
         // Campo Contraseña
         JPasswordField passwordText = new JPasswordField();
+        DefaultCaret caret2 = (DefaultCaret) passwordText.getCaret();
+        caret2.setBlinkRate(500);
+        passwordText.setCaretColor(Color.lightGray);
         passwordText.setBounds(150, 100, 180, 25);
         passwordText.setFont(FIELD_FONT);
         passwordText.setBackground(SIDEBAR_GRAY);
