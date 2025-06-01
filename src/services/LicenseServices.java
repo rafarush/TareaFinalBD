@@ -96,6 +96,38 @@ public class LicenseServices {
         return list;
     }
 
+
+
+
+    public List<License> getAllLicensesWithDriverName() {
+        List<License> list = new ArrayList<>();
+        String sql = "SELECT l.*, d.firstname AS name FROM License l JOIN Driver d ON l.driverid = d.driverid ";
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                License license = new License();
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("name"));
+                license.setLicenseType(rs.getString("licenseType"));
+                license.setIssueDate(rs.getDate("issueDate"));
+                license.setExpirationDate(rs.getDate("expirationDate"));
+                license.setRestrictions(rs.getString("restrictions"));
+                license.setRenewed(rs.getBoolean("renewed"));
+                license.setLicenseStatus(rs.getString("licenseStatus"));
+                list.add(license);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+
+
     public List<License> getAllLicensesRevocated() {
         List<License> list = new ArrayList<>();
         String sql = "SELECT DISTINCT l.* \n" +

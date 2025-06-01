@@ -40,7 +40,7 @@ public class LicensView extends javax.swing.JPanel {
         );
 
         try {
-            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicenses();
+            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicensesWithDriverName();
             Object[][] data =new Object[driversBD.size()][6];
             int pos=0;
             for (License d : driversBD) {
@@ -173,7 +173,7 @@ public class LicensView extends javax.swing.JPanel {
         );
 
         try {
-            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicenses();
+            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicensesWithDriverName();
             Object[][] data =new Object[driversBD.size()][6];
             int pos=0;
             for (License d : driversBD) {

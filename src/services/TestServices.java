@@ -88,6 +88,39 @@ public class TestServices {
         return list;
     }
 
+
+
+
+    public List<Test> getAllTestsWithDriverName() {
+        List<Test> list = new ArrayList<>();
+        String sql = "SELECT t.*, d.firstname AS name FROM Test t JOIN Driver d ON t.driverId = d.driverId ";
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Test test = new Test();
+                test.setTestCode(rs.getString("testCode"));
+                test.setTestType(rs.getString("testType"));
+                test.setDate(rs.getDate("date"));
+                test.setResult(rs.getBoolean("result"));
+                test.setEntityName(rs.getString("entityName"));
+                test.setExaminerName(rs.getString("examinerName"));
+                test.setDriverId(rs.getString("name"));
+                test.setLicenseType(rs.getString("licensetype"));
+                list.add(test);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+
+
+
     public void updateTest(Test test) {
         if (test == null) {
             throw new NullPointerException("The test is null");
