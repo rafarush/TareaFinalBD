@@ -12,6 +12,7 @@ import services.ServicesLocator;
 import visual.CustomTable;
 import visual.MainScreen.MainScreen;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -148,6 +149,8 @@ public class DriversView extends javax.swing.JPanel {
         SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar conductor...");
+        SearchTextField.getCaret().setBlinkRate(500);
+        SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.setBorder(null);
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

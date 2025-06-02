@@ -9,6 +9,7 @@ import visual.MainScreen.MainScreen;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -42,6 +43,8 @@ public class UserView extends javax.swing.JPanel {
         SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar usuario...");
+        SearchTextField.getCaret().setBlinkRate(500);
+        SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.setBorder(null);
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

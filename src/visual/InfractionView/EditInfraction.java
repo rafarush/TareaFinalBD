@@ -62,6 +62,7 @@ public class EditInfraction extends javax.swing.JDialog {
         description.setText(edit.getDescription());
         description.getCaret().setBlinkRate(500);
         description.setCaretColor(Color.lightGray);
+        description.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         description.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -172,6 +173,7 @@ public class EditInfraction extends javax.swing.JDialog {
         address.setText(edit.getLocation());
         address.getCaret().setBlinkRate(500);
         address.setCaretColor(Color.lightGray);
+        address.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField5ActionPerformed(evt);

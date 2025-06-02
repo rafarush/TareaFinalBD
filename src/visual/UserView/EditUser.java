@@ -93,6 +93,7 @@ public class EditUser extends javax.swing.JDialog {
         password.setForeground(new java.awt.Color(204, 204, 204));
         password.getCaret().setBlinkRate(500);
         password.setCaretColor(Color.lightGray);
+        password.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 230, 40));
 
         userRol.setBackground(new java.awt.Color(47, 50, 65));

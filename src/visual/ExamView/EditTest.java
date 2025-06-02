@@ -60,6 +60,7 @@ public class EditTest extends javax.swing.JDialog {
         examinadorName.setForeground(new java.awt.Color(204, 204, 204));
         examinadorName.setText(edit.getExaminerName());
         examinadorName.getCaret().setBlinkRate(500);
+        examinadorName.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         examinadorName.setCaretColor(Color.lightGray);
         jPanel1.add(examinadorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 340, 230, 40));
 

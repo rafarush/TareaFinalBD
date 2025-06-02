@@ -59,6 +59,7 @@ public class AddLicense extends javax.swing.JDialog {
         carnetIDJTextField1.setForeground(new java.awt.Color(204, 204, 204));
         carnetIDJTextField1.getCaret().setBlinkRate(500);
         carnetIDJTextField1.setCaretColor(Color.lightGray);
+        carnetIDJTextField1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         carnetIDJTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -121,6 +122,7 @@ public class AddLicense extends javax.swing.JDialog {
         carnetIDJTextField3.setForeground(new java.awt.Color(204, 204, 204));
         carnetIDJTextField3.getCaret().setBlinkRate(500);
         carnetIDJTextField3.setCaretColor(Color.lightGray);
+        carnetIDJTextField3.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         carnetIDJTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);

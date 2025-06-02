@@ -8,6 +8,7 @@ import visual.MainScreen.MainScreen;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -45,6 +46,8 @@ public class RelatedEntityView extends javax.swing.JPanel {
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar entidad...");
         SearchTextField.setBorder(null);
+        SearchTextField.getCaret().setBlinkRate(500);
+        SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 SearchTextFieldMouseClicked(evt);

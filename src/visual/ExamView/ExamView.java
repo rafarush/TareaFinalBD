@@ -11,6 +11,7 @@ import visual.CustomTable;
 import visual.DriverView.SelectDriver;
 import visual.MainScreen.MainScreen;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -54,8 +55,9 @@ public class ExamView extends javax.swing.JPanel {
         SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar examen...");
+        SearchTextField.getCaret().setBlinkRate(500);
+        SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.setBorder(null);
-
         add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 60, 230, 40));
 
 

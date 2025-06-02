@@ -12,8 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 public class AddDriver extends javax.swing.JDialog {
@@ -36,7 +34,7 @@ public class AddDriver extends javax.swing.JDialog {
         jPanel1 = new JPanel();
         TitleLabel = new JLabel();
         jLabel1 = new JLabel();
-        phoneTextField = new JTextField();
+        phoneTextField = new JtextFielCarnet();
         jLabel2 = new JLabel();
         jLabel3 = new JLabel();
         carnetIDJTextField1 = new JtextFielCarnet();
@@ -70,8 +68,10 @@ public class AddDriver extends javax.swing.JDialog {
 
         phoneTextField.setBackground(new Color(47, 50, 65));
         phoneTextField.setForeground(new Color(204, 204, 204));
+        phoneTextField.setLimite(8);
         phoneTextField.getCaret().setBlinkRate(500);
         phoneTextField.setCaretColor(Color.lightGray);
+        phoneTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         phoneTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 phoneTextFieldActionPerformed(evt);
@@ -94,6 +94,7 @@ public class AddDriver extends javax.swing.JDialog {
         carnetIDJTextField1.setForeground(new Color(204, 204, 204));
         carnetIDJTextField1.getCaret().setBlinkRate(500);
         carnetIDJTextField1.setCaretColor(Color.lightGray);
+        carnetIDJTextField1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         carnetIDJTextField1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -105,6 +106,7 @@ public class AddDriver extends javax.swing.JDialog {
         emailjTextField.setForeground(new Color(204, 204, 204));
         emailjTextField.getCaret().setBlinkRate(500);
         emailjTextField.setCaretColor(Color.lightGray);
+        emailjTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         emailjTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 emailjTextFieldActionPerformed(evt);
@@ -121,6 +123,7 @@ public class AddDriver extends javax.swing.JDialog {
         firstNamejTextField.setForeground(new Color(204, 204, 204));
         firstNamejTextField.getCaret().setBlinkRate(500);
         firstNamejTextField.setCaretColor(Color.lightGray);
+        firstNamejTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         firstNamejTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 firstNamejTextFieldActionPerformed(evt);
@@ -132,6 +135,7 @@ public class AddDriver extends javax.swing.JDialog {
         lastNameTextField.setForeground(new Color(204, 204, 204));
         lastNameTextField.getCaret().setBlinkRate(500);
         lastNameTextField.setCaretColor(Color.lightGray);
+        lastNameTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         lastNameTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 lastNameTextFieldActionPerformed(evt);
@@ -148,6 +152,7 @@ public class AddDriver extends javax.swing.JDialog {
         addressjTextField.setForeground(new Color(204, 204, 204));
         addressjTextField.getCaret().setBlinkRate(500);
         addressjTextField.setCaretColor(Color.lightGray);
+        addressjTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         addressjTextField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 addressjTextFieldActionPerformed(evt);
@@ -275,5 +280,5 @@ public class AddDriver extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lastNameTextField;
-    private javax.swing.JTextField phoneTextField;
+    private JtextFielCarnet phoneTextField;
 }

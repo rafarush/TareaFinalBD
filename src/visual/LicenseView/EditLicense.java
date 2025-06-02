@@ -60,6 +60,7 @@ public class EditLicense extends javax.swing.JDialog {
         restricciones.setText(edit.getRestrictions());
         restricciones.getCaret().setBlinkRate(500);
         restricciones.setCaretColor(Color.lightGray);
+        restricciones.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         restricciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
