@@ -45,9 +45,9 @@ public class RelatedEntityView extends javax.swing.JPanel {
         SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar entidad...");
-        SearchTextField.setBorder(null);
         SearchTextField.getCaret().setBlinkRate(500);
         SearchTextField.setCaretColor(Color.lightGray);
+        SearchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 SearchTextFieldMouseClicked(evt);
