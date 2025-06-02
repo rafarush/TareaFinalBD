@@ -41,7 +41,7 @@ public class LicenseCategoryView extends javax.swing.JPanel {
         SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar tipo de licencia...");
-        SearchTextField.setBorder(null);
+        SearchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         SearchTextField.getCaret().setBlinkRate(500);
         SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {

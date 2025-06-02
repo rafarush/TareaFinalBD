@@ -58,6 +58,7 @@ public class ExamView extends javax.swing.JPanel {
         SearchTextField.getCaret().setBlinkRate(500);
         SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.setBorder(null);
+        SearchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         add(SearchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 60, 230, 40));
 
 

@@ -152,6 +152,7 @@ public class DriversView extends javax.swing.JPanel {
         SearchTextField.getCaret().setBlinkRate(500);
         SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.setBorder(null);
+        SearchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 SearchTextFieldMouseClicked(evt);
