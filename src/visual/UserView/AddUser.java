@@ -82,6 +82,7 @@ public class AddUser extends javax.swing.JDialog {
         userName.setForeground(new java.awt.Color(204, 204, 204));
         userName.getCaret().setBlinkRate(500);
         userName.setCaretColor(Color.lightGray);
+        userName.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel1.add(userName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 230, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -93,6 +94,7 @@ public class AddUser extends javax.swing.JDialog {
         password.setForeground(new java.awt.Color(204, 204, 204));
         password.getCaret().setBlinkRate(500);
         password.setCaretColor(Color.lightGray);
+        password.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 230, 40));
 
         userRol.setBackground(new java.awt.Color(47, 50, 65));

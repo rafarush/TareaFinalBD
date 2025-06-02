@@ -69,6 +69,7 @@ public class AddTest extends javax.swing.JDialog {
         examinadorName.setForeground(new Color(204, 204, 204));
         examinadorName.getCaret().setBlinkRate(500);
         examinadorName.setCaretColor(Color.lightGray);
+        examinadorName.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         examinadorName.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -260,6 +261,7 @@ public class AddTest extends javax.swing.JDialog {
         TestID.setForeground(new Color(204, 204, 204));
         TestID.getCaret().setBlinkRate(500);
         TestID.setCaretColor(Color.lightGray);
+        TestID.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         TestID.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carnetIDJTextField4ActionPerformed(evt);

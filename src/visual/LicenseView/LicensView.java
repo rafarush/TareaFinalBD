@@ -12,6 +12,7 @@ import visual.DriverView.AddDriver;
 import visual.DriverView.SelectDriver;
 import visual.MainScreen.MainScreen;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -112,6 +113,8 @@ public class LicensView extends javax.swing.JPanel {
         SearchTextField.setBackground(new java.awt.Color(47, 50, 65));
         SearchTextField.setForeground(new java.awt.Color(153, 153, 153));
         SearchTextField.setText("Buscar Licencia...");
+        SearchTextField.getCaret().setBlinkRate(500);
+        SearchTextField.setCaretColor(Color.lightGray);
         SearchTextField.setBorder(null);
         SearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

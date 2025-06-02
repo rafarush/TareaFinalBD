@@ -79,6 +79,7 @@ import java.util.List;
         descripcion.setForeground(new java.awt.Color(204, 204, 204));
         descripcion.getCaret().setBlinkRate(500);
         descripcion.setCaretColor(Color.lightGray);
+        descripcion.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         descripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField3ActionPerformed(evt);
@@ -177,6 +178,7 @@ import java.util.List;
         infractionID.setForeground(new java.awt.Color(204, 204, 204));
         infractionID.getCaret().setBlinkRate(500);
         infractionID.setCaretColor(Color.lightGray);
+        infractionID.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         infractionID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField4ActionPerformed(evt);
@@ -193,6 +195,7 @@ import java.util.List;
         direccion.setForeground(new java.awt.Color(204, 204, 204));
         direccion.getCaret().setBlinkRate(500);
         direccion.setCaretColor(Color.lightGray);
+        direccion.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField5ActionPerformed(evt);

@@ -2,6 +2,7 @@ package visual.RelatedEntityView;
 
 import models.RelatedEntity;
 import services.ServicesLocator;
+import visual.JtextFielCarnet;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         entityName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         address = new javax.swing.JTextField();
-        phone = new javax.swing.JTextField();
+        phone = new JtextFielCarnet();
         jLabel5 = new javax.swing.JLabel();
         entityType = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -54,6 +55,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         directorName.setText(edit.getDirectorName());
         directorName.getCaret().setBlinkRate(500);
         directorName.setCaretColor(Color.lightGray);
+        directorName.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         directorName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneTextFieldActionPerformed(evt);
@@ -76,6 +78,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         entityName.setText(edit.getEntityName());
         entityName.getCaret().setBlinkRate(500);
         entityName.setCaretColor(Color.lightGray);
+        entityName.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         entityName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -93,6 +96,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         address.setText(edit.getAddress());
         address.getCaret().setBlinkRate(500);
         address.setCaretColor(Color.lightGray);
+        address.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstNamejTextFieldActionPerformed(evt);
@@ -105,6 +109,8 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         phone.setText(edit.getPhone());
         phone.getCaret().setBlinkRate(500);
         phone.setCaretColor(Color.lightGray);
+        phone.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        phone.setLimite(8);
         phone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastNameTextFieldActionPerformed(evt);
@@ -178,6 +184,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         correo.setText(edit.getContactEmail());
         correo.getCaret().setBlinkRate(500);
         correo.setCaretColor(Color.lightGray);
+        correo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addressjTextField1ActionPerformed(evt);
@@ -236,7 +243,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField phone;
+    private JtextFielCarnet phone;
     private javax.swing.JTextField directorName;
     // End of variables declaration
 }

@@ -3,6 +3,7 @@ package visual.DriverView;
 import models.Driver;
 import services.ServicesLocator;
 import utils.Validations;
+import visual.JtextFielCarnet;
 import visual.MainScreen.MainScreen;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class EditDriver extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        phoneTextField = new javax.swing.JTextField();
+        phoneTextField = new JtextFielCarnet();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         carnetIDJTextField1 = new javax.swing.JTextField();
@@ -55,9 +56,11 @@ public class EditDriver extends javax.swing.JDialog {
 
         phoneTextField.setBackground(new java.awt.Color(47, 50, 65));
         phoneTextField.setForeground(new java.awt.Color(204, 204, 204));
+        phoneTextField.setLimite(8);
         phoneTextField.setText(edit.getPhone());
         phoneTextField.getCaret().setBlinkRate(500);
         phoneTextField.setCaretColor(Color.lightGray);
+        phoneTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         phoneTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneTextFieldActionPerformed(evt);
@@ -79,6 +82,7 @@ public class EditDriver extends javax.swing.JDialog {
         carnetIDJTextField1.setText(edit.getDriverId());
         carnetIDJTextField1.setForeground(new java.awt.Color(204, 204, 204));
         carnetIDJTextField1.setEnabled(false);
+        carnetIDJTextField1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         carnetIDJTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carnetIDJTextField1ActionPerformed(evt);
@@ -91,6 +95,7 @@ public class EditDriver extends javax.swing.JDialog {
         emailjTextField.setText(edit.getEmail());
         emailjTextField.getCaret().setBlinkRate(500);
         emailjTextField.setCaretColor(Color.lightGray);
+        emailjTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         emailjTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailjTextFieldActionPerformed(evt);
@@ -108,6 +113,7 @@ public class EditDriver extends javax.swing.JDialog {
         firstNamejTextField.setText(edit.getFirstName());
         firstNamejTextField.getCaret().setBlinkRate(500);
         firstNamejTextField.setCaretColor(Color.lightGray);
+        firstNamejTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         firstNamejTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstNamejTextFieldActionPerformed(evt);
@@ -120,6 +126,7 @@ public class EditDriver extends javax.swing.JDialog {
         lastNameTextField.setText(edit.getLastName());
         lastNameTextField.getCaret().setBlinkRate(500);
         lastNameTextField.setCaretColor(Color.lightGray);
+        lastNameTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         lastNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastNameTextFieldActionPerformed(evt);
@@ -135,6 +142,7 @@ public class EditDriver extends javax.swing.JDialog {
         addressjTextField.setBackground(new java.awt.Color(47, 50, 65));
         addressjTextField.setForeground(new java.awt.Color(204, 204, 204));
         addressjTextField.setText(edit.getAddress());
+        addressjTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         addressjTextField.getCaret().setBlinkRate(500);
         addressjTextField.setCaretColor(Color.lightGray);
         addressjTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -257,7 +265,7 @@ public class EditDriver extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lastNameTextField;
-    private javax.swing.JTextField phoneTextField;
+    private JtextFielCarnet phoneTextField;
     // End of variables declaration
 }
 
