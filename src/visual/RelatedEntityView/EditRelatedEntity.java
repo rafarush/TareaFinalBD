@@ -78,6 +78,7 @@ public class EditRelatedEntity extends javax.swing.JDialog {
         entityName.setText(edit.getEntityName());
         entityName.getCaret().setBlinkRate(500);
         entityName.setCaretColor(Color.lightGray);
+        entityName.setEnabled(false);
         entityName.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         entityName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

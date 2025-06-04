@@ -142,15 +142,21 @@ public class UserView extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int select = finalCustomTable.getSelectedRow();
                 if (select != -1) {
-                    String userName = (String) finalCustomTable.getValueAt(select,0);
-                    try{
-                        ServicesLocator.getInstance().getUserServices().deleteUser(userName);
-                        parent.Actualizar(6);
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(parent,e.getMessage());
+                    String role = (String) finalCustomTable.getValueAt(select, 1);
+                    if (!role.equals("admin")) {
+                        String userName = (String) finalCustomTable.getValueAt(select, 0);
+                        try {
+                            ServicesLocator.getInstance().getUserServices().deleteUser(userName);
+                            parent.Actualizar(6);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(parent, e.getMessage());
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(parent, "No se puede eliminar a el usuario con del rol de "+role);
                     }
-
-
+                }
+                else{
+                    JOptionPane.showMessageDialog(parent, "Seleccione el usuario que desae eliminar");
                 }
             }
         });
@@ -164,25 +170,30 @@ public class UserView extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int select = finalCustomTable.getSelectedRow();
                 if (select != -1) {
-                    String userName = (String) finalCustomTable.getValueAt(select,0);
-                    User u = ServicesLocator.getInstance().getUserServices().getUser(userName);
-                    try{
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                EditUser dialog = new EditUser(parent,u);
-                                dialog.setLocationRelativeTo(null);
-                                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                    @Override
-                                    public void windowClosing(java.awt.event.WindowEvent e) {
-                                        System.exit(0);
-                                    }
-                                });
-                                dialog.setVisible(true);
-                            }
-                        });
+                    String role = (String) finalCustomTable.getValueAt(select, 0);
+                    if (!role.equals("admin")) {
+                        String userName = (String) finalCustomTable.getValueAt(select, 0);
+                        User u = ServicesLocator.getInstance().getUserServices().getUser(userName);
+                        try {
+                            java.awt.EventQueue.invokeLater(new Runnable() {
+                                public void run() {
+                                    EditUser dialog = new EditUser(parent, u);
+                                    dialog.setLocationRelativeTo(null);
+                                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                        @Override
+                                        public void windowClosing(java.awt.event.WindowEvent e) {
+                                            System.exit(0);
+                                        }
+                                    });
+                                    dialog.setVisible(true);
+                                }
+                            });
 
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(parent,e.getMessage());
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(parent, e.getMessage());
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null,"El usuario con el rol de "+role+" no de puede editar");
                     }
                 }
             }

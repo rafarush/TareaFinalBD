@@ -1,7 +1,9 @@
 package visual.RelatedEntityView;
 
+import models.Center;
 import models.RelatedEntity;
 import services.ServicesLocator;
+import utils.Validations;
 import visual.JtextFielCarnet;
 import visual.MainScreen.MainScreen;
 
@@ -157,15 +159,19 @@ public class AddRelatedEntity extends javax.swing.JDialog {
                 String director = directorName.getText();
                 String type = entityType.getSelectedItem().toString();
                 if(!name.equals("") && !gmail.equals("") && !tel.equals("") && !direccion.equals("") && !type.equals("") && !director.equals("")) {
-                    try {
-                        //String entityName, String entityType, String address, String phone, String contactEmail,
-                        //                         String directorName, String centerCode
-                        ServicesLocator.getInstance().getRelatedEntityServices().createRelatedEntity(new RelatedEntity(name,type,direccion,tel,gmail,director,"JbL"));
-                        parent.Actualizar(5);
-                        dispose();
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
+                        try {
+                            //String entityName, String entityType, String address, String phone, String contactEmail,
+                            //                         String directorName, String centerCode
+                            Validations.validateEmail(gmail);
+                            Center center = ServicesLocator.getInstance().getCenterServices().getCenter();
+                            ServicesLocator.getInstance().getRelatedEntityServices().createRelatedEntity(new RelatedEntity(name, type, direccion, tel, gmail, director, center.getCenterCode()));
+                            parent.Actualizar(5);
+                            dispose();
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Algunos campos se encuentran vacios por favor verificarlos y rellenarlos");
                 }
             }
         });
