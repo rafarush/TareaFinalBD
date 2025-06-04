@@ -170,7 +170,7 @@ public class UserView extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int select = finalCustomTable.getSelectedRow();
                 if (select != -1) {
-                    String role = (String) finalCustomTable.getValueAt(select, 0);
+                    String role = (String) finalCustomTable.getValueAt(select, 1);
                     if (!role.equals("admin")) {
                         String userName = (String) finalCustomTable.getValueAt(select, 0);
                         User u = ServicesLocator.getInstance().getUserServices().getUser(userName);

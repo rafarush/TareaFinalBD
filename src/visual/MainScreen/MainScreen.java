@@ -187,7 +187,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         CerrarSesionButton.setBackground(new java.awt.Color(47, 50, 65));
         CerrarSesionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-cerrar-sesión-30.png"))); // NOI18N
-        CerrarSesionButton.setToolTipText("Categoria de licencia");
+        CerrarSesionButton.setToolTipText("Cerrar Sesion");
         CerrarSesionButton.setBorder(null);
         CerrarSesionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,10 +237,15 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     private void CerrarSesionButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        LoginScreen login = new LoginScreen();
-        login.setVisible(true);
-        login.setLocationRelativeTo(null);
-        dispose();
+        int option = JOptionPane.showOptionDialog(null, "Desea cerrar la sesion actual",
+                "Cerrar sesion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                null,null,null);
+        if (option == JOptionPane.YES_OPTION) {
+            LoginScreen login = new LoginScreen();
+            login.setVisible(true);
+            login.setLocationRelativeTo(null);
+            dispose();
+        }
     }
 
     private void ReportsButtonMouseClicked(java.awt.event.MouseEvent evt) {
