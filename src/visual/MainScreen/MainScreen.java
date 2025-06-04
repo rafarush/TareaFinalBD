@@ -5,6 +5,7 @@ import visual.ExamView.ExamView;
 import visual.InfractionView.InfractionView;
 import visual.LicenseTypeView.LicenseCategoryView;
 import visual.LicenseView.LicensView;
+import visual.LoginScreen.LoginScreen;
 import visual.MainView.MainView;
 
 import visual.RelatedEntityView.RelatedEntityView;
@@ -45,6 +46,7 @@ public class MainScreen extends javax.swing.JFrame {
         Content = new javax.swing.JPanel();
         UsuariosButton = new javax.swing.JButton();
         CategoriaButton = new javax.swing.JButton();
+        CerrarSesionButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -183,6 +185,17 @@ public class MainScreen extends javax.swing.JFrame {
         MainPanel.add(RefreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 20, 45, 45));
         MainPanel.setComponentZOrder(RefreshButton, 0);
 
+        CerrarSesionButton.setBackground(new java.awt.Color(47, 50, 65));
+        CerrarSesionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-cerrar-sesión-30.png"))); // NOI18N
+        CerrarSesionButton.setToolTipText("Categoria de licencia");
+        CerrarSesionButton.setBorder(null);
+        CerrarSesionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarSesionButtonActionPerformed(evt);
+            }
+        });
+        SideBar.add(CerrarSesionButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 890, 90, 45));
+
         pack();
 
     }// </editor-fold>//GEN-END:initComponents
@@ -221,6 +234,13 @@ public class MainScreen extends javax.swing.JFrame {
         Content.add(p6,BorderLayout.CENTER);
         Content.revalidate();
         Content.repaint();
+    }
+
+    private void CerrarSesionButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        LoginScreen login = new LoginScreen();
+        login.setVisible(true);
+        login.setLocationRelativeTo(null);
+        dispose();
     }
 
     private void ReportsButtonMouseClicked(java.awt.event.MouseEvent evt) {
@@ -399,7 +419,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JPanel SideBar;
     private javax.swing.JButton UsuariosButton;
     private javax.swing.JButton CategoriaButton;
-
+    private javax.swing.JButton CerrarSesionButton;
     private javax.swing.JButton RefreshButton;
 
 }

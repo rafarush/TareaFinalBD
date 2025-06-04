@@ -81,7 +81,7 @@ public class UserServices {
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setString(1, user.getPassword());
+                pstmt.setString(1, PasswordUtil.hashPassword(user.getPassword()));
                 pstmt.setString(2, user.getRole());
                 pstmt.setString(3, user.getUsername());
 
