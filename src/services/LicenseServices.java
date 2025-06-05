@@ -159,6 +159,34 @@ public class LicenseServices {
         return list;
     }
 
+    public List<License> getAllLicensesNotRevocated() {
+        List<License> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT l.* \n" +
+                "FROM license l \n" +
+                "WHERE l.licensestatus != 'Revocada' AND l.licensestatus != 'Vencida'  \n";
+        try (Connection conn = DataBaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                License license = new License();
+                license.setLicenseId(rs.getString("licenseId"));
+                license.setDriverId(rs.getString("driverId"));
+                license.setLicenseType(rs.getString("licenseType"));
+                license.setIssueDate(rs.getDate("issueDate"));
+                license.setExpirationDate(rs.getDate("expirationDate"));
+                license.setRestrictions(rs.getString("restrictions"));
+                license.setRenewed(rs.getBoolean("renewed"));
+                license.setLicenseStatus(rs.getString("licenseStatus"));
+                list.add(license);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
     public List<License> getAllLicensesExpirated() {
         List<License> list = new ArrayList<>();
