@@ -39,11 +39,11 @@ public class SelectLicense extends javax.swing.JDialog {
 
         List<String> columns = Arrays.asList(
                 "Código", "Conductor", "Tipo",
-                "Emicion", "Vencimiento", "Estado"
+                "Emision", "Vencimiento", "Estado"
         );
 
         try {
-            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicenses();
+            List<License>driversBD = ServicesLocator.getInstance().getLicenseServices().getAllLicensesNotRevocated();
             Object[][] data =new Object[driversBD.size()][6];
             int pos=0;
             for (License d : driversBD) {
