@@ -1,6 +1,7 @@
 package visual.ReportScreen;
 
 import services.ServicesLocator;
+import visual.LoginScreen.LoginScreen;
 import visual.ReportView.ReportView;
 
 import javax.swing.*;
@@ -55,6 +56,29 @@ public class ReportScreen extends javax.swing.JFrame {
         MainPanel.add(RefreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 20, 45, 45));
         MainPanel.setComponentZOrder(RefreshButton, 0);
 
+        logOutButton = new javax.swing.JButton();
+        logOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Utils/Icons/icons8-cerrar-sesión-30.png"))); // ícono de recargar
+        logOutButton.setToolTipText("Refrescar vista actual");
+        logOutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logOutButton.setBorder(null);
+        logOutButton.setBackground(new java.awt.Color(47, 50, 65));
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int option = JOptionPane.showOptionDialog(null, "Desea cerrar la sesion actual",
+                        "Cerrar sesion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                        null,null,null);
+                if (option == JOptionPane.YES_OPTION) {
+                    LoginScreen login = new LoginScreen();
+                    login.setVisible(true);
+                    login.setLocationRelativeTo(null);
+                    dispose();
+                }
+            }
+        });
+
+        MainPanel.add(logOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1415, 20, 45, 45));
+        MainPanel.setComponentZOrder(logOutButton, 0);
+
 
         pack();
     }
@@ -62,5 +86,6 @@ public class ReportScreen extends javax.swing.JFrame {
     private javax.swing.JPanel Content;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JButton RefreshButton;
+    private javax.swing.JButton logOutButton;
 }
 
